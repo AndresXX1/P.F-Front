@@ -1,11 +1,9 @@
 import React from "react";
-import BasicRating from "../Reviews/Hacer_Review";
 import "./Card.css"; // Asegúrate de tener un archivo Card.css en tu proyecto
 
 const Card = ({ id, model, size, image, color, brand, price }) => {
   return (
-    
-    <div className="custom-card">
+    <div className="custom-card bg-light translucent-bg">
       <div className="card-image">
         <img
           src={image}
@@ -26,7 +24,7 @@ const Card = ({ id, model, size, image, color, brand, price }) => {
         </button>
       </div>
     </div>
-  );
-};
+   );
+   }
 
 export default Card;

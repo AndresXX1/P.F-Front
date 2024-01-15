@@ -1,10 +1,11 @@
-.navv {
-    display: flex;
-    border: 1px;
-    background-color: #4335b0;
-    justify-content: space-between; /* Distribuye los elementos de forma uniforme */
-    align-items: center;
-    background-color: #261c42;
-    padding: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  }
+.cards-display{
+  margin-top: 22%;
+  height: 30%;
+}
+
+.home-view{
+  background-image: url("https://cdn.pixabay.com/photo/2015/02/26/13/56/sports-650364_960_720.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-top: -32px;
+}

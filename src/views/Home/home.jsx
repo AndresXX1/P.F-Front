@@ -1,14 +1,17 @@
 import React from "react";
 import Cards from "../../componentes/Cards/cards";
 import SearchBar from "../../componentes/SearchBar/searchBar";
+import "./home.css"
 
 const Home = () => {
   // Contenido del componente Detail
 
   return (
-    <div>
+    <div className="home-view">
       <SearchBar />
-      <Cards />
+      <div className="cards-display">
+        <Cards />
+      </div>
     </div>
   );
 };

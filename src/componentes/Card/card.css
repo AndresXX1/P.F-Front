@@ -1,3 +1,7 @@
+.translucent-bg {
+  background-color: rgba(255, 255, 255, 0.4);
+ }
+ 
 .custom-card {
     width: 200px;
     height: 400px;
@@ -6,6 +10,7 @@
     margin: 10px;
     overflow: hidden;
     margin-left: 0px;
+    background-color: azure 0.5;
   }
   
   .card-image {
@@ -14,6 +19,7 @@
     overflow: hidden;
     margin-left: 25px;
     margin-top: 50px;
+   
   }
   
   .card-image img {
