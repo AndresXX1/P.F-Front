@@ -12,20 +12,19 @@ export default function NavBar(props) {
           <h1
             className="logo text-white"
             style={{ fontFamily: "Zantiqa4F", marginLeft: "5rem" }}
-          >
+          >                  
+          <Link
+          to="/home"
+          className="nav-link active text-white"
+          aria-current="page"
+        >
             RunnersParadise
+        </Link>
           </h1>
           <div>
             <div className="collapse navbar-collapse" id="navbarNavDropdown">
               <ul className="navbar-nav">
                 <li className="nav-item">
-                  <Link
-                    to="/home"
-                    className="nav-link active text-white"
-                    aria-current="page"
-                  >
-                    Home
-                  </Link>
                 </li>
                 <li className="nav-item">
                   <Link to="/about" className="nav-link text-white">
