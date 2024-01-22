@@ -1,29 +1,33 @@
 import React, { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import {useEffect} from "react";
+import { useDispatch, useSelector } from "react-redux";
 import GoogleLogin from "react-google-login";
 import {gapi} from "gapi-script";
 import style from "./Login.module.css";
 import { AuthContext } from "../AuthProvider/authProvider";
+import { loginUser } from "../../redux/actions/actions";
 
 export default function LogIn(props) {
   const [userData, setUserData] = useState({
-    userName: '',
+    email: '',
     password: ''
   });
   const [isValid, setIsValid] = useState(true);
   const { auth, setAuth } = useContext(AuthContext);
-
+  const error = useSelector(state => state.loginError)
   const userRegex = new RegExp ("^[^s@]+@[^s@]+.[^s@]+$");
   const passwordRegex = new RegExp ("^(?=.*[a-z])(?=.*[A-Z])(?=.*d)(?=.*[@$!%*#?&])[A-Za-zd@$!%*#?&]{8,}$");
 
-  const validarBotonSubmit = () => {
-    if (userRegex.test(userData.userName) && passwordRegex.test(userData.password)) {
+  const dispatch = useDispatch();
+
+  /* const validarBotonSubmit = () => {
+    if (userRegex.test(userData.email) && passwordRegex.test(userData.password)) {
       setIsValid(false);
     } else {
       setIsValid(true);
     }
-  };
+  }; */
 
 
   const clientID = "1066333447186-qce53lrh37h3ki1ih2o5fnjminct9rn3.apps.googleusercontent.com"
@@ -35,15 +39,13 @@ export default function LogIn(props) {
       ...userData,
       password: e.target.value
     });
-    validarBotonSubmit();
   };
 
   const handleChange = (e) => {
     setUserData({
       ...userData,
-      userName: e.target.value
+      email: e.target.value
     });
-    validarBotonSubmit();
   };
 
 
@@ -65,6 +67,11 @@ export default function LogIn(props) {
    console.log('Login Success: currentUser:', response.profileObj);
    setAuth({ token: response.profileObj });
   };
+
+  const loginClick = (e) => {
+    e.preventDefault();
+    dispatch(loginUser(userData, AuthContext));
+   };
   
   
   return (
@@ -73,13 +80,13 @@ export default function LogIn(props) {
         <div className="row justify-content-center">
           <div className="col-md-4 ml-5 border mt-5 p-5">
             <h2 className="text-center mb-4">Inicie sesión</h2>
-            <form className="">
+            <form className="" onSubmit={loginClick}>
               <div className="mb-3">
                 <label className="form-label" style={{color:'black'}}>Email:</label>
                 <input
                   type="text"
                   className="form-control form-control-lg"
-                  value={userData.userName}
+                  value={userData.email}
                   onChange={handleChange}
                   placeholder="Escriba aquí su email"
                   style={{ height: "50px", fontSize:'16px' }}
@@ -100,7 +107,6 @@ export default function LogIn(props) {
               <button
                 type="submit"
                 className="btn btn-primary w-100"
-                disabled={isValid}
               >
                 Log In
               </button>

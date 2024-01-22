@@ -37,7 +37,7 @@ function App() {
  <Route exact path="/detail/:id" component={Detail} />
  <Route exact path="/perfil" component= {Perfil} />
  <Route exact path="/Configuracion" component= {Ajustes} />
-</Switch>
+ </Switch>
       </div>
     </Router>
     </AuthProvider>

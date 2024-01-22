@@ -17,7 +17,17 @@ import {
   SEARCH_REQUEST,
   SEARCH_FAILURE,
   SET_ADMIN,
-  GET_ALL_SNEAKERS, GET_SEARCH_REQUEST, GET_SEARCH_SUCCESS, GET_SEARCH_NOTFOUND,RESET_CURRENTPAGE,BRAND_VALUE,COLOR_VALUE,ORDER_PRICE,SIZE_VALUE,CLEAR_CREATE_PRODUCT_STATE
+  GET_ALL_SNEAKERS,
+  GET_SEARCH_REQUEST,
+  GET_SEARCH_SUCCESS,
+  GET_SEARCH_NOTFOUND,
+  RESET_CURRENTPAGE,
+  BRAND_VALUE,
+  COLOR_VALUE,
+  ORDER_PRICE,
+  SIZE_VALUE,
+  CLEAR_CREATE_PRODUCT_STATE,
+  LOGIN_FAILURE
   
   
 } from "../action-types/action-types";
@@ -45,6 +55,7 @@ const initialState = {
  searchError: null,
  searchData: null,
  isAdmin:false,
+ loginError: null,
 };
 
 const stateSearchBar = {
@@ -266,6 +277,12 @@ case SEARCH_FAILURE:
     ...state,
     isAdmin: action.payload,
  };
+
+ case LOGIN_FAILURE:
+  return {
+    ...state,
+    loginError: action.payload
+  }
 
               
                   default:

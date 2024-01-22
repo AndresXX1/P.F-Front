@@ -1,4 +1,6 @@
 import axios from "axios";
+import { AuthContext } from "../../componentes/AuthProvider/authProvider";
+
 import {
   GET_ALL_SNEAKERS,
   GET_ALLL_SNEAKERS,
@@ -23,7 +25,13 @@ import {
   SET_SELECTED_SNEAKER,
   SET_SELECTED_SNEAKER_INDEX,
   SAVE_USER_DATA_SESSION,
-  SET_ADMIN
+  SET_ADMIN,
+  LOGIN_FAILURE,
+  LOGIN_SUCCESS,
+  LOGIN_REQUEST,
+  CREATE_USER_REQUEST,
+  CREATE_USER_SUCCESS,
+  CREATE_USER_FAILURE,
 } from "../action-types/action-types";
 
 export const registerUser = (datauser) => async (dispatch) => {
@@ -296,3 +304,30 @@ const validation = (input, existingNames) => {
     type: SET_ADMIN,
     payload: isAdmin,
    })
+
+export const loginRequest = () => ({ type: LOGIN_REQUEST });
+
+export const loginSuccess = (user) => (dispatch, context) => {
+  dispatch({
+     type: LOGIN_SUCCESS,
+     payload: user,
+  });
+ 
+  context.setAuth(user);
+ };
+
+export const loginFailure = (error) => ({
+ type: LOGIN_FAILURE,
+ payload: error,
+});
+
+export const loginUser = (credentials, authContext) => async (dispatch) => {
+  dispatch(loginRequest());
+  try {
+     const response = await axios.post('http://localhost:3003/users/login', credentials);
+     dispatch(loginSuccess(response.data));
+     authContext.setAuth(response.data);
+  } catch (error) {
+     dispatch(loginFailure(error.message));
+  }
+ };
