@@ -1,0 +1,96 @@
+.container label{
+    font-size: 28px;
+    font-weight:600;
+}
+
+.textAreaContainer{
+    height: 70px;
+    margin: 0 auto;
+    position: relative;
+    top: 6px;
+    margin-left: 15px;
+}
+
+.userContent{
+    margin: 15px;
+    display: flex;
+}
+
+.userContent img{
+    margin-right: 10px;
+}
+
+.container h4{
+    position: relative;
+    top: 4px;
+}
+
+.container button h5{
+    font-size: 20px;
+    color: white;
+}
+
+.container h5{
+    position: relative;
+    top: 10px;
+    color: red;
+}
+.container span{
+    position: relative;
+    top: -2px;
+    left: -6px;
+}
+
+.container{
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    height: 100%;
+}
+
+.container::-webkit-scrollbar{
+    width: 0px;
+}
+
+.ratingContainer{
+    display: flex;
+    margin-left: 28px;
+}
+
+
+.ratingContainer h5{
+    top: 2px;
+    left: 10px;
+    position: relative;
+    width: 200px;
+}
+
+.container button{
+    width: 60px;
+    height: 30px;
+    position: relative;
+    top: 28px;
+    left: 30px;
+    background-color: black;
+    color: white;
+}
+
+.container button h5{
+    position: relative;
+    top: -6.5px;
+    font-weight: 300;
+    font-size: 16px;
+}
+
+.commentsContainer{
+    margin-left: 20px;
+}
+
+textarea{
+    position: relative;
+    left: 15px;
+    display: flex;
+    margin-left: 20px;
+    width: 300px;
+    height: 90px;
+}

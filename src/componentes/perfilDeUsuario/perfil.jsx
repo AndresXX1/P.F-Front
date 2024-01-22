@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import styles from './perfil.module.css';
+import MapContainer from './googleMap';
+import { useCallback } from 'react';
 
 const UserProfile = () => {
   const [userData, setUserData] = useState({
@@ -10,10 +12,12 @@ const UserProfile = () => {
     phone: "",
     address: "",
     country: "",
-    banner: ""
   });
 
   const [isFormChanged, setIsFormChanged] = useState(false);
+  const [uploadedImage, setUploadedImage] = useState(null);
+  const [coordinates, setCoordinates] = useState({ lat: 0, lng: 0 });
+
 
   const [isEditing, setIsEditing] = useState({
     profilePicture: false,
@@ -30,9 +34,20 @@ const UserProfile = () => {
     }));
   };
 
+  const handleLocationChange = useCallback(async (address) => {
+    const geocoder = new google.maps.Geocoder();
+    geocoder.geocode({ address }, (results, status) => {
+       if (status === "OK") {
+         const location = results[0].geometry.location;
+         setCoordinates({ lat: location.lat(), lng: location.lng() });
+       } else {
+         console.error(`Geocode was not successful for the following reason: ${status}`);
+       }
+    });
+   }, []);
+
   const handleSaveClick = (e) => {
     e.preventDefault();
-    // Aquí puedes agregar la lógica para guardar los cambios si es necesario.
     setIsEditing({
       profilePicture: false,
       name: false,
@@ -50,14 +65,25 @@ const UserProfile = () => {
       [name]: value,
     }));
     setIsFormChanged(true);
+
+   
+    if (name === 'country' || name === 'address') {
+      handleLocationChange(value);
+    }
   };
 
   const handlePictureChange = (e) => {
-    const pictureUrl = e.target.value;
-    setUserData((prevData) => ({
-      ...prevData,
-      profilePicture: pictureUrl,
-    }));
+    const file = e.target.files[0];
+  
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUploadedImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  
+    setIsFormChanged(true);
   };
 
   const handleBannerChange = (e) => {
@@ -66,11 +92,20 @@ const UserProfile = () => {
       ...prevData,
       banner: bannerUrl,
     }));
+    setIsFormChanged(true);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Datos actualizados:", userData);
+   
+    setIsEditing({
+      profilePicture: false,
+      name: false,
+      phone: false,
+      address: false,
+      country: false,
+    });
   };
 
   const areAnyInputsEditing = Object.values(isEditing).some(Boolean);
@@ -80,9 +115,12 @@ const UserProfile = () => {
      <div className={styles.banner} />
      <div className={styles.profileContainer}>
        <div className={styles.imageContainer}>
-       <div className={styles.profilePicture}>
-    <img src={userData.profilePicture} alt="carga tu imagen" />
-    <p className={styles.altText}></p>
+      <div className={styles.profilePicture}>
+  {uploadedImage ? (
+    <img src={uploadedImage} alt="Perfil" />
+  ) : (
+    <p className={styles.altText}>Carga tu imagen</p>
+  )}
 </div>
 </div>  
        <div className={styles.profileInfo}>
@@ -91,7 +129,7 @@ const UserProfile = () => {
          <div className={styles.previewContainer}>
            <div className={styles.previewWrapper}>
              <div className={styles.preview}>
-              <div clasName={styles.textopreview}>
+              <div className={styles.textopreview}>
 
                <h2 className={styles.titulo}>Tus Datos</h2>
                <div className={styles.textoPrev}><br /><br />
@@ -100,18 +138,27 @@ const UserProfile = () => {
                <p>Phone: {userData.phone}</p><br /><br />
                <p>Address: {userData.address}</p><br /><br />
                <p>Country: {userData.country}</p><br /><br />
+               <div className={styles.googlemap}>
+
+               <MapContainer lat={coordinates.lat} lng={coordinates.lng} />
+               </div>
                </div>
 
               </div>
              </div>
            </div>
            <div className={styles.formWrapper}>
+                 <div className={styles.formm}>
+                  
              <Tabs>
                <TabList>
                  <Tab>Perfil</Tab>
                </TabList>
                <TabPanel>
               <form onSubmit={handleSubmit}>
+              <div style={{display: 'flex', flexDirection: 'column', gap: '3rem', justifyContent: 'flex-start',}}>
+              <div style={{display: 'flex', alignItems: 'center'}}>
+              <div className={styles.formGroup}>
             <label htmlFor="formProfilePicture">Foto de Perfil</label>
             <input
                 id="formProfilePicture"
@@ -130,8 +177,12 @@ const UserProfile = () => {
               >
                 Editar
               </button>
+              </div>
+              </div>
+              <div className={styles.formGroup}>
 
-              <label htmlFor="formName">Nombre</label>
+              <div style={{display: 'flex', alignItems: 'center'}}>
+              <label htmlFor="formName" className={styles.txt}>Nombre</label>
               <input
               id="formName"
               type="text"
@@ -145,8 +196,12 @@ const UserProfile = () => {
               <button type="button" onClick={() => handleEditClick('name')} className={styles.editButton}>
                 Editar
               </button> 
+              </div>
+              </div>
 
-              <label htmlFor="formName">Telefono</label>
+              <div className={styles.formGroup}>
+              <div style={{display: 'flex', alignItems: 'center'}}>
+              <label htmlFor="formName" className={styles.txt}>Telefono</label>
               <input
              id="formPhone"
               type="text"
@@ -160,8 +215,13 @@ const UserProfile = () => {
             <button type="button" onClick={() => handleEditClick('phone')} className={styles.editButton}>
              Editar
           </button>
+          </div>
+          </div>
 
-            <label htmlFor="formAddress">Dirección</label>
+          <div className={styles.formGroup}>
+
+          <div style={{display: 'flex', alignItems: 'center'}}>
+            <label htmlFor="formAddress" className={styles.txt}>Dirección</label>
             <input
                 id="formAddress"
                 type="text"
@@ -172,16 +232,20 @@ const UserProfile = () => {
                 className={styles.formInput}
                 disabled={!isEditing.address}
             />
-            <button type="button" onClick={() => handleEditClick('addres')} className={styles.editButton}>
+            <button type="button" onClick={() => handleEditClick('address')} className={styles.editButton}>
              Editar
           </button>
+            </div>
+          </div>
 
-          <label htmlFor="formAddress">Dirección</label>
+          <div className={styles.formGroup}>
+            <div style={{display: 'flex', alignItems: 'center'}}>
+          <label htmlFor="formCountry" className={styles.txt}>Ciudad</label>
             <input
-                id="formAddress"
+                id="formCountry"
                 type="text"
                 placeholder="Ciudad"
-                name="address"
+                name="country"
                 value={userData.country}
                 onChange={handleChange}
                 className={styles.formInput}
@@ -190,9 +254,9 @@ const UserProfile = () => {
             <button type="button" onClick={() => handleEditClick('country')} className={styles.editButton}>
              Editar
           </button>
- 
-
-
+          </div>
+          </div>
+          </div>
 
           <button
         type="submit"
@@ -204,6 +268,7 @@ const UserProfile = () => {
           </form>
         </TabPanel>
       </Tabs>
+    </div>
     </div>
     </div>
     </div>

@@ -6,8 +6,8 @@
   margin: 0 auto;
   top: 20px;
   left: 50px;
-  box-shadow: 0px 2px 4px black;
   position: relative;
+  margin-top: 30px;
 }
 
 .sneakersListContainer{
@@ -17,6 +17,7 @@
 }
 
 .detailContainer{
+  box-shadow: 0px 0px 2px black;
   display:flex;
 }
   
@@ -40,6 +41,13 @@
   height: 600px;
   display: flex;
   object-fit: cover;
+  user-select: none;
+  -webkit-user-select: none; 
+  -moz-user-select: none; 
+  -ms-user-select: none;
+}
+
+.imagePreview {
   user-select: none;
   -webkit-user-select: none; 
   -moz-user-select: none; 
@@ -97,9 +105,13 @@
   font-weight: 500;
 }
 
-.imagePreview {
-  user-select: none;
-  -webkit-user-select: none; 
-  -moz-user-select: none; 
-  -ms-user-select: none;
+
+.reviewContainer{
+  display: flex;
+  box-shadow: 0px 0px 2px black;
+  position: relative;
+  top: 10px;
+  width: 100%;
+  padding: 20px;
+  margin-bottom: 80px;
 }

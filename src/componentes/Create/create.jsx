@@ -144,8 +144,7 @@ const ProductForm = () => {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setInput((prevInput) => ({ ...prevInput, image: file }));
-    setImageUrl(URL.createObjectURL(file)); 
-  };
+   };
 
 
   const sizeOptions = [
