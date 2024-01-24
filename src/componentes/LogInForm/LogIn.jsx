@@ -25,11 +25,8 @@ export default function LogIn(props) {
     }
   };
 
-
   const clientID = "1066333447186-qce53lrh37h3ki1ih2o5fnjminct9rn3.apps.googleusercontent.com"
-
   
-
   const handChangePass = (e) => {
     setUserData({
       ...userData,
@@ -46,7 +43,6 @@ export default function LogIn(props) {
     validarBotonSubmit();
   };
 
-
   useEffect(() =>{
     const start = () => {
       gapi.auth2.init({
@@ -60,7 +56,6 @@ export default function LogIn(props) {
     console.log("Algo salió mal")
   }
  
-  
   const onSuccess = (response) => {
    console.log('Login Success: currentUser:', response.profileObj);
    setAuth({ token: response.profileObj });

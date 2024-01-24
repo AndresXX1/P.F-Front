@@ -5,7 +5,7 @@ const Alert = ({ message }) => {
   return (
     <div className={styles.container}>
     <div className={styles.alert}>
-      <p>⛔ {message}</p>
+      <p>⛔ No results were found with the filters entered..</p>
     </div>
     </div>
   );

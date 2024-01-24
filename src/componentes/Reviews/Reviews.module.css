@@ -8,6 +8,8 @@
     margin: 0 auto;
     position: relative;
     top: 6px;
+    width: 400px;
+
     margin-left: 15px;
 }
 
@@ -18,6 +20,14 @@
 
 .userContent img{
     margin-right: 10px;
+}
+
+.userDataReview img{
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    justify-self: center;
 }
 
 .container h4{
@@ -91,6 +101,82 @@ textarea{
     left: 15px;
     display: flex;
     margin-left: 20px;
-    width: 300px;
+    width: 200px;
     height: 90px;
+}
+
+.usersReviewsContainer{
+    display: flex;
+}
+
+.userReview{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 400px;
+    margin: 30px;
+    position: relative;
+    top: 20px;
+}
+
+.userReview h5{
+    color:black;
+    display: flex;
+    position: relative;
+    font-weight: 300;
+    left: 8px;
+    font-size: 18px;
+    top: 4px;
+}
+
+.userRating{
+    position: relative;
+    margin-left: 14px;
+    
+}
+
+.noAvailable p{
+    position: relative;
+    background-color: #df8a8aac;
+    top: 40px;
+}
+
+.userDataReview{
+    position: relative;
+    top: -10px;
+    left: -10px;
+    display: flex;
+}
+
+.userContentReview{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    position: relative;
+    left: 40px;
+}
+
+.userContentReview h5{
+    font-size: 20px;
+}
+
+.reviewComment p{
+    padding: 4px;
+    background-color: rgba(128, 128, 128, 0.036);
+    box-shadow: 0px 0px 1px;
+    border-radius: 6px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.reviewComment{
+    display: flex;
+    width: 400px;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.reviewComment h6{
+    width: 200px;
 }
