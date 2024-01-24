@@ -1,5 +1,5 @@
 import React from "react";
-import BasicRating from "../Reviews/Hacer_Review";
+import BasicRating from "../Reviews/Reviews";
 import style from "../Card/Card.module.css"; // Asegúrate de tener un archivo Card.css en tu proyecto
 
 const Card = ({ id, model, size, image, color, brand, price }) => {

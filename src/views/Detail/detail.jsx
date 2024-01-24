@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductDetail, clearProductDetail, getSneakers } from "../../redux/actions/actions";
+import {fetchProductDetail,clearProductDetail,getSneakers} from "../../redux/actions/actions";
 import style from "./Detail.module.css";
 import BottomBar from "./bottomBar";
+import Reviews from "../../componentes/Reviews/Reviews"
+import { useParams } from 'react-router-dom';
 
 const Detail = ({ brand }) => {
   const { id } = useParams();
@@ -14,6 +15,7 @@ const Detail = ({ brand }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const intervalRef = useRef(null);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
 
   useEffect(() => {
     if (id) {
@@ -27,7 +29,7 @@ const Detail = ({ brand }) => {
         setCurrentImageIndex((prevIndex) =>
           prevIndex < zapatilla.image.length - 1 ? prevIndex + 1 : 0
         );
-      }, 1500);
+      }, 3000);
     }
 
     return () => {
@@ -46,7 +48,7 @@ const Detail = ({ brand }) => {
         setSelectedImageIndex((prevIndex) =>
           prevIndex < zapatilla.image.length - 1 ? prevIndex + 1 : 0
         );
-      }, 1500);
+      }, 4000);
 
       return () => {
         clearInterval(intervalId);
@@ -110,43 +112,30 @@ const Detail = ({ brand }) => {
   if (!zapatilla.name) {
     return <div>Datos no disponibles</div>;
   }
-
-  const getImageSource = (image) => {
-    if (Array.isArray(image)) {
-       if (image[selectedImageIndex] && image[selectedImageIndex].secure_url) {
-         return image[selectedImageIndex].secure_url;
-       } else if (image[selectedImageIndex] && image[selectedImageIndex].startsWith("/")) {
-         return require(`../../images${image[selectedImageIndex]}`).default;
-       } else {
-         return image[selectedImageIndex];
-       }
-    } else if (typeof image === 'object') {
-       if (image && image.secure_url) {
-         return image.secure_url;
-       } else if (image && image.startsWith("/")) {
-         return require(`../../images${image}`).default;
-       } else {
-         return image;
-       }
-    } else {
-       return image;
-    }
-   };
   
-   return (
+  const handleRatingChange = (value) => {
+    setRating(value);
+  };
+
+  // Function to toggle comment form visibility
+  const toggleCommentForm = () => {
+    setCommentFormVisible(!isCommentFormVisible);
+  };
+  
+
+  return (
     <div className={style.container}>
-       <div className={style.sneakersListContainer}>
-         <BottomBar
-           allSneakers={allSneakers}
-           onClickPrev={handlePrevImage}
-           onClickNext={handleNextImage}
-         />
-       
-      </div>
+      <div className={style.sneakersListContainer}>
+      <BottomBar
+          allSneakers={allSneakers}
+          onClickPrev={handlePrevImage}
+          onClickNext={handleNextImage}
+          />
+        </div>
       <div className={style.detailContainer}>
-      <div className={style.imagePreview}>
-        <img src={getImageSource(zapatilla && zapatilla.image)} alt={zapatilla && zapatilla.name} />
-      </div>
+        <div className={style.imagePreview}>
+        <img src={zapatilla && zapatilla.image[selectedImageIndex]} alt={zapatilla.name} />
+        </div>
         <div className={style.detailContent}>
           <br />
           <h2>{zapatilla && zapatilla.brand}</h2>
@@ -162,12 +151,12 @@ const Detail = ({ brand }) => {
           </div>
           <h4>Colors:</h4>
           <div className={style.containerColors}>
-            {selectedColors.map((selectedColor, index) => (
-              <span key={index}>
-                {selectedColor}
-                {index < selectedColors.length - 1 && <span>&nbsp;</span>}
-              </span>
-            ))}
+        {selectedColors.map((selectedColor, index) => (
+          <span key={index}>
+            {selectedColor}
+            {index < selectedColors.length - 1 && <span>&nbsp;</span>}
+          </span>
+        ))}
           </div>
           <h4>Sizes:</h4>
           <div className={style.sizesContainer}>
@@ -178,11 +167,14 @@ const Detail = ({ brand }) => {
           <div>
             <h4>{zapatilla && zapatilla.gender}</h4>
           </div>
-          <div></div>
-          <div></div>
         </div>
       </div>
+          <div className={style.reviewContainer}>
+          <Reviews productId={id} />
+          </div>
+      <div>
     </div>
+  </div>
   );
 };
 

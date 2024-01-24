@@ -12,12 +12,17 @@ import {
 } from "../../redux/actions/actions";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
+import Snackbar from '@mui/material/Snackbar';
 import styled from "@emotion/styled";
+import simpleSnackBar from "../SnackBar/snbNotif"
 
 const ProductForm = () => {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const [input, setInput] = useState({
     name: "",
@@ -45,10 +50,9 @@ const ProductForm = () => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-   
-    if (name === "size" || name === "colors") {
-      const valuesArray = Array.isArray(value) ? value : [value];
-      setInput((prevInput) => ({ ...prevInput, [name]: valuesArray }));
+
+    if (name === "size") {
+      // Manejar cambios en el input de tallas si es necesario
     } else if (name === "image") {
       const imagesArray = value.split(',').map((url) => url.trim()); // Divide el string por comas y elimina espacios en blanco
       setInput((prevInput) => ({ ...prevInput, [name]: imagesArray }));
@@ -56,7 +60,7 @@ const ProductForm = () => {
     } else {
       setInput((prevInput) => ({ ...prevInput, [name]: value }));
     }
-   };
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -91,7 +95,8 @@ const ProductForm = () => {
   
         console.log("Respuesta del servidor:", response);
         setMessage("Producto creado exitosamente.");
-  
+        setSnackbarOpen(true);
+        
         setInput({
           name: "",
           brand: "",
@@ -104,12 +109,22 @@ const ProductForm = () => {
       } catch (error) {
         console.error("Error al crear el producto:", error);
         dispatch(createProductFailure(error));
-        setMessage("Error al crear el producto. Verifica la consola para más detalles.");
+        setMessage("Error al crear el producto. Contacta con un administrador para más detalles.");
+        setSnackbarOpen(true)
       }
     } else {
       setMessage("Por favor, completa el formulario correctamente.");
+      setSnackbarOpen(true)
     }
   };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
+
   const availableBrands = ["nike", "adidas", "newbalance"];
   const brandColors = {
     nike: ["green", "white", "black"],
@@ -258,7 +273,7 @@ const ProductForm = () => {
            isMulti
            options={sizeOptions}
             />
-          <p className="error-message">{errors.size}</p>
+          {input.size.length < 2 && <p className="alertSize">Por favor, selecciona como mínimo dos talles.</p>}
 
 
        <label className="form-label">Colores</label>
@@ -270,7 +285,8 @@ const ProductForm = () => {
     options={colorOptions}
   />
 
-          <p className="error-message">{errors.colors}</p>
+          {input.colors.length < 2 && <p className="alertCol">Por favor, selecciona como mínimo dos colores.</p>}
+
 
 
 
@@ -288,11 +304,11 @@ const ProductForm = () => {
   
 
 
-          {message && (
+        {/*   {message && (
             <div className={ message.includes("éxito") ? "success-message" : "error-message"}>
             {message}
             </div>
-            )}
+            )} */}
 
         </form>
   
@@ -306,10 +322,10 @@ const ProductForm = () => {
           <p className="feactures-container"></p>
 
           <div className="image-preview">
- {input.image && (
-   <img src={URL.createObjectURL(input.image)} alt="Preview" className="preview-image" />
- )}
-</div>
+            {imageUrl && (
+              <img src={imageUrl} alt="Preview" className="preview-image" />
+            )}
+          </div>
           <p className="feactures-container"></p>
 
           <div className="tipos">
@@ -337,7 +353,6 @@ const ProductForm = () => {
       </span>
     ))}
   </div>
-  {/* ultimos cambios mas cambiosss*/}
 
   </div>
           <div className="tipos">
@@ -354,6 +369,19 @@ const ProductForm = () => {
         </div>
         </div>
       </div>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message={message}
+        action={
+          <React.Fragment>
+            <IconButton size="small" aria-label="close" color="inherit" onClick={handleSnackbarClose}>
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </React.Fragment>
+        }
+      />
     </div>
   );
 };

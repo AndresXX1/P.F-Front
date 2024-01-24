@@ -43,7 +43,10 @@ function Filter({page,pageSize}) {
   return (
     <div className={style.containerContent}>
       <div className={style.container}>
-       <Select
+      <div className={style.titleContainer}>
+        <h3>FILTERS</h3>
+        </div>
+        <Select
         name="FilterBrand"
         options={[
           { value: '', label: 'Brand' },

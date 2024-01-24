@@ -4,11 +4,10 @@
   flex-direction: row;
   margin: 30px;
   background-color: white;
-  border-radius: 2px;
-}
+  border-radius: 2px;}
 
 .container:hover{
-  scale: 105%;
+  scale: 103%;
   transition: ease-out 0.3s;
 }
 
@@ -183,3 +182,5 @@
   border: none;
 }
 }
+
+

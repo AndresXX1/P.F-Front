@@ -67,7 +67,7 @@ const logOut = () => {
                   </Link>
                   </li>
                     <li>
-                  <Link to="/configuracion" className="dropdown-item">
+                  <Link to="/Configuracion" className="dropdown-item">
                     Ajustes
                   </Link>
                   </li>
@@ -110,6 +110,9 @@ const logOut = () => {
             <Link to="/home" className="nav-link active text-primary" aria-current="page">
               <img className={style.logoRunners} src={logo} alt="Runners Paradise Logo" />
             </Link>
+            <div className={style.searchBarContent}>
+             
+            </div>
             <div className={style.searchBarContainer}>
              
             </div>
@@ -117,6 +120,7 @@ const logOut = () => {
               <div className="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul className="navbar-nav">
                   <li className="nav-item">
+            <Link to="/create" className="nav-link text-black" style={{position:'relative', top:'1px', marginRight:'8px'}}> Create </Link>
                     
                   </li>
                   <li className="nav-item">

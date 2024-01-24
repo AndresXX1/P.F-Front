@@ -6,6 +6,7 @@ import { getSneakers, setSelectedSneakerIndex } from "../../redux/actions/action
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleUp, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 
+
 const BottomBar = ({ onClickPrev, onClickNext }) => {
  const history = useHistory();
  const dispatch = useDispatch();
@@ -56,7 +57,7 @@ const BottomBar = ({ onClickPrev, onClickNext }) => {
  
  sneaker.image[0].startsWith("http") || sneaker.image[0].startsWith("data:") ? (
  <img src={sneaker.image[0]} alt={sneaker.name} /> ) : 
- (<img src={require(`../../images/${sneaker.image[0]}`).default} alt={sneaker.name} />
+ (<img src={sneaker.image[0]} alt={sneaker.name} />
    )) : sneaker.image && typeof sneaker.image === 'object' && sneaker.image.secure_url ? (
 < img src={sneaker.image.secure_url} alt={sneaker.name} /> ) : ( <div>No hay imagen disponible</div>)}
  </div>
@@ -68,4 +69,3 @@ const BottomBar = ({ onClickPrev, onClickNext }) => {
 };
 
 export default BottomBar;
-
