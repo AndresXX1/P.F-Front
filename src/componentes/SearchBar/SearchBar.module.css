@@ -1,8 +1,7 @@
 .container{
     display: flex;
-    position: absolute;
-    left: -500px;
-    top: -46px;
+    position: relative;
+    left: 40px;
 }
 
 .containerForm {

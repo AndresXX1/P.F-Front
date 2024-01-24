@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import validation from "./validations";
+import validation from "../Validaciones/validaciones";
 import "./create.css";
 import { Link } from "react-router-dom";
 import Select from "react-select";
@@ -109,7 +109,7 @@ const ProductForm = () => {
       setMessage("Por favor, completa el formulario correctamente.");
     }
   };
-  const availableBrands = ["NIKE", "ADIDAS", "NEW BALANCE"];
+  const availableBrands = ["nike", "adidas", "newbalance"];
   const brandColors = {
     nike: ["green", "white", "black"],
     adidas: ["blue", "white", "grey"],

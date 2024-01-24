@@ -1,6 +1,7 @@
 import axios from "axios";
 import {
   GET_ALL_SNEAKERS,
+  GET_ALLL_SNEAKERS,
   GET_SEARCH_REQUEST,
   GET_SEARCH_NOTFOUND,
   GET_SEARCH_SUCCESS,
@@ -9,9 +10,8 @@ import {
   COLOR_VALUE,
   SIZE_VALUE,
   ORDER_PRICE,
-  POST_PRODUCT_SUCCESS,
-  STATE_DATA_PAGE,
   POST_PRODUCT_FAILURE,
+  POST_PRODUCT_SUCCESS,
   POST_PRODUCT_REQUEST,
   CREATE_PRODUCT_FAILURE,
   CREATE_PRODUCT_SUCCESS,
@@ -22,15 +22,10 @@ import {
   FETCH_PRODUCT_DETAIL_FAILURE,
   SET_SELECTED_SNEAKER,
   SET_SELECTED_SNEAKER_INDEX,
-  SET_SELECTED_IMAGE_INDEX,
-  SET_REVIEWS,
-
+  SAVE_USER_DATA_SESSION,
   CREATE_USER_REQUEST,
   CREATE_USER_SUCCESS,
   CREATE_USER_FAILURE,
-  REVIEW_POSTED_FAILURE,
-  REVIEW_POSTED_SUCCESS,
-  REVIEW_POST_REQUEST
 } from "../action-types/action-types";
 
 export const registerUser = (datauser) => async (dispatch) => {
@@ -80,7 +75,14 @@ export const fetchProductDetail = (idKey) => async (dispatch) => {
   }
 };
 
-export const getSneakers = (page, pageSize ="4", brand, colors, size, price) => {
+export const getSneakers = (
+  page,
+  pageSize = "1000",
+  brand,
+  colors,
+  size,
+  price
+) => {
   return async function (dispatch) {
     try {
       const queryParams = {
@@ -127,6 +129,23 @@ export const getSneakers = (page, pageSize ="4", brand, colors, size, price) => 
   };
 };
 
+export const getAlllSneakers = () => {
+  return async function (dispatch) {
+    try {
+      const url = `http://localhost:3000/products/?page=1&pageSize=10`; // Asumiendo que tienes un endpoint que devuelve todas las zapatillas
+      const response = await axios.get(url);
+      const sneakersData = response.data;
+
+      dispatch({
+        type: GET_ALLL_SNEAKERS,
+        payload: sneakersData,
+      });
+    } catch (error) {
+      console.error("Error al traer las zapatillas:", error);
+    }
+  };
+};
+
 export const createProductRequest = () => ({
   type: CREATE_PRODUCT_REQUEST,
 });
@@ -145,30 +164,15 @@ export const clearCreateProductState = () => ({
   type: CLEAR_CREATE_PRODUCT_STATE,
 });
 
-export const postCreateProduct = (productData) => async (dispatch) => {
-  dispatch(createProductRequest());
-  try {
-    // Lógica para enviar la solicitud al backend y crear el producto
-    const response = await axios.post("http://localhost:3000/products/create", productData);
-
-    // Si la solicitud fue exitosa
-    dispatch(createProductSuccess(response.data));
-  } catch (error) {
-    // Si la solicitud falla
-    dispatch(createProductFailure(error.message || "Error al crear el producto"));
-  }
-}
-
 export const getSearchRequest = () => ({
   type: GET_SEARCH_REQUEST,
 });
 
 export const getSearchSuccess = (data) => ({
   type: GET_SEARCH_SUCCESS,
-  payload:{
-    sneakers:data.paginatedResponse,
-    currentPage:data.setCurrentPage,
-    totalSneaker:data.totalSneakers
+  payload: {
+    sneakers: data.productsFound,
+    totalSneaker: data.totalSneakers,
   },
 });
 
@@ -177,29 +181,18 @@ export const getSearchNotFound = (error) => ({
   payload: error,
 });
 
-
-
-export const searchBar = (searchTerm,page,pageSize="4",price) => {
+export const searchBar = (searchTerm) => {
   return async (dispatch) => {
     try {
       dispatch(getSearchRequest());
-      const queryParams = {
-        page: encodeURIComponent(page),
-        pageSize: encodeURIComponent(pageSize),
-      };
-      if (price) {
-        queryParams.price = encodeURIComponent(price);
-      }
-      const queryString = Object.entries(queryParams)
-        .map(([key, value]) => `${key}=${value}`)
-        .join("&");
-        const url =`http://localhost:3000/products/search/${searchTerm}?${queryString}`
-        console.log(url)
-      const response = await axios.get(url);
-      
-      console.log(response)
-      if ( response.data ) {
-        console.log(response.data)
+
+      const response = await axios.get(
+        `http://localhost:3000/products/search/${searchTerm}`
+      );
+
+      console.log(response.data);
+      if (response.data) {
+        console.log(response.data);
         dispatch(getSearchSuccess(response.data));
       }
     } catch (error) {
@@ -207,8 +200,6 @@ export const searchBar = (searchTerm,page,pageSize="4",price) => {
     }
   };
 };
-
-
 
 export const resetCurrentPage = (page) => ({
   type: RESET_CURRENTPAGE,
@@ -235,9 +226,9 @@ export const orderPrice = (value) => ({
   payload: value,
 });
 
-export const stateSearch = (search) => ({
-  type: STATE_DATA_PAGE,
-  payload: search,
+export const setCurrentPage = (page) => ({
+  type: "SET_CURRENT_PAGE",
+  payload: page,
 });
 
 export const resetSearch = () => ({
@@ -264,11 +255,39 @@ export const setSelectedSneakerIndex = (index) => ({
   payload: index,
 });
 
-export const setSelectedImageIndex = (index) => ({
-  type: SET_SELECTED_IMAGE_INDEX,
-  payload: index,
+export const saveUserDataSession = (userData) => ({
+  type: SAVE_USER_DATA_SESSION,
+  payload: userData,
 });
 
+
+
+export const postReviews = (userId, idKey, value, review) => async (dispatch) => {
+  try {
+     const response = await axios.post(
+       "http://localhost:3000/reviews/create",
+       { userId, idKey, value, review }
+     );
+     dispatch({ type: "POST_REVIEWS_SUCCESS", payload: response.data });
+  } catch (error) {
+     dispatch({ type: "POST_REVIEWS_FAILURE", payload: error.message });
+  }
+ };
+
+
+ export const postCreateProduct = (productData) => async (dispatch) => {
+  dispatch(createProductRequest());
+  try {
+    // Lógica para enviar la solicitud al backend y crear el producto
+    const response = await axios.post("http://localhost:3000/products/create", productData);
+
+    // Si la solicitud fue exitosa
+    dispatch(createProductSuccess(response.data));
+  } catch (error) {
+    // Si la solicitud falla
+    dispatch(createProductFailure(error.message || "Error al crear el producto"));
+  }
+}
 
 
 const validation = (input, existingNames) => {
@@ -306,44 +325,4 @@ const validation = (input, existingNames) => {
 
   return errors;
 };
-
-export const postReviews = (productId, rating, content, name, profileImage) => async (dispatch) => {
-  dispatch({ type: REVIEW_POST_REQUEST });
-  console.log("ESTO RECIBE LA ACTION POSTREVIEW", productId, rating, content, name, profileImage)
-  try {
-    const response = await axios.post(`http://localhost:3000/reviews/products/detail/${productId}`, {
-      profileImage,
-      productId,
-      content,
-      rating,
-      name
-    });
-    console.log("ESTO VIENE DE LA ACTION ", response)
-    dispatch({ type: REVIEW_POSTED_SUCCESS, payload: response.data.review });
-  } catch (error) {
-    console.error("Error en la acción postReviews:", error);
-    dispatch({ type: REVIEW_POSTED_FAILURE, payload: error.message });
-  }
-  };
-
-   export const setReviews = (reviews) => ({
-    type: SET_REVIEWS,
-    payload: reviews || [],
-  });
-  
-  export const fetchReviews = () => async (dispatch) => {
-    try {
-      const response = await axios.get('http://localhost:3000/reviews'); // Update the URL to the correct endpoint
-      const data = response.data;
-      console.log("TODAS LAS REVIEWS:", data)
-      if (Array.isArray(data)) {
-        dispatch(setReviews(data));
-      } else {
-        console.error('Error: The response is not an array of reviews');
-      }
-    } catch (error) {
-      console.error('Error fetching reviews:', error);
-    }
-
-  };
 

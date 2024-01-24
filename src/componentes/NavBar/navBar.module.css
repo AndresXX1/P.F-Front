@@ -21,7 +21,6 @@
 .userContent{
     position: relative;
     display: flex;
-    left: 70px;
 }
 
 .userContent h4{
@@ -45,21 +44,7 @@
     left: -110px;
 }
 
-.navUser img{
-    position:relative;
-    left: -20px;
-}
 
-.navBarContent{
-    position: relative;
-    left: 60px;
-}
-
-.navBarContentFirst{
-    position: relative;
-    left: 70px;
-    top: 1px;
-}
 
 @media (max-width: 768px) {
     .navBarContent{

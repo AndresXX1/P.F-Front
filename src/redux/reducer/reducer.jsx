@@ -1,33 +1,32 @@
 import {
-  FETCH_PRODUCT_DETAIL_FAILURE,
-  FETCH_PRODUCT_DETAIL_SUCCESS,
-  SET_SELECTED_SNEAKER_INDEX,
-  CLEAR_CREATE_PRODUCT_STATE,
-  UPDATE_SELECTED_SNEAKER,
-  CREATE_PRODUCT_SUCCESS,
-  CREATE_PRODUCT_FAILURE,
-  CREATE_PRODUCT_REQUEST,
   POST_PRODUCT_REQUEST,
   POST_PRODUCT_SUCCESS,
   POST_PRODUCT_FAILURE,
+  FETCH_PRODUCT_DETAIL_SUCCESS,
+  FETCH_PRODUCT_DETAIL_FAILURE,
   CLEAR_PRODUCT_DETAIL,
-  GET_ALL_SNEAKERS, 
-  GET_SEARCH_REQUEST, 
-  GET_SEARCH_SUCCESS, 
+  CREATE_PRODUCT_REQUEST,
+  CREATE_PRODUCT_SUCCESS,
+  CREATE_PRODUCT_FAILURE,
+  GET_ALL_SNEAKERS_SUCCESS,
+  GET_ALLL_SNEAKERS,
+  UPDATE_SELECTED_SNEAKER,
+  SET_SELECTED_SNEAKER_INDEX,
+  SAVE_USER_DATA_SESSION,
+  SEARCH_SUCCESS,
+  SEARCH_REQUEST,
+  SEARCH_FAILURE,
+  SET_ADMIN,
+  GET_ALL_SNEAKERS,
+  GET_SEARCH_REQUEST,
+  GET_SEARCH_SUCCESS,
   GET_SEARCH_NOTFOUND,
   RESET_CURRENTPAGE,
   BRAND_VALUE,
   COLOR_VALUE,
   ORDER_PRICE,
-  SET_REVIEWS,
   SIZE_VALUE,
-  STATE_DATA_PAGE,
-  SET_ADMIN,
-  SET_SELECTED_IMAGE_INDEX,
-  LOGIN_USER,
-  REVIEW_POSTED_FAILURE,
-  REVIEW_POSTED_SUCCESS,
-  REVIEW_POST_REQUEST
+  CLEAR_CREATE_PRODUCT_STATE,
 } from "../action-types/action-types";
 
 const initialState = {
@@ -39,35 +38,20 @@ const initialState = {
     error: null,
   },
   error: null,
-  
+  searchResults: [],
   sneakers: [],
-  allCopySneakers:[],
-  currentPage:[],
-  totalSneakers:[],
-  brandValue : [],
-  colorValue :[],
-  sizeValue:[],
-  orderPrice:[],
-  dataSearch:[],
-  reviews: [],
-  postingReview: false,
- postReviewError: null,
- postReviewSuccess: false,
-  selectedImageIndex:[],
-  login :{},
-
+  allCopySneakers: [],
+  currentPage: [],
+  totalSneakers: [],
+  brandValue: [],
+  colorValue: [],
+  sizeValue: [],
+  orderPrice: [],
   searchLoading: false,
   searchError: null,
   searchData: null,
-  isAdmin:false,
-
+  isAdmin: false,
 };
-const stateSearchBar = {
-  data: null,
-  page: 0,
-  loading: false,
-  error: null,
-}
 
 const productReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -94,17 +78,20 @@ const productReducer = (state = initialState, action) => {
         error: action.payload,
       };
 
-      case GET_ALL_SNEAKERS:
-        return {
-          ...state,
-          sneakers: action.payload.sneakers,
-          allCopySneakers: action.payload.sneakers,
-          currentPage: action.payload.currentPage,
-          totalSneaker: action.payload.totalSneaker,
-          page:0,
-          selectedImageIndex : []
-        };
+    case GET_ALL_SNEAKERS:
+      return {
+        ...state,
+        sneakers: action.payload.sneakers,
+        allCopySneakers: action.payload.sneakers,
+        currentPage: action.payload.currentPage,
+        totalSneaker: action.payload.totalSneaker,
+      };
 
+    case GET_ALLL_SNEAKERS:
+      return {
+        ...state,
+        sneakers: action.payload, // Actualiza solo la lista de zapatillas
+      };
 
     case FETCH_PRODUCT_DETAIL_SUCCESS:
       console.log("Detalle del producto:", action.payload);
@@ -113,7 +100,6 @@ const productReducer = (state = initialState, action) => {
         product: {
           ...state.product,
           detail: action.payload,
-         
         },
         error: null,
       };
@@ -163,13 +149,14 @@ const productReducer = (state = initialState, action) => {
     case CLEAR_CREATE_PRODUCT_STATE:
       return { ...initialState };
 
-case GET_SEARCH_SUCCESS:
-  return {
-    ...state,
-    sneakers:action.payload.sneakers,
-    page: action.payload.currentPage,
-    totalSneaker:action.payload.totalSneaker,
-  };
+    case GET_SEARCH_SUCCESS:
+      return {
+        ...state,
+        sneakers: action.payload.sneakers,
+        totalSneaker: action.payload.totalSneaker,
+        loading: false,
+        error: null,
+      };
 
     case GET_SEARCH_NOTFOUND:
       return {
@@ -185,12 +172,11 @@ case GET_SEARCH_SUCCESS:
         currentPage: action.payload,
       };
 
-            case BRAND_VALUE:
-            return {
-                ...state,
-                brandValue:action.payload,
-                dataSearch:[]
-            }
+    case BRAND_VALUE:
+      return {
+        ...state,
+        brandValue: action.payload,
+      };
 
     case COLOR_VALUE:
       return {
@@ -204,26 +190,24 @@ case GET_SEARCH_SUCCESS:
         sizeValue: action.payload,
       };
 
-            case ORDER_PRICE:
-            return {
-                ...state,
-                orderPrice:action.payload
-            }
-
-            case STATE_DATA_PAGE:
-            return {
-                ...state,
-                dataSearch:action.payload
-            }
+    case ORDER_PRICE:
+      return {
+        ...state,
+        orderPrice: action.payload,
+      };
 
     case 'RESET_SEARCH':
       return {
         ...state,
         sneakers: state.allCopySneakers,
-        
+        currentPage: 1,
       };
 
-    
+    case GET_ALL_SNEAKERS_SUCCESS:
+      return {
+        ...state,
+        allSneakers: action.payload,
+      };
 
     case UPDATE_SELECTED_SNEAKER:
       return {
@@ -237,57 +221,47 @@ case GET_SEARCH_SUCCESS:
         selectedSneakerIndex: action.payload,
       };
 
-    case GET_SEARCH_REQUEST:
+    case SAVE_USER_DATA_SESSION:
+      return {
+        ...state,
+        userDataSession: {
+          ...state.userDataSession,
+          isLoggedIn: true,
+          userData: action.payload,
+        },
+      };
+
+    case SEARCH_REQUEST:
       return {
         ...state,
         loading: true,
         error: null,
       };
 
-    
- case SET_ADMIN:
- return {
-    ...state,
-    isAdmin: action.payload,
- };
-
- case SET_REVIEWS:
-  return {
-    ...state,
-    reviews: action.payload,
-  };
-  case REVIEW_POST_REQUEST:
-    return {
-      ...state,
-      postingReview: true,
-      postReviewError: null,
-      postReviewSuccess: false,
-    };
-  case REVIEW_POSTED_SUCCESS:
-    return {
-      ...state,
-      reviews: [...state.reviews, action.payload],
-      postingReview: false,
-      postReviewSuccess: true,
-    };
-  case REVIEW_POSTED_FAILURE:
-    return {
-      ...state,
-      postingReview: false,
-      postReviewError: action.payload,
-      postReviewSuccess: false,
-    };
-
-
-
-  case SET_SELECTED_IMAGE_INDEX:
+    case SEARCH_SUCCESS:
       return {
         ...state,
-        selectedImageIndex: action.payload,
+        loading: false,
+        searchResults: action.payload,
+        error: null,
       };
 
-                  default:
-                  return state;
+    case SEARCH_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        searchResults: [],
+        error: action.payload,
+      };
+
+    case SET_ADMIN:
+      return {
+        ...state,
+        isAdmin: action.payload,
+      };
+
+    default:
+      return state;
   }
 };
 

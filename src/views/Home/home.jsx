@@ -1,14 +1,15 @@
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
-import { useEffect} from 'react'
-import { getSneakers,searchBar } from "../../redux/actions/actions";
-
+import { useEffect } from 'react';
+import { getSneakers } from "../../redux/actions/actions";
 import Cards from "../../componentes/Cards/cards";
 import Paginado from '../../componentes/Paginado/Paginado';
 import styles from './Home.module.css';
 import Filter from '../../componentes/Filter/filter';
 import SearchBar from '../../componentes/SearchBar/searchBar';
-import Alert from '../../componentes/Alert/Alert';
+import { rgba } from 'polished';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
 
 const Home = () => {
@@ -16,37 +17,22 @@ const Home = () => {
   const sneakers = useSelector((state) => state?.sneakers);
   const totalSneaker = useSelector((state) => state?.totalSneaker);
   const currentPage = useSelector((state) => state?.currentPage);
-  const currentPageSearch = useSelector((state) => state?.page);
   const brand = useSelector((state) => state?.brandValue);
   const color = useSelector((state) => state?.colorValue);
   const size = useSelector((state) => state?.sizeValue);
   const price = useSelector((state) => state?.orderPrice);
-
-  const searchState = useSelector((state) => state?.dataSearch); //  estado para los resultados de la búsqueda
-  const pageSize = 4;
-console.log(searchState)
-console.log(price)
+  const searchState = useSelector((state) => state?.data); //  estado para los resultados de la búsqueda
+  const pageSize = 8;
 
   useEffect(() => {
-    if(searchState && searchState.length > 0){
-      dispatch(searchBar(searchState,currentPageSearch, pageSize,price ));
-    } else {
     dispatch(getSneakers(currentPage, pageSize, brand, color, size, price));
-}}, [dispatch]);
+  }, [dispatch]);
 
   const setCurrentPage = (page) => {
-    if(searchState && searchState.length > 0){
-      dispatch(searchBar( searchState ,page, pageSize,price));
-    } else {
-    dispatch(getSneakers(page, pageSize, brand, color, size, price));}
+    dispatch(getSneakers(page, pageSize, brand, color, size, price));
   };
 
-
-  console.log(currentPage)
-
-  console.log(currentPageSearch)
-
-
+  
       
 const RedAlert = ({ message }) => (
  <div style={{ backgroundColor: rgba(223, 51, 21, 0.8),
@@ -72,22 +58,25 @@ const RedAlert = ({ message }) => (
           <SearchBar totalSneaker={totalSneaker} page={currentPage} pageSize={pageSize} setCurrentPage={setCurrentPage}></SearchBar>
 
           </div>
-          <Filter totalSneaker={searchState ? searchState.length : totalSneaker} page={currentPageSearch >= 1 ?currentPageSearch: currentPage} pageSize={pageSize} setCurrentPage={setCurrentPage}></Filter>
+          <Filter totalSneaker={searchState ? searchState.length : totalSneaker} page={currentPage} pageSize={pageSize} setCurrentPage={setCurrentPage}></Filter>
         </div>
-          <div className={styles.paginado}>
-          <Paginado totalSneaker={totalSneaker} page={currentPageSearch >= 1 ?currentPageSearch: currentPage} pageSize={pageSize} setCurrentPage={setCurrentPage}/>
-          </div>
         <div className={styles.cardsComponent}>
+          <div className={styles.paginado}>
+
+          <Paginado totalSneaker={totalSneaker} page={currentPage} pageSize={pageSize} setCurrentPage={setCurrentPage} />
+
+          </div>
           <Cards sneakers={sneakers} />
-          <div className={styles.alertComponent}>
-              {(sneakers && sneakers.length === 0) && 
-                  <Alert/>
-              }
+          <div className={styles.cardsComponent}>
+          {(sneakers && sneakers.length === 0) && 
+ <RedAlert message="No se encontraron resultados. ¡Intenta con diferentes filtros!" />
+}
+
       </div>
         </div>
       </div>
       <div className={styles.paginatedComponent}>
-    </div>
+      </div>
     </div>
   );
 };
