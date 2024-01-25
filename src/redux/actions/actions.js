@@ -265,7 +265,7 @@ export const postCreateProduct = (productData) => async (dispatch) => {
   try {
     // Lógica para enviar la solicitud al backend y crear el producto
     const response = await axios.post(
-      "http://localhost:3000/products/create",
+      "https://backendrunnersparadise-production.up.railway.app/products/create",
       productData
     );
 
@@ -278,4 +278,3 @@ export const postCreateProduct = (productData) => async (dispatch) => {
     );
   }
 };
-

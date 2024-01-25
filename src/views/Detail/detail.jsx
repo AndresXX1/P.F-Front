@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProductDetail, clearProductDetail, getSneakers } from "../../redux/actions/actions";
+import {
+  fetchProductDetail,
+  clearProductDetail,
+  getSneakers,
+} from "../../redux/actions/actions";
 import style from "./Detail.module.css";
 import BottomBar from "./bottomBar";
 
@@ -75,13 +79,16 @@ const Detail = ({ brand }) => {
   let logoUrl;
   switch (brand) {
     case "NIKE":
-      logoUrl = "https://d3sxshmncs10te.cloudfront.net/icon/free/svg/761696.svg?token=...";
+      logoUrl =
+        "https://d3sxshmncs10te.cloudfront.net/icon/free/svg/761696.svg?token=...";
       break;
     case "ADIDAS":
-      logoUrl = "https://d3sxshmncs10te.cloudfront.net/icon/free/svg/7581614.svg?token=...";
+      logoUrl =
+        "https://d3sxshmncs10te.cloudfront.net/icon/free/svg/7581614.svg?token=...";
       break;
     case "NEW BALANCE":
-      logoUrl = "https://logos-world.net/wp-content/uploads/2020/09/New-Balance-Emblem.png";
+      logoUrl =
+        "https://logos-world.net/wp-content/uploads/2020/09/New-Balance-Emblem.png";
       break;
     default:
       logoUrl = null;
@@ -102,51 +109,56 @@ const Detail = ({ brand }) => {
       dispatch(fetchProductDetail(id));
     }
   }, [dispatch, id, zapatilla]);
-  
+
   if (!zapatilla) {
     return <div>Loading...</div>;
   }
-  
+
   if (!zapatilla.name) {
     return <div>Datos no disponibles</div>;
   }
 
   const getImageSource = (image) => {
     if (Array.isArray(image)) {
-       if (image[selectedImageIndex] && image[selectedImageIndex].secure_url) {
-         return image[selectedImageIndex].secure_url;
-       } else if (image[selectedImageIndex] && image[selectedImageIndex].startsWith("/")) {
-         return require(`../../images${image[selectedImageIndex]}`).default;
-       } else {
-         return image[selectedImageIndex];
-       }
-    } else if (typeof image === 'object') {
-       if (image && image.secure_url) {
-         return image.secure_url;
-       } else if (image && image.startsWith("/")) {
-         return require(`../../images${image}`).default;
-       } else {
-         return image;
-       }
+      if (image[selectedImageIndex] && image[selectedImageIndex].secure_url) {
+        return image[selectedImageIndex].secure_url;
+      } else if (
+        image[selectedImageIndex] &&
+        image[selectedImageIndex].startsWith("/")
+      ) {
+        return require(`../../images${image[selectedImageIndex]}`).default;
+      } else {
+        return image[selectedImageIndex];
+      }
+    } else if (typeof image === "object") {
+      if (image && image.secure_url) {
+        return image.secure_url;
+      } else if (image && image.startsWith("/")) {
+        return require(`../../images${image}`).default;
+      } else {
+        return image;
+      }
     } else {
-       return image;
+      return image;
     }
-   };
-  
-   return (
+  };
+
+  return (
     <div className={style.container}>
-       <div className={style.sneakersListContainer}>
-         <BottomBar
-           allSneakers={allSneakers}
-           onClickPrev={handlePrevImage}
-           onClickNext={handleNextImage}
-         />
-       
+      <div className={style.sneakersListContainer}>
+        <BottomBar
+          allSneakers={allSneakers}
+          onClickPrev={handlePrevImage}
+          onClickNext={handleNextImage}
+        />
       </div>
       <div className={style.detailContainer}>
-      <div className={style.imagePreview}>
-        <img src={getImageSource(zapatilla && zapatilla.image)} alt={zapatilla && zapatilla.name} />
-      </div>
+        <div className={style.imagePreview}>
+          <img
+            src={getImageSource(zapatilla && zapatilla.image)}
+            alt={zapatilla && zapatilla.name}
+          />
+        </div>
         <div className={style.detailContent}>
           <br />
           <h2>{zapatilla && zapatilla.brand}</h2>
@@ -174,10 +186,6 @@ const Detail = ({ brand }) => {
             <span>{zapatilla && zapatilla.size.join(", ")}</span>
           </div>
           <br />
-          <h4>Gender:</h4>
-          <div>
-            <h4>{zapatilla && zapatilla.gender}</h4>
-          </div>
           <div></div>
           <div></div>
         </div>
