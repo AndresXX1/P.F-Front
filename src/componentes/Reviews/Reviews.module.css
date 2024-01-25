@@ -14,7 +14,9 @@
 }
 
 .userContent{
-    margin: 15px;
+    margin: 20px;
+    position: relative;
+    left: -2px;
     display: flex;
 }
 
@@ -23,8 +25,9 @@
 }
 
 .userDataReview img{
-    width: 38px;
-    height: 38px;
+    width: 32px;
+    height: 32px;
+    position: relative;
     border-radius: 50%;
     object-fit: cover;
     justify-self: center;
@@ -32,12 +35,8 @@
 
 .container h4{
     position: relative;
-    top: 4px;
-}
-
-.container button h5{
-    font-size: 20px;
-    color: white;
+    top: 6px;
+    font-size: 18px;
 }
 
 .container h5{
@@ -65,6 +64,8 @@
 .ratingContainer{
     display: flex;
     margin-left: 28px;
+    position: relative;
+    top: -20px;
 }
 
 
@@ -79,13 +80,14 @@
     width: 60px;
     height: 30px;
     position: relative;
-    top: 28px;
+    top: -16px;
     left: 30px;
     background-color: black;
-    color: white;
 }
 
+
 .container button h5{
+    color: white;
     position: relative;
     top: -6.5px;
     font-weight: 300;
@@ -98,11 +100,13 @@
 
 textarea{
     position: relative;
-    left: 15px;
+    left: 18px;
     display: flex;
     margin-left: 20px;
     width: 200px;
     height: 90px;
+    position: relative;
+    top: -20px;
 }
 
 .usersReviewsContainer{
@@ -132,7 +136,6 @@ textarea{
 .userRating{
     position: relative;
     margin-left: 14px;
-    
 }
 
 .noAvailable p{
@@ -148,6 +151,12 @@ textarea{
     display: flex;
 }
 
+.userDataReview h5{
+    position: relative;
+    left: 8px;
+    font-weight: 400;
+}
+
 .userContentReview{
     display: flex;
     flex-wrap: wrap;
@@ -160,23 +169,22 @@ textarea{
     font-size: 20px;
 }
 
-.reviewComment p{
-    padding: 4px;
-    background-color: rgba(128, 128, 128, 0.036);
-    box-shadow: 0px 0px 1px;
-    border-radius: 6px;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
+
+.reviewComment {
+    width: 500px;
 }
 
-.reviewComment{
-    display: flex;
-    width: 400px;
-    flex-wrap: wrap;
-    flex-direction: row;
+.reviewComment p {
+    font-size: 14px;
+    padding: 10px;
+    box-shadow: 0px 0px 1px gray;
+    border-radius: 4px;
+    background-color: rgba(95, 95, 95, 0.108);
+    margin-bottom: 8px;
+    overflow-wrap: break-word; /* Añadida para evitar que las palabras largas desborden el contenedor */
 }
 
-.reviewComment h6{
-    width: 200px;
+.userRatingReview .ratingNumber{
+top: -11px;
+left: -10px;
 }

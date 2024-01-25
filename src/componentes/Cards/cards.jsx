@@ -1,13 +1,10 @@
-import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { getSneakers } from "../../redux/actions/actions";
 import { useDispatch } from "react-redux";
 import Card from "../Card/Card";
 import style from "./Cards.module.css"
 
 
 const Cards = ({sneakers, message}) => {
-  const dispatch = useDispatch();
   
 if (!sneakers || sneakers.length === 0) {
   return <p>{message}</p>;

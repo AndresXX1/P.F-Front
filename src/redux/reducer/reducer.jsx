@@ -1,54 +1,70 @@
 import {
+  FETCH_PRODUCT_DETAIL_FAILURE,
+  FETCH_PRODUCT_DETAIL_SUCCESS,
+  SET_SELECTED_SNEAKER_INDEX,
+  CLEAR_CREATE_PRODUCT_STATE,
+  UPDATE_SELECTED_SNEAKER,
+  CREATE_PRODUCT_SUCCESS,
+  CREATE_PRODUCT_FAILURE,
+  CREATE_PRODUCT_REQUEST,
   POST_PRODUCT_REQUEST,
   POST_PRODUCT_SUCCESS,
   POST_PRODUCT_FAILURE,
-  FETCH_PRODUCT_DETAIL_SUCCESS,
-  FETCH_PRODUCT_DETAIL_FAILURE,
   CLEAR_PRODUCT_DETAIL,
-  CREATE_PRODUCT_REQUEST,
-  CREATE_PRODUCT_SUCCESS,
-  CREATE_PRODUCT_FAILURE,
-  GET_ALL_SNEAKERS_SUCCESS,
-  GET_ALLL_SNEAKERS,
-  UPDATE_SELECTED_SNEAKER,
-  SET_SELECTED_SNEAKER_INDEX,
-  SAVE_USER_DATA_SESSION,
-  SEARCH_SUCCESS,
-  SEARCH_REQUEST,
-  SEARCH_FAILURE,
+  GET_ALL_SNEAKERS, 
+  GET_SEARCH_REQUEST, 
+  GET_SEARCH_SUCCESS, 
+  GET_SEARCH_NOTFOUND,
+  RESET_CURRENTPAGE,
+  BRAND_VALUE,
+  COLOR_VALUE,
+  ORDER_PRICE,
+  SET_REVIEWS,
+  SIZE_VALUE,
+  STATE_DATA_PAGE,
   SET_ADMIN,
-  GET_ALL_SNEAKERS, GET_SEARCH_REQUEST, GET_SEARCH_SUCCESS, GET_SEARCH_NOTFOUND,RESET_CURRENTPAGE,BRAND_VALUE,COLOR_VALUE,ORDER_PRICE,SIZE_VALUE,CLEAR_CREATE_PRODUCT_STATE
-  
-  
+  SET_SELECTED_IMAGE_INDEX,
+  LOGIN_USER,
+  REVIEW_POSTED_FAILURE,
+  REVIEW_POSTED_SUCCESS,
+  REVIEW_POST_REQUEST
 } from "../action-types/action-types";
 
-
 const initialState = {
- loading: false,
- product: {
-   detail: null,
-   createdProduct: null,
-   loading: false,
-   error: null,
- },
- error: null,
- searchResults: [],
- sneakers: [],
- allCopySneakers:[],
- currentPage:[],
- totalSneakers:[],
- brandValue : [],
- colorValue :[],
- sizeValue:[],
- orderPrice:[],
- searchLoading: false,
- searchError: null,
- searchData: null,
- isAdmin:false,
-};
+  loading: false,
+  product: {
+    detail: null,
+    createdProduct: null,
+    loading: false,
+    error: null,
+  },
+  error: null,
+  
+  sneakers: [],
+  allCopySneakers:[],
+  currentPage:[],
+  totalSneakers:[],
+  brandValue : [],
+  colorValue :[],
+  sizeValue:[],
+  orderPrice:[],
+  dataSearch:[],
+  reviews: [],
+  postingReview: false,
+ postReviewError: null,
+ postReviewSuccess: false,
+  selectedImageIndex:[],
+  login :{},
 
+  searchLoading: false,
+  searchError: null,
+  searchData: null,
+  isAdmin:false,
+
+};
 const stateSearchBar = {
   data: null,
+  page: 0,
   loading: false,
   error: null,
 }
@@ -85,119 +101,108 @@ const productReducer = (state = initialState, action) => {
           allCopySneakers: action.payload.sneakers,
           currentPage: action.payload.currentPage,
           totalSneaker: action.payload.totalSneaker,
+          page:0,
+          selectedImageIndex : []
         };
 
-        case GET_ALLL_SNEAKERS:
-  return {
-    ...state,
-    sneakers: action.payload, // Actualiza solo la lista de zapatillas
-  };
 
-      case FETCH_PRODUCT_DETAIL_SUCCESS:
-        console.log("Detalle del producto:", action.payload);
-        return {
-            ...state,
-            product: {
-                ...state.product,
-                detail: action.payload,
-            },
-            error: null,
-        };
-        case FETCH_PRODUCT_DETAIL_FAILURE:
-          return {
-            ...state,
-            product: {
-              ...state.product,
-              detail: null,
-            },
-            error: action.payload,
-          };
-
-          case CLEAR_PRODUCT_DETAIL:
- return {
-   ...state,
-   product: {
-     ...state.product,
-     detail: null,
-   },
- };
-
- case CREATE_PRODUCT_REQUEST:
-  return {
-    ...state,
-    loading: true,
-    error: null,
-  };
-
-  case CREATE_PRODUCT_SUCCESS:
-    return {
-      ...state,
-      loading: false,
-      createdProduct: action.payload,
-      error: null,
-    };
-
-case CREATE_PRODUCT_FAILURE:
-  return {
-    ...state,
-    loading: false,
-    createdProduct: null,
-    error: action.payload,
-  };
-
-  case CLEAR_CREATE_PRODUCT_STATE:
-    return {
-      ...state,
-      product: {
-        ...state.product,
-        detail: null,
-        createdProduct: null,
-        loading: false,
-        error: null,
-      },
-    };
-
-
-    case GET_SEARCH_SUCCESS:
+    case FETCH_PRODUCT_DETAIL_SUCCESS:
+      console.log("Detalle del producto:", action.payload);
       return {
         ...state,
-        sneakers: action.payload.sneakers,
-        totalSneaker: action.payload.totalSneaker,
-        loading: false,
+        product: {
+          ...state.product,
+          detail: action.payload,
+         
+        },
         error: null,
       };
 
-  case GET_SEARCH_NOTFOUND:
-    return{
-      ...state,
-      loading: false,
-      data: null,
-      error: action.payload
-    };
+    case FETCH_PRODUCT_DETAIL_FAILURE:
+      return {
+        ...state,
+        product: {
+          ...state.product,
+          detail: null,
+        },
+        error: action.payload,
+      };
 
-  case RESET_CURRENTPAGE:
-            return {
-                ...state,
-                currentPage:action.payload
-            }
+    case CLEAR_PRODUCT_DETAIL:
+      return {
+        ...state,
+        product: {
+          ...state.product,
+          detail: null,
+        },
+      };
+
+    case CREATE_PRODUCT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+
+    case CREATE_PRODUCT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        createdProduct: action.payload,
+        error: null,
+      };
+
+    case CREATE_PRODUCT_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        createdProduct: null,
+        error: action.payload,
+      };
+
+    case CLEAR_CREATE_PRODUCT_STATE:
+      return { ...initialState };
+
+case GET_SEARCH_SUCCESS:
+  return {
+    ...state,
+    sneakers:action.payload.sneakers,
+    page: action.payload.currentPage,
+    totalSneaker:action.payload.totalSneaker,
+  };
+
+    case GET_SEARCH_NOTFOUND:
+      return {
+        ...state,
+        loading: false,
+        data: null,
+        error: action.payload,
+      };
+
+    case RESET_CURRENTPAGE:
+      return {
+        ...state,
+        currentPage: action.payload,
+      };
 
             case BRAND_VALUE:
             return {
                 ...state,
-                brandValue:action.payload
+                brandValue:action.payload,
+                dataSearch:[]
             }
 
-            case COLOR_VALUE:
-            return {
-                ...state,
-                colorValue:action.payload
-            }
+    case COLOR_VALUE:
+      return {
+        ...state,
+        colorValue: action.payload,
+      };
 
-            case SIZE_VALUE:
-            return {
-                ...state,
-                sizeValue:action.payload
-            }
+    case SIZE_VALUE:
+      return {
+        ...state,
+        sizeValue: action.payload,
+      };
 
             case ORDER_PRICE:
             return {
@@ -205,69 +210,82 @@ case CREATE_PRODUCT_FAILURE:
                 orderPrice:action.payload
             }
 
-            case 'RESET_SEARCH':
-              return {
+            case STATE_DATA_PAGE:
+            return {
                 ...state,
-                sneakers: state.allCopySneakers,
-                currentPage: 1,
-              };
+                dataSearch:action.payload
+            }
 
-              case GET_ALL_SNEAKERS_SUCCESS:
- return {
-   ...state,
-   allSneakers: action.payload,
- };
+    case 'RESET_SEARCH':
+      return {
+        ...state,
+        sneakers: state.allCopySneakers,
+        
+      };
 
- case UPDATE_SELECTED_SNEAKER:
-  return {
-    ...state,
-    selectedSneaker: action.payload,
-  };
-  case SET_SELECTED_SNEAKER_INDEX:
- return {
-   ...state,
-   selectedSneakerIndex: action.payload,
- };
+    
 
- case SAVE_USER_DATA_SESSION:
-  return {
-   ...state,
-   userDataSession: {
-     ...state.userDataSession,
-     isLoggedIn: true,
-     userData: action.payload,
-   },
-  };
+    case UPDATE_SELECTED_SNEAKER:
+      return {
+        ...state,
+        selectedSneaker: action.payload,
+      };
 
-  case SEARCH_REQUEST:
- return {
-   ...state,
-   loading: true,
-   error: null,
- };
+    case SET_SELECTED_SNEAKER_INDEX:
+      return {
+        ...state,
+        selectedSneakerIndex: action.payload,
+      };
 
-case SEARCH_SUCCESS:
- return {
-   ...state,
-   loading: false,
-   searchResults: action.payload,
-   error: null,
- };
+    case GET_SEARCH_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
 
-case SEARCH_FAILURE:
- return {
-   ...state,
-   loading: false,
-   searchResults: [],
-   error: action.payload,
- };
+    
  case SET_ADMIN:
  return {
     ...state,
     isAdmin: action.payload,
  };
 
-              
+ case SET_REVIEWS:
+  return {
+    ...state,
+    reviews: action.payload,
+  };
+  case REVIEW_POST_REQUEST:
+    return {
+      ...state,
+      postingReview: true,
+      postReviewError: null,
+      postReviewSuccess: false,
+    };
+  case REVIEW_POSTED_SUCCESS:
+    return {
+      ...state,
+      reviews: [...state.reviews, action.payload],
+      postingReview: false,
+      postReviewSuccess: true,
+    };
+  case REVIEW_POSTED_FAILURE:
+    return {
+      ...state,
+      postingReview: false,
+      postReviewError: action.payload,
+      postReviewSuccess: false,
+    };
+
+
+
+  case SET_SELECTED_IMAGE_INDEX:
+      return {
+        ...state,
+        selectedImageIndex: action.payload,
+      };
+
                   default:
                   return state;
   }

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import validation from "../Validaciones/validaciones";
+import validation from "./validations";
 import "./create.css";
 import { Link } from "react-router-dom";
 import Select from "react-select";
@@ -109,7 +109,7 @@ const ProductForm = () => {
       setMessage("Por favor, completa el formulario correctamente.");
     }
   };
-  const availableBrands = ["nike", "adidas", "newbalance"];
+  const availableBrands = ["NIKE", "ADIDAS", "NEW BALANCE"];
   const brandColors = {
     nike: ["green", "white", "black"],
     adidas: ["blue", "white", "grey"],
@@ -144,8 +144,7 @@ const ProductForm = () => {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setInput((prevInput) => ({ ...prevInput, image: file }));
-    setImageUrl(URL.createObjectURL(file)); 
-  };
+   };
 
 
   const sizeOptions = [

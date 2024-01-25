@@ -1,23 +1,22 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchProductDetail,
-  clearProductDetail,
-  getSneakers,
-} from "../../redux/actions/actions";
+import {fetchProductDetail,clearProductDetail,getSneakers,setSelectedImageIndex} from "../../redux/actions/actions";
 import style from "./Detail.module.css";
 import BottomBar from "./bottomBar";
+import Reviews from "../../componentes/Reviews/Reviews"
+import { useParams, Link } from 'react-router-dom';
 
 const Detail = ({ brand }) => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const [selectedColors, setSelectedColors] = useState([]);
   const zapatilla = useSelector((state) => state?.product?.detail);
-  const allSneakers = useSelector((state) => state.sneakers);
+  const currentPage = useSelector((state) => state?.product?.currentPage);
+  const setSelectedImageIndex = useSelector((state) => state?.selectedImageIndex);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const intervalRef = useRef(null);
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
+  console.log(setSelectedImageIndex)
 
   useEffect(() => {
     if (id) {
@@ -25,50 +24,6 @@ const Detail = ({ brand }) => {
     }
   }, [id, dispatch]);
 
-  useEffect(() => {
-    if (zapatilla && zapatilla.image && zapatilla.image.length > 1) {
-      intervalRef.current = setInterval(() => {
-        setCurrentImageIndex((prevIndex) =>
-          prevIndex < zapatilla.image.length - 1 ? prevIndex + 1 : 0
-        );
-      }, 1500);
-    }
-
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
-    };
-  }, [zapatilla]);
-
-  useEffect(() => {
-    // Reiniciamos el índice de la imagen al cambiar la tarjeta
-    setSelectedImageIndex(0);
-
-    if (zapatilla && zapatilla.image && zapatilla.image.length > 1) {
-      const intervalId = setInterval(() => {
-        setSelectedImageIndex((prevIndex) =>
-          prevIndex < zapatilla.image.length - 1 ? prevIndex + 1 : 0
-        );
-      }, 1500);
-
-      return () => {
-        clearInterval(intervalId);
-      };
-    }
-  }, [zapatilla]);
-
-  const handlePrevImage = () => {
-    setSelectedImageIndex((prevIndex) =>
-      prevIndex > 0 ? prevIndex - 1 : zapatilla.image.length - 1
-    );
-  };
-
-  const handleNextImage = () => {
-    setSelectedImageIndex((prevIndex) =>
-      prevIndex < zapatilla.image.length - 1 ? prevIndex + 1 : 0
-    );
-  };
 
   useEffect(() => {
     if (zapatilla && zapatilla.colors) {
@@ -100,10 +55,7 @@ const Detail = ({ brand }) => {
     };
   }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(getSneakers());
-  }, [dispatch]);
-
+ 
   useEffect(() => {
     if (!zapatilla) {
       dispatch(fetchProductDetail(id));
@@ -117,47 +69,30 @@ const Detail = ({ brand }) => {
   if (!zapatilla.name) {
     return <div>Datos no disponibles</div>;
   }
-
-  const getImageSource = (image) => {
-    if (Array.isArray(image)) {
-      if (image[selectedImageIndex] && image[selectedImageIndex].secure_url) {
-        return image[selectedImageIndex].secure_url;
-      } else if (
-        image[selectedImageIndex] &&
-        image[selectedImageIndex].startsWith("/")
-      ) {
-        return require(`../../images${image[selectedImageIndex]}`).default;
-      } else {
-        return image[selectedImageIndex];
-      }
-    } else if (typeof image === "object") {
-      if (image && image.secure_url) {
-        return image.secure_url;
-      } else if (image && image.startsWith("/")) {
-        return require(`../../images${image}`).default;
-      } else {
-        return image;
-      }
-    } else {
-      return image;
-    }
+  
+  const handleRatingChange = (value) => {
+    setRating(value);
   };
+
+  // Function to toggle comment form visibility
+  const toggleCommentForm = () => {
+    setCommentFormVisible(!isCommentFormVisible);
+  };
+  
 
   return (
     <div className={style.container}>
       <div className={style.sneakersListContainer}>
-        <BottomBar
-          allSneakers={allSneakers}
-          onClickPrev={handlePrevImage}
-          onClickNext={handleNextImage}
-        />
-      </div>
+      <BottomBar
+        zapatilla={zapatilla}
+      />
+        </div>
       <div className={style.detailContainer}>
         <div className={style.imagePreview}>
-          <img
-            src={getImageSource(zapatilla && zapatilla.image)}
-            alt={zapatilla && zapatilla.name}
-          />
+        <img
+        src={setSelectedImageIndex.length > 0 ? setSelectedImageIndex : (zapatilla && zapatilla.image[0] || zapatilla.image.secure_url)}
+          alt={zapatilla.name}
+        />
         </div>
         <div className={style.detailContent}>
           <br />
@@ -174,23 +109,30 @@ const Detail = ({ brand }) => {
           </div>
           <h4>Colors:</h4>
           <div className={style.containerColors}>
-            {selectedColors.map((selectedColor, index) => (
-              <span key={index}>
-                {selectedColor}
-                {index < selectedColors.length - 1 && <span>&nbsp;</span>}
-              </span>
-            ))}
+        {selectedColors.map((selectedColor, index) => (
+          <span key={index}>
+            {selectedColor}
+            {index < selectedColors.length - 1 && <span>&nbsp;</span>}
+          </span>
+        ))}
           </div>
           <h4>Sizes:</h4>
           <div className={style.sizesContainer}>
             <span>{zapatilla && zapatilla.size.join(", ")}</span>
           </div>
           <br />
-          <div></div>
-          <div></div>
+          <h4>Gender:</h4>
+          <div>
+            <h4>{zapatilla && zapatilla.gender}</h4>
+          </div>
         </div>
       </div>
+          <div className={style.reviewContainer}>
+          <Reviews productId={id} />
+          </div>
+      <div>
     </div>
+  </div>
   );
 };
 
