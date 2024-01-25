@@ -85,7 +85,7 @@ const Register = () => {
     setMessage("¡Te has registrado correctamente! Verifica tu casilla de correo");
     setSnackbarOpen(true)
     setFormData(initialFormData);
-    setErrors({});
+    setErrors({});/* sdsfdsfds */
     setIsFormValid(false);
     setCreatedUsersList((prevList) => {
       const updatedList = [...prevList, datauser];

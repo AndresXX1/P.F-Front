@@ -369,7 +369,7 @@ const ProductForm = () => {
         </div>
         </div>
       </div>
-      <Snackbar
+      <Snackbar 
         open={snackbarOpen}
         autoHideDuration={6000}
         onClose={handleSnackbarClose}
