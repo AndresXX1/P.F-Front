@@ -22,7 +22,7 @@ const Home = () => {
   const size = useSelector((state) => state?.sizeValue);
   const price = useSelector((state) => state?.orderPrice);
   const searchState = useSelector((state) => state?.data); //  estado para los resultados de la búsqueda
-  const pageSize = 8;
+  const pageSize = 6;
 
   useEffect(() => {
     dispatch(getSneakers(currentPage, pageSize, brand, color, size, price));

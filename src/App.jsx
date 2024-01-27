@@ -13,6 +13,7 @@ import Perfil from "./componentes/perfilDeUsuario/perfil"
 import Ajustes from "./componentes/Configuracion/configuracion"
 import LogOut from "./componentes/LogOut/logOut"
 import ProtectedRoute from './GeneralLogin';
+import Shopping from "./views/Shopping/Shopping";
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
  <Route exact path="/perfil" component= {Perfil} />
  <Route exact path="/Configuracion" component= {Ajustes} />
  <Route exact path="/logOut" component= {LogOut} />
+ <Route exact path="/shopping" component= {Shopping} />
 </Switch>
       </div>
     </Router>
