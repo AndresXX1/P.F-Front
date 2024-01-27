@@ -1,93 +1,88 @@
 .form {
-  display: flex;
-  flex-direction: column;
-  width: 500px;
-  height: 600px;
-  margin: auto;
-  border: 2px solid black;
-  border-radius: 5px;
-  margin-top: 95px;
-  margin-right: 150px;
+  width: 270px;
+  height: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffffda;
+  margin-left: 410px;
+  margin-top: 0px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  overflow-y: auto; /* Agrega scroll vertical si el contenido es mayor que la altura */
 }
 
-.input-container {
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
+.inputContainer {
+  margin-bottom: 15px; /* Aumenta el espacio entre los contenedores de input */
 }
 
-
-
-.descripcion {
-  margin-right: 10px; /* Espacio entre descripción y input */
+.label {
+  font-size: 12px; /* Aumenta el tamaño de la etiqueta */
+  font-weight: bold;
+  margin-bottom: 5px; /* Reduce el espacio inferior de la etiqueta */
+  margin-right: 10px;
 }
 
 .input {
-  flex: 1;
+  width: 100%; /* Ocupa el ancho completo del contenedor */
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 20px;
-  margin-top: 25px;
+  font-size: 14px; /* Aumenta el tamaño de la fuente */
+  margin-top: -5px; /* Aumenta el espacio superior del input */
+}
+
+.editButton,
+.saveButton {
+  width: 100%;
+  margin-top: 15px;
+  padding: 10px; /* Ajusta el relleno de los botones */
 }
 
 .editButton {
-  padding: 6px;
-  background-color: #4caf50;
+  background-color: #3498db;
   color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  margin-left: 10px;
-  align-self: flex-start; /* Alinea el botón al principio del contenedor */
+  transition: background-color 0.3s ease;
+  margin-top: 0px;
+
 }
 
-.editButton:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
+.editButton:hover {
+  background-color: #2980b9; /* Cambia el color de fondo al pasar el ratón sobre el botón */
 }
 
 .saveButton {
-  margin-top: 20px;
-  padding: 15px;
-  background-color: #007bff;
+  background-color: #27ae60;
   color: #fff;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  margin-left: auto; /* Mueve el botón hacia la derecha tanto como sea posible */
-  margin-right: 10px;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.saveButton:hover {
+  background-color: #219653;
 }
 
 .error {
-  color: #ff0000;
-  margin-top: 10px;
+  color: #c0392b;
   font-size: 14px;
-}
-
-.descripcion {
-  text-align: right;
   margin-top: 10px;
 }
 
-.label1 {
-  font-weight: bold;
-  margin-right: 10px;
-  margin-left: 50px;
+/* Media Query para pantallas más pequeñas */
+@media (max-width: 600px) {
+  .form {
+    width: 80%;
+  }
 }
 
-.label2 {
-  font-weight: bold;
-  margin-right: 10px;
-  margin-left: 46px;
-}
-.label3 {
-  font-weight: bold;
-  margin-right: 10px; 
-  margin-left: 40px;
-}
-.label4 {
-  font-weight: bold;
-  margin-right: 10px;
-  margin-left: 58px;
+.title{
+margin-bottom: 20px;
+  border-bottom: 2px black;
 }

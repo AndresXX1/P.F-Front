@@ -31,7 +31,10 @@ import {
   REVIEW_POSTED_FAILURE,
   REVIEW_POSTED_SUCCESS,
   REVIEW_POST_REQUEST,
-  UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE,UPDATE_USER_REQUEST
+  UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE,UPDATE_USER_REQUEST,
+  UPDATE_PASSWORD_REQUEST,
+  UPDATE_PASSWORD_SUCCESS,
+  UPDATE_PASSWORD_FAILURE
 } from "../action-types/action-types";
 
 export const registerUser = (datauser) => async (dispatch) => {
@@ -384,3 +387,44 @@ export const postReviews = (productId, rating, content, name, profileImage) => a
       }
     };
   };
+
+export const updatePasswordRequest = () => ({
+  type: UPDATE_PASSWORD_REQUEST,
+});
+
+export const updatePasswordSuccess = () => ({
+  type: UPDATE_PASSWORD_SUCCESS,
+});
+
+export const updatePasswordFailure = (error) => ({
+  type: UPDATE_PASSWORD_FAILURE,
+  payload: error,
+});
+
+export const updatePassword = (id, currentPassword, newPassword) => {
+  return async (dispatch) => {
+    dispatch(updatePasswordRequest());
+
+    try {
+      const response = await fetch(`http://localhost:3000/users/perfil/updatepassword/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          currentPassword,
+          newPassword,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Error (${response.status}): ${errorData.message}`);
+      }
+
+      dispatch(updatePasswordSuccess());
+    } catch (error) {
+      dispatch(updatePasswordFailure(error.message));
+    }
+  };
+};

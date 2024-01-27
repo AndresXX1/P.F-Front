@@ -1,67 +1,176 @@
-.userProfile {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+.Fullstack {
+    background-image: url("https://tressalud.com/wp-content/uploads/freshizer/40322d005fd6244cc031d4a137ad7c3a_13883202_ml-21x10-1-1680-c-90.jpg");
+    background-size: cover;
+    background-position: top;
+    display: top;
+    background-attachment: fixed;
+    box-sizing: border-box;
+    
+}
+  
+  .container {
+    align-items: center;
+    justify-content: center;
+    height: 700px; 
+    margin-top: -85px;
+    margin-left: 350px;
   }
   
-  .banner {
-    height: 100px; /* Ajusta la altura según sea necesario */
-    background-color: #3498db; /* Cambia el color de fondo según sea necesario */
+  .userProfile {
+    margin: 0 auto;
+    padding: 15.3px; 
+    height: 38.25px; 
   }
   
   .profileContainer {
     display: flex;
-    margin-top: 20px;
-  }
-  
-  .imageContainer {
-    flex: 1;
+    margin-top: 23.85px; 
+    border: 1px solid black;
+    height: 100px; 
+    width: 100px; 
+    border-radius: 9px;
+    background-color: #ffffff8e;
+    box-shadow: 0 0 9px rgba(0, 0, 0, 0.7);
+    position: relative;
+    
   }
   
   .profilePicture {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
+    width: 114.75px; 
+    height: 114.75px; 
+    border-radius: 26.775%; 
     overflow: hidden;
-    background-color: #ecf0f1; /* Cambia el color de fondo según sea necesario */
+    background-color: #c9cff2;
     display: flex;
     align-items: center;
+    text-align: center;
     justify-content: center;
-  }
-  
-  .profilePicture img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .altText {
-    color: #2c3e50; /* Cambia el color del texto según sea necesario */
+    border: 1.8px solid #fff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 3);
+    margin-left: 70px; 
+    margin-top: 15.3px; 
+    margin-bottom: 72.225px; 
   }
   
   .profileInfo {
-    flex: 2;
-    margin-left: 20px;
+    flex: 1.8;
+    margin-left: 22.95px; 
   }
   
   .previewContainer {
-    margin-top: 20px;
+    margin-top: 110px; 
+    position: relative;
   }
   
   .preview {
-    border: 1px solid #bdc3c7; /* Cambia el color del borde según sea necesario */
-    padding: 20px;
+    border: 1px solid #fdfffee6;
+    padding: 22.95px; 
+    background-color: #fdfffee6;
+    border-radius: 12.825px; 
+    margin-right: 22.95px; 
+    margin-top: 180px; 
+    margin-bottom: 22.95px; 
+    position: relative;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+    width: 250px;
+    margin-left: 225PX;
+    
+    
   }
   
   .textopreview {
     text-align: center;
+    color: #bb3434;
+  margin-bottom: -15px;
+    margin-top: -35px;
+     
   }
   
   .titulo {
-    color: #e74c3c; /* Cambia el color del título según sea necesario */
+    color: #0b0b0b;
+   
+    border: 1px solid #ecf0f1;
+    width: 200px;
+    border-radius: 12.825px; 
+    height: 38.25px; 
+    margin-right: 50px; 
+    text-align: center;
+    background-color: #ffffffc5;
+    box-shadow: 0 0 9px rgba(0, 0, 0, 0.7);
+    margin-left: 250PX;
+    margin-top: -60px;
+    margin-bottom: 50px;
+    position: absolute;
   }
   
   .textoPrev p {
-    margin: 10px 0;
-    color: #34495e; /* Cambia el color del texto según sea necesario */
+    color: #34495e;
+    font-size: 12px; 
+    text-align: left;
+    margin-top: 25px;
   }
+  
+  .name {
+    margin-left: 22.95px; 
+   
+  }
+  
+
+  .userProfileFormContainer {
+    margin-left: 38.475px; 
+    margin-top: -420.75px; 
+    margin-right: -497.25px; 
+  }
+  
+  .containerbotones {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-top: -30px;
+    border-top: 1px solid black;
+    z-index: 1;
+    margin-bottom: 20px;
+    position: absolute;
+    margin-left: 12px;
+  }
+  .tabContent {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #1d1111;
+    padding: 22.95px; 
+    transition: background-color 0.3s ease;
+    color: black;
+     margin-left: 0px;
+  }
+  
+  .tabContent:hover {
+    background-color: #c9cff2;
+    
+  }
+  
+ 
+  
+  .imageAndTabs {
+    margin-left: -23px;
+    border: 1px solid #fdfffee6;
+    width: 255px;
+    height: 395px; /* Ajusta según sea necesario */
+    margin-top: 116px;
+    position: absolute;
+    background-color: #ffffffcb;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  }
+  
+ 
+ 
+  
+  
+
+  .userProfileFormContainer{
+    height: -10px;
+    width: 50px;
+    margin-left: 80px;
+    margin-bottom: -15px;
+  }
+

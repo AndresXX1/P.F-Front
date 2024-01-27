@@ -31,6 +31,9 @@
     UPDATE_USER_SUCCESS,
     UPDATE_USER_FAILURE,
     UPDATE_USER_REQUEST,
+    UPDATE_PASSWORD_REQUEST,
+    UPDATE_PASSWORD_SUCCESS,
+    UPDATE_PASSWORD_FAILURE,
 
   } from "../action-types/action-types";
 
@@ -64,6 +67,8 @@
     auth: {
       loading: false,
     },
+    passwordAndEmailUpdating: false,
+    passwordAndEmailUpdateError: null,
     searchLoading: false,
     searchError: null,
     searchData: null,
@@ -313,6 +318,26 @@
             loading: false,
             error: action.payload,
           };
+          case UPDATE_PASSWORD_REQUEST:                        
+
+            return {
+              ...state,
+              passwordAndEmailUpdating: true,
+              passwordAndEmailUpdateError: null,
+            };
+      
+          case UPDATE_PASSWORD_SUCCESS:
+            return {
+              ...state,
+              passwordAndEmailUpdating: false,
+            };
+      
+          case UPDATE_PASSWORD_FAILURE:
+            return {
+              ...state,
+              passwordAndEmailUpdating: false,
+              passwordAndEmailUpdateError: action.payload,
+            };
 
    
                     default:
