@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { getSneakers, searchBar, stateSearch,resetSearch  } from '../../redux/actions/actions';
 import style from "./SearchBar.module.css";
 
 const SearchBar = () => {
+
   const dispatch = useDispatch();
   const [search, setSearch] = useState("");
   const currentPage = useSelector((state) => state?.currentPage);
@@ -31,10 +33,13 @@ const SearchBar = () => {
     setSearch(searchTerm);
 
 
+
+
     if (!searchTerm) {
       fetchData();
     }
   };
+
 
  useEffect(() => {
    fetchData(search);
@@ -59,6 +64,7 @@ const SearchBar = () => {
     
    </div>
  );
+
 };
 
 export default SearchBar;

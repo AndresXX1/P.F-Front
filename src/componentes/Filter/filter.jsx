@@ -47,8 +47,10 @@ function Filter({page,pageSize}) {
   return (
     <div className={style.containerContent}>
       <div className={style.container}>
+
        <Select
         name="FilterBrand" 
+
         options={[
           { label:` ${brand && brand.length > 0 ?brand : "selected Brand"}`  },
           { value: '', label: 'all brands'},

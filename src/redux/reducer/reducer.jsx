@@ -1,9 +1,10 @@
 import {
+  FETCH_PRODUCT_DETAIL_FAILURE,
+  FETCH_PRODUCT_DETAIL_SUCCESS,
+  SET_SELECTED_SNEAKER_INDEX,
   POST_PRODUCT_REQUEST,
   POST_PRODUCT_SUCCESS,
   POST_PRODUCT_FAILURE,
-  FETCH_PRODUCT_DETAIL_SUCCESS,
-  FETCH_PRODUCT_DETAIL_FAILURE,
   CLEAR_PRODUCT_DETAIL,
   CREATE_PRODUCT_REQUEST,
   CREATE_PRODUCT_SUCCESS,
@@ -13,17 +14,18 @@ import {
   GET_SEARCH_SUCCESS, 
   GET_SEARCH_NOTFOUND,
   RESET_CURRENTPAGE,
+
   BRAND_VALUE,
   COLOR_VALUE,
   ORDER_PRICE,
+  SET_REVIEWS,
   SIZE_VALUE,
+
   STATE_DATA_PAGE,
   CLEAR_CREATE_PRODUCT_STATE,
   UPDATE_SELECTED_SNEAKER,
-  SET_SELECTED_SNEAKER_INDEX,
   SAVE_USER_DATA_SESSION,
   SET_ADMIN,
-  SET_REVIEWS,
   SET_SELECTED_IMAGE_INDEX,
   LOGIN_USER,
   POST_CART_ITEMS,
@@ -63,7 +65,14 @@ const initialState = {
   searchError: null,
   searchData: null,
   isAdmin:false,
+
 };
+const stateSearchBar = {
+  data: null,
+  page: 0,
+  loading: false,
+  error: null,
+}
 
 const stateSearchBar = {
   data: null,
@@ -270,6 +279,7 @@ case GET_SEARCH_SUCCESS:
     reviews: action.payload,
   };
 
+
   case SET_SELECTED_IMAGE_INDEX:
       return {
         ...state,
@@ -295,6 +305,27 @@ case GET_SEARCH_SUCCESS:
           (item) => item.productId !== action.payload?.productId
         ),
       };
+
+      case POST_CART_ITEMS:
+        return {
+          ...state,
+          itemsCart: action.payload,
+        };
+
+        case GET_ALL_ITEMS:
+      return {
+        ...state,
+        shoppingItems: action.payload || [],
+      };
+
+    case REMOVE_FROM_CART:
+      return {
+        ...state,
+        shoppingItems: state.shoppingItems.filter(
+          (item) => item.productId !== action.payload?.productId
+        ),
+      };
+
               
                   default:
                   return state;

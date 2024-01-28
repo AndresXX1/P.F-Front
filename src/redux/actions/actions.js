@@ -25,6 +25,7 @@ import {
   SET_SELECTED_IMAGE_INDEX,
   SAVE_USER_DATA_SESSION,
   SET_REVIEWS,
+
   CREATE_USER_REQUEST,
   CREATE_USER_SUCCESS,
   CREATE_USER_FAILURE,
@@ -178,6 +179,8 @@ export const getSearchNotFound = (error) => ({
   payload: error,
 });
 
+
+
 export const searchBar = (searchTerm,page,pageSize="4",price) => {
   return async (dispatch) => {
     try {
@@ -206,6 +209,8 @@ export const searchBar = (searchTerm,page,pageSize="4",price) => {
     }
   };
 };
+
+
 
 export const resetCurrentPage = (page) => ({
   type: RESET_CURRENTPAGE,
@@ -345,6 +350,7 @@ const validation = (input, existingNames) => {
     } catch (error) {
       console.error('Error fetching reviews:', error);
     }
+
   };
 
   export const postCartItems = (userId,productId,itemsData) => async (dispatch) => {
