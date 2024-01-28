@@ -25,7 +25,10 @@ import {
   SET_ADMIN,
   SET_REVIEWS,
   SET_SELECTED_IMAGE_INDEX,
-  LOGIN_USER
+  LOGIN_USER,
+  POST_CART_ITEMS,
+  GET_ALL_ITEMS,
+  REMOVE_FROM_CART,
 
   
   
@@ -40,7 +43,7 @@ const initialState = {
     error: null,
   },
   error: null,
-  
+  itemsCart:[],
   sneakers: [],
   allCopySneakers:[],
   currentPage:[],
@@ -53,6 +56,8 @@ const initialState = {
   reviews: [],
   selectedImageIndex:[],
   login :{},
+  shoppingItems: [],
+  products: [],
 
   searchLoading: false,
   searchError: null,
@@ -269,6 +274,26 @@ case GET_SEARCH_SUCCESS:
       return {
         ...state,
         selectedImageIndex: action.payload,
+      };
+
+      case POST_CART_ITEMS:
+        return {
+          ...state,
+          itemsCart: action.payload,
+        };
+
+        case GET_ALL_ITEMS:
+      return {
+        ...state,
+        shoppingItems: action.payload || [],
+      };
+
+    case REMOVE_FROM_CART:
+      return {
+        ...state,
+        shoppingItems: state.shoppingItems.filter(
+          (item) => item.productId !== action.payload?.productId
+        ),
       };
               
                   default:

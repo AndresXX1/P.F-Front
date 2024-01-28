@@ -1,5 +1,6 @@
-.container{
-  display:flex;
+
+.container {
+  display: flex;
   flex-wrap: wrap;
   justify-content: center;
   width: 1030px;
@@ -10,74 +11,67 @@
   margin-top: 30px;
 }
 
-.sneakersListContainer{
+.sneakersListContainer {
   position: absolute;
-  top: -206px;
-  left: 90px;
+  top: 2px; /* Ajusta según tu diseño */
+  right: 93%; /* Ajusta según tu diseño */
 }
 
-.detailContainer{
+.detailContainer {
   box-shadow: 0px 0px 2px black;
-  display:flex;
+  display: flex;
 }
-  
-.detailContent h2{
-  width: 400px;
+
+.detailContent {
+  margin-left: 30px;
+}
+
+.detailContent h2 {
   color: #0D6EFD;
-  font-size: 20px;
-  font-weight: 400;
-  margin-left: 30px;
+  font-size: 24px;
+  font-weight: 600;
 }
 
-.detailContent h4{
+.detailContent h4 {
   margin-top: 20px;
-  font-weight: 300;
-  margin-left: 30px;
+  font-weight: 400;
   font-size: 20px;
 }
 
-.imagePreview img{
+.imagePreview img {
   width: 600px;
   height: 600px;
-  display: flex;
   object-fit: cover;
   user-select: none;
-  -webkit-user-select: none; 
-  -moz-user-select: none; 
+  -webkit-user-select: none;
+  -moz-user-select: none;
   -ms-user-select: none;
 }
 
-.imagePreview {
-  user-select: none;
-  -webkit-user-select: none; 
-  -moz-user-select: none; 
-  -ms-user-select: none;
-}
-
-.containerColors{
+.containerColors,
+.sizesContainer {
   width: 300px;
   height: 40px;
   position: relative;
-  left: 60px;
   top: 8px;
   padding: 8px;
   border-radius: 4px;
   background-color: rgba(128, 128, 128, 0.14);
-  text-justify: center;
+  text-align: center;
   display: flex;
+  margin-top: 20px;
 }
 
-.containerColors span{
-  display: flex;
-  text-justify: center;
+.containerColors span {
   font-size: 16px;
   font-weight: 100;
   margin-left: 30px;
+  display: flex;
+  align-items: center;
 }
 
-.sizesContainer span{
+.sizesContainer span {
   font-size: 16px;
-  margin: 60px;
   width: 80px;
   height: 40px;
   padding: 8px;
@@ -86,32 +80,92 @@
   top: 8px;
   position: relative;
   font-weight: 100;
+  display: flex;
+  align-items: center;
 }
 
-.price{
-  margin: 0 auto;
-  position: relative;
-  top: -40px;
-  font-weight: 100;
+.price {
+  margin: 20px 0;
+  font-weight: 600;
   color: green;
 }
-.price h4{
-  font-weight: 400;
+
+.price h4 {
   font-size: 24px;
 }
 
-.nameContainer h4{
+.nameContainer h4 {
   font-size: 30px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
-
-.reviewContainer{
+.reviewContainer {
   display: flex;
   box-shadow: 0px 0px 2px black;
   position: relative;
-  top: 10px;
+  top: 20px;
   width: 100%;
   padding: 20px;
   margin-bottom: 80px;
+}
+
+.quantityContainer {
+  margin-top: 20px;
+}
+
+.quantityButtons {
+  display: flex;
+  align-items: center;
+}
+
+.quantityButtons button {
+  font-size: 18px;
+  background-color: #0D6EFD;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 0 8px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.quantityButtons button:hover {
+  background-color: #0056b3;
+}
+
+.addToCartButton {
+  font-size: 18px;
+  background-color: green;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.addToCartButton:hover {
+  background-color: #004d40;
+}
+
+.homeButtonContainer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.homeButton {
+  font-size: 18px;
+  background-color: #0D6EFD;
+  color: white;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.homeButton:hover {
+  background-color: #0056b3;
 }

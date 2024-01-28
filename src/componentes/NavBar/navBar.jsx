@@ -57,8 +57,10 @@ const accessToken = token ? token.accessToken : null;
                         ¿Quiénes somos?
                       </Link>
                     </li>
-                    <Link to="#" className="nav-link text-black">
-                      <FaShopify style={{ fontSize: "24px", marginrig: "1rem", zIndex: "800" }} />
+                    <Link  to={!token.id ? "/login" : "/Shopping"} className="nav-link text-black">
+                      <FaShopify
+                        style={{ fontSize: "24px", marginLeft: "1rem" }}
+                      />
                     </Link>
                     <div className={style.userContent}>
                       <h4>{`Usuario: ${token?.name}`}</h4>
@@ -125,7 +127,7 @@ const accessToken = token ? token.accessToken : null;
                         ¿Quiénes somos?
                       </Link>
                     </li>
-                    <Link to="#" className="nav-link text-black">
+                    <Link to="/login" className="nav-link text-black">
                       <FaShopify style={{ fontSize: "24px", marginLeft: "1rem" }} />
                     </Link>
                     <li className="nav-item dropdown" style={{ marginRight: "5rem" }}>

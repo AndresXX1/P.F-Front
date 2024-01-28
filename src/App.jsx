@@ -10,6 +10,7 @@ import About from "./componentes/About/about";
 import Registro from "./componentes/Register/Register";
 import Perfil from "./componentes/perfilDeUsuario/perfil"
 import Ajustes from "./componentes/Configuracion/configuracion"
+import Shopping from "./views/Shopping/Shopping";
 import ProtectedRoute from './GeneralLogin';
 import { AuthProvider } from "./componentes/AuthProvider/authProvider";
 
@@ -36,6 +37,7 @@ function App() {
  <Route exact path="/detail/:id" component={Detail} />
  <Route exact path="/perfil" component= {Perfil} />
  <Route exact path="/Configuracion" component= {Ajustes} />
+ <Route exact path="/shopping" component= {Shopping} />
 </Switch>
       </div>
     </Router>

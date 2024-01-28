@@ -19,11 +19,13 @@ const ProductForm = () => {
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
 
+ 
+
   const [input, setInput] = useState({
     name: "",
     brand: "",
     size: [],
-    image: null,
+    image: [],
     colors: [],
     price: "",
   });
@@ -72,18 +74,16 @@ const ProductForm = () => {
         formData.append('price', input.price);
         // Asegúrate de que 'colors' sea un array de strings
         input.colors.forEach((color) => {
-          formData.append('colors', color);
+          formData.append("colors", color);
         });
         // Agregar la imagen como un archivo
-        if (input.image) {
-          formData.append('image', input.image);
-        }
-  
+            formData.append('files[]', input.image);
         // Agregado para ver los datos enviados
         for (let [key, value] of formData.entries()) {
           console.log(`${key}: ${value}`);
         }
         console.log(input.image)
+        console.log(formData)
         const response = await dispatch(
           postCreateProduct( formData,)
         );
@@ -95,7 +95,7 @@ const ProductForm = () => {
           name: "",
           brand: "",
           size: [],
-          image: null,
+          image: [],
           colors: [],
           price: "",
         });
@@ -109,20 +109,18 @@ const ProductForm = () => {
       setMessage("Por favor, completa el formulario correctamente.");
     }
   };
-  const availableBrands = ["nike", "adidas", "newbalance"];
+  const availableBrands = ["ADIDAS", "NIKE", "NEWBALANCE"];
   const brandColors = {
-    nike: ["green", "white", "black"],
-    adidas: ["blue", "white", "grey"],
-    newbalance: ["black", "white", "red"],
+    NIKE: ["green", "white", "black", "pink", "yellow", "red", "blue"],
+    ADIDAS: ["green", "white", "black", "pink", "yellow", "red", "blue"],
+    NEWBALANCE: ["green", "white", "black", "pink", "yellow", "red", "blue"],
   };
-  
-  const colorOptions = [
-    { value: "all", label: "Todos" },
-    ...(brandColors[input.brand] || []).map((color) => ({
-      value: color,
-      label: color,
-    }))
-  ];
+
+  const colorOptions = (brandColors[input.brand] || []).map((color, index) => ({
+    value: color,
+    label: color,
+    key: index,
+  }));
   
   const handleBrandChange = (event) => {
     const selectedBrand = event.target.value;
@@ -142,10 +140,11 @@ const ProductForm = () => {
   };
   
   const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setInput((prevInput) => ({ ...prevInput, image: file }));
-   };
-
+    const files = event.target.files
+    setInput((prevInput) => ({ ...prevInput, image: Array.from(files) }));
+    console.log(input.image)
+  };
+  
 
   const sizeOptions = [
     { value: "all", label: "Todos" },
@@ -220,15 +219,9 @@ const ProductForm = () => {
           className="form-input"/>
 
           <p className="error-message">{errors.price}</p>
-          
-          <label className="form-label">Imagen</label>
-          <input
- type="file"
- name="image"
- onChange={handleFileChange}
-/>
 
-
+      <label className="form-label">Imagen</label>
+      <input type="file" name="image" onChange={handleFileChange} multiple />
             <p className="error-message">{errors.image}</p>
   
           <label className="form-label">Marca</label>
