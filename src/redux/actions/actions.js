@@ -1,9 +1,6 @@
 import axios from "axios";
-import { AuthContext } from "../../componentes/AuthProvider/authProvider";
-
 import {
   GET_ALL_SNEAKERS,
-  GET_ALLL_SNEAKERS,
   GET_SEARCH_REQUEST,
   GET_SEARCH_NOTFOUND,
   GET_SEARCH_SUCCESS,
@@ -12,8 +9,9 @@ import {
   COLOR_VALUE,
   SIZE_VALUE,
   ORDER_PRICE,
-  POST_PRODUCT_FAILURE,
   POST_PRODUCT_SUCCESS,
+  STATE_DATA_PAGE,
+  POST_PRODUCT_FAILURE,
   POST_PRODUCT_REQUEST,
   CREATE_PRODUCT_FAILURE,
   CREATE_PRODUCT_SUCCESS,
@@ -24,22 +22,28 @@ import {
   FETCH_PRODUCT_DETAIL_FAILURE,
   SET_SELECTED_SNEAKER,
   SET_SELECTED_SNEAKER_INDEX,
-  SAVE_USER_DATA_SESSION,
+  SET_SELECTED_IMAGE_INDEX,
   SET_REVIEWS,
-  STATE_DATA_PAGE,
-  LOGIN_FAILURE,
-  LOGIN_SUCCESS,
-  LOGIN_REQUEST,
   CREATE_USER_REQUEST,
   CREATE_USER_SUCCESS,
   CREATE_USER_FAILURE,
+  REVIEW_POSTED_FAILURE,
+  REVIEW_POSTED_SUCCESS,
+  REVIEW_POST_REQUEST,
+  UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE,UPDATE_USER_REQUEST,
+  UPDATE_PASSWORD_REQUEST,
+  UPDATE_PASSWORD_SUCCESS,
+  UPDATE_PASSWORD_FAILURE,
+  ADD_PAYMENT_METHOD_FAILURE,
+  ADD_PAYMENT_METHOD_SUCCESS,
+  ADD_PAYMENT_METHOD_REQUEST,
 } from "../action-types/action-types";
 
 export const registerUser = (datauser) => async (dispatch) => {
   dispatch({ type: CREATE_USER_REQUEST });
   try {
     const response = await axios.post(
-      "http://localhost:3004/users/create",
+      "http://localhost:3003/users/create",
       datauser
     );
     dispatch({ type: CREATE_USER_SUCCESS, payload: response.data });
@@ -69,7 +73,7 @@ export const postProductFailure = (error) => ({
 export const fetchProductDetail = (idKey) => async (dispatch) => {
   try {
     const response = await fetch(
-      `http://localhost:3004/products/detail/${idKey}`
+      `http://localhost:3003/products/detail/${idKey}`
     );
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -82,14 +86,7 @@ export const fetchProductDetail = (idKey) => async (dispatch) => {
   }
 };
 
-export const getSneakers = (
-  page,
-  pageSize = "1000",
-  brand,
-  colors,
-  size,
-  price
-) => {
+export const getSneakers = (page, pageSize ="8", brand, colors, size, price) => {
   return async function (dispatch) {
     try {
       const queryParams = {
@@ -117,7 +114,7 @@ export const getSneakers = (
         .map(([key, value]) => `${key}=${value}`)
         .join("&");
 
-      const url = `http://localhost:3004/products?${queryString}`;
+      const url = `http://localhost:3003/products?${queryString}`;
       console.log(url);
       const response = await axios.get(url);
       const sneakersData = response.data;
@@ -129,23 +126,6 @@ export const getSneakers = (
           currentPage: sneakersData.setCurrentPage,
           totalSneaker: sneakersData.totalSneaker,
         },
-      });
-    } catch (error) {
-      console.error("Error al traer las zapatillas:", error);
-    }
-  };
-};
-
-export const getAlllSneakers = () => {
-  return async function (dispatch) {
-    try {
-      const url = `http://localhost:3004/products/?page=1&pageSize=10`; // Asumiendo que tienes un endpoint que devuelve todas las zapatillas
-      const response = await axios.get(url);
-      const sneakersData = response.data;
-
-      dispatch({
-        type: GET_ALLL_SNEAKERS,
-        payload: sneakersData,
       });
     } catch (error) {
       console.error("Error al traer las zapatillas:", error);
@@ -171,15 +151,30 @@ export const clearCreateProductState = () => ({
   type: CLEAR_CREATE_PRODUCT_STATE,
 });
 
+export const postCreateProduct = (productData) => async (dispatch) => {
+  dispatch(createProductRequest());
+  try {
+    // Lógica para enviar la solicitud al backend y crear el producto
+    const response = await axios.post("http://localhost:3003/products/create", productData);
+
+    // Si la solicitud fue exitosa
+    dispatch(createProductSuccess(response.data));
+  } catch (error) {
+    // Si la solicitud falla
+    dispatch(createProductFailure(error.message || "Error al crear el producto"));
+  }
+}
+
 export const getSearchRequest = () => ({
   type: GET_SEARCH_REQUEST,
 });
 
 export const getSearchSuccess = (data) => ({
   type: GET_SEARCH_SUCCESS,
-  payload: {
-    sneakers: data.productsFound,
-    totalSneaker: data.totalSneakers,
+  payload:{
+    sneakers:data.paginatedResponse,
+    currentPage:data.setCurrentPage,
+    totalSneaker:data.totalSneakers
   },
 });
 
@@ -187,6 +182,38 @@ export const getSearchNotFound = (error) => ({
   type: GET_SEARCH_NOTFOUND,
   payload: error,
 });
+
+
+
+export const searchBar = (searchTerm,page,pageSize="4",price) => {
+  return async (dispatch) => {
+    try {
+      dispatch(getSearchRequest());
+      const queryParams = {
+        page: encodeURIComponent(page),
+        pageSize: encodeURIComponent(pageSize),
+      };
+      if (price) {
+        queryParams.price = encodeURIComponent(price);
+      }
+      const queryString = Object.entries(queryParams)
+        .map(([key, value]) => `${key}=${value}`)
+        .join("&");
+        const url =`http://localhost:3003/products/search/${searchTerm}?${queryString}`
+        console.log(url)
+      const response = await axios.get(url);
+      
+      console.log(response)
+      if ( response.data ) {
+        console.log(response.data)
+        dispatch(getSearchSuccess(response.data));
+      }
+    } catch (error) {
+      dispatch(getSearchNotFound(error.message || "Error en la búsqueda"));
+    }
+  };
+};
+
 
 
 export const resetCurrentPage = (page) => ({
@@ -214,9 +241,9 @@ export const orderPrice = (value) => ({
   payload: value,
 });
 
-export const setCurrentPage = (page) => ({
-  type: "SET_CURRENT_PAGE",
-  payload: page,
+export const stateSearch = (search) => ({
+  type: STATE_DATA_PAGE,
+  payload: search,
 });
 
 export const resetSearch = () => ({
@@ -243,24 +270,11 @@ export const setSelectedSneakerIndex = (index) => ({
   payload: index,
 });
 
-export const saveUserDataSession = (userData) => ({
-  type: SAVE_USER_DATA_SESSION,
-  payload: userData,
+export const setSelectedImageIndex = (index) => ({
+  type: SET_SELECTED_IMAGE_INDEX,
+  payload: index,
 });
 
-export const postCreateProduct = (productData) => async (dispatch) => {
-  dispatch(createProductRequest());
-  try {
-    // Lógica para enviar la solicitud al backend y crear el producto
-    const response = await axios.post("http://localhost:3004/products/create", productData);
-
-    // Si la solicitud fue exitosa
-    dispatch(createProductSuccess(response.data));
-  } catch (error) {
-    // Si la solicitud falla
-    dispatch(createProductFailure(error.message || "Error al crear el producto"));
-  }
-}
 
 
 const validation = (input, existingNames) => {
@@ -299,23 +313,24 @@ const validation = (input, existingNames) => {
   return errors;
 };
 
-
-   export const postReviews = (userId, idKey, rating, content) => {
-    return async (dispatch) => {
-       try {
-         const response = await axios.post(`http://localhost:3004/reviews/products/detail/${idKey}/${userId}`, {
-           rating,
-           content
-         });
-   
-         console.log('Review posted successfully:', response.data);
-   
-       } catch (error) {
-         console.error('Error posting review:', error);
-       }
-    };
-   };
-
+export const postReviews = (productId, rating, content, name, profileImage) => async (dispatch) => {
+  dispatch({ type: REVIEW_POST_REQUEST });
+  console.log("ESTO RECIBE LA ACTION POSTREVIEW", productId, rating, content, name, profileImage)
+  try {
+    const response = await axios.post(`http://localhost:3003/reviews/products/detail/${productId}`, {
+      profileImage,
+      productId,
+      content,
+      rating,
+      name
+    });
+    console.log("ESTO VIENE DE LA ACTION ", response)
+    dispatch({ type: REVIEW_POSTED_SUCCESS, payload: response.data.review });
+  } catch (error) {
+    console.error("Error en la acción postReviews:", error);
+    dispatch({ type: REVIEW_POSTED_FAILURE, payload: error.message });
+  }
+  };
 
    export const setReviews = (reviews) => ({
     type: SET_REVIEWS,
@@ -324,7 +339,7 @@ const validation = (input, existingNames) => {
   
   export const fetchReviews = () => async (dispatch) => {
     try {
-      const response = await axios.get('http://localhost:3004/reviews'); // Update the URL to the correct endpoint
+      const response = await axios.get('http://localhost:3003/reviews'); // Update the URL to the correct endpoint
       const data = response.data;
       console.log("TODAS LAS REVIEWS:", data)
       if (Array.isArray(data)) {
@@ -335,65 +350,102 @@ const validation = (input, existingNames) => {
     } catch (error) {
       console.error('Error fetching reviews:', error);
     }
+
   };
 
-  export const searchBar = (searchTerm,page,pageSize="4",price) => {
+  export const updateUserRequest = () => ({
+    type: UPDATE_USER_REQUEST,
+  });
+  
+  export const updateUserSuccess = () => ({
+    type: UPDATE_USER_SUCCESS,
+  });
+  
+  export const updateUserFailure = (error) => ({
+    type: UPDATE_USER_FAILURE,
+    payload: error,
+  });
+  
+  export const updateUser = (id, updatedFields) => {
     return async (dispatch) => {
+      dispatch(updateUserRequest());
+  
       try {
-        dispatch(getSearchRequest());
-        const queryParams = {
-          page: encodeURIComponent(page),
-          pageSize: encodeURIComponent(pageSize),
-        };
-        if (price) {
-          queryParams.price = encodeURIComponent(price);
+        const response = await fetch(`http://localhost:3003/users/perfil/${id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updatedFields),
+        });
+  
+        if (!response.ok) {
+          throw new Error(`Error: ${response.status}`);
         }
-        const queryString = Object.entries(queryParams)
-          .map(([key, value]) => `${key}=${value}`)
-          .join("&");
-          const url =`http://localhost:3004/products/search/${searchTerm}?${queryString}`
-          console.log(url)
-        const response = await axios.get(url);
   
-        console.log(response)
-        if ( response.data ) {
-          console.log(response.data)
-          dispatch(getSearchSuccess(response.data));
-  
-      }} catch (error) {
-        dispatch(getSearchNotFound(error.message || 'Error en la búsqueda'));
+        dispatch(updateUserSuccess());
+      } catch (error) {
+        dispatch(updateUserFailure(error.message));
       }
     };
   };
 
-  export const stateSearch = (search) => ({
-    type: STATE_DATA_PAGE,
-    payload: search,
-  });
-
-export const loginRequest = () => ({ type: LOGIN_REQUEST });
-
-export const loginSuccess = (user) => (dispatch, context) => {
-  dispatch({
-     type: LOGIN_SUCCESS,
-     payload: user,
-  });
- 
-  context.setAuth(user);
- };
-
-export const loginFailure = (error) => ({
- type: LOGIN_FAILURE,
- payload: error,
+export const updatePasswordRequest = () => ({
+  type: UPDATE_PASSWORD_REQUEST,
 });
 
-export const loginUser = (credentials, authContext) => async (dispatch) => {
-  dispatch(loginRequest());
-  try {
-     const response = await axios.post('http://localhost:3003/users/login', credentials);
-     dispatch(loginSuccess(response.data));
-     authContext.setAuth(response.data);
-  } catch (error) {
-     dispatch(loginFailure(error.message));
-  }
- };
+export const updatePasswordSuccess = () => ({
+  type: UPDATE_PASSWORD_SUCCESS,
+});
+
+export const updatePasswordFailure = (error) => ({
+  type: UPDATE_PASSWORD_FAILURE,
+  payload: error,
+});
+
+export const updatePassword = (id, currentPassword, newPassword) => {
+  return async (dispatch) => {
+    dispatch(updatePasswordRequest());
+
+    try {
+      const response = await fetch(`http://localhost:3003/users/perfil/updatepassword/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          currentPassword,
+          newPassword,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Error (${response.status}): ${errorData.message}`);
+      }
+
+      dispatch(updatePasswordSuccess());
+    } catch (error) {
+      dispatch(updatePasswordFailure(error.message));
+    }
+  };
+};
+
+
+export const addPaymentMethod = (paymentInfo) => {
+  return async (dispatch) => {
+    dispatch({ type: ADD_PAYMENT_METHOD_REQUEST });
+    try {
+      const response = await axios.post('http://localhost:3003/users/addPayment', paymentInfo);
+      dispatch({
+        type: ADD_PAYMENT_METHOD_SUCCESS,
+        payload: response.data 
+      });
+    } catch (error) {
+      dispatch({
+        type: ADD_PAYMENT_METHOD_FAILURE,
+        payload: error.response.data 
+      });
+    }
+  };
+};

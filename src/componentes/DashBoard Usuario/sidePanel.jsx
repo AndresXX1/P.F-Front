@@ -32,14 +32,7 @@ const categories = [
       { id: 'Medios de pago', icon: <PermMediaOutlinedIcon /> },
     ],
   },
-  /* {
-    id: 'Quality',
-    children: [
-      { id: 'Analytics', icon: <SettingsIcon /> },
-      { id: 'Performance', icon: <TimerIcon /> },
-      { id: 'Test Lab', icon: <PhonelinkSetupIcon /> },
-    ],
-  }, */
+ 
 ];
 
 const item = {
@@ -96,3 +89,5 @@ export default function SidePanel(props) {
     </Drawer>
   );
 }
+
+//comentario pa que aparezca este archivo entre los cambios para hacer pull

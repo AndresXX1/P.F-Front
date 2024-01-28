@@ -7,11 +7,16 @@ import MasterCard from '../../../assets/Master.jpg';
 import Visa from '../../../assets/VisaT.png';
 import Naranja from '../../../assets/Naranja.jpg';
 import Amex from '../../../assets/Amex.jpg';
-import Cabal from '../../../assets/cabal-logo.png'
+import Cabal from '../../../assets/cabal-logo.png';
+import {AuthContext} from '../../AuthProvider/authProvider';
+import {addPaymentMethod} from '../../../redux/actions/actions'
 
 export default function PaymentMethods () {
+  const dispatch = useDispatch()
+  const {auth} = React.useContext(AuthContext)
+  console.log(auth.token)
   const [selectedBrand, setSelectedBrand] = React.useState("");
-  const {register, formState: { errors }, watch, setValue ,handleSubmit} = useForm(); 
+  const {register, formState: { errors }, setValue ,handleSubmit} = useForm(); 
   const handleKeyPress1 = (event) => {
     if (!/[0-9]/.test(event.key) || event.target.value.length >= 16) {
        event.preventDefault();
@@ -26,7 +31,12 @@ export default function PaymentMethods () {
 
    const onSubmit = (data, e) => {
     e.preventDefault();
-    console.log(data)
+    const toSend = {
+      ...data,
+      id: auth.token.id
+    }
+    console.log(toSend)
+    dispatch(addPaymentMethod(toSend))
     Object.keys(data).forEach((fieldName) => {
       setValue(fieldName, '');
   });
