@@ -1,4 +1,4 @@
-.fondo2{
+.fondo2 {
   background-position: center;
   background-size: cover;
   background-image: url("https://i.blogs.es/a83cac/maxfly/1366_2000.jpeg");
@@ -34,17 +34,17 @@
   overflow-x: auto;
 }
 
-.form-container::-webkit-scrollbar{
+.form-container::-webkit-scrollbar {
   width: 0px;
 }
 
 .preview-container {
-  border-left: 10px; 
+  border-left: 10px;
 }
 
 .form-label {
   font-weight: bold;
-  color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
   border-radius: 10px;
   height: 20px;
   font-size: 14px;
@@ -106,6 +106,11 @@
   object-fit: cover;
 }
 
+.form-input[type="file"] {
+  margin-top: 17px; /* Espacio adicional arriba */
+  cursor: pointer; /* Cambiar el cursor al pasar sobre el área del archivo */
+}
+
 .preview-image {
   width: 100%;
   height: 220px;
@@ -116,7 +121,7 @@
   border-radius: 5px;
 }
 
-.preview-image img{
+.preview-image img {
   justify-self: center;
   object-fit: cover;
 }
@@ -147,8 +152,7 @@
   border-top: 10px;
   border-right: 20px;
   border-bottom: 5px;
-  margin-bottom: 10px
-
+  margin-bottom: 10px;
 }
 
 .nombre {
@@ -170,7 +174,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-top: 1px;
+  margin-top: 4px;
   margin-right: 0px;
 }
 
@@ -194,7 +198,7 @@
   display: flex;
   justify-content: center;
   position: relative;
-  top:30px
+  top: 30px;
 }
 
 .precio-preview {
@@ -208,15 +212,13 @@
   position: relative;
 }
 
-
 .form-input::placeholder {
-  color: #f3e9e9; 
+  color: #f3e9e9;
 }
 
 .colormarca [disabled] {
   color: #999; /* Puedes cambiar este color según tu preferencia */
 }
-
 
 .cuadrante,
 .agradecimientos,
@@ -237,8 +239,7 @@
   }
 }
 
-
-.successMessage{
+.successMessage {
   position: relative;
   top: -40px;
 }
@@ -248,9 +249,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
- }
- 
- .nav-button {
+}
+
+.nav-button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -260,27 +261,25 @@
   color: white;
   opacity: 0;
   transition: all 0.3s ease;
- }
- 
- .nav-button:hover {
+}
+
+.nav-button:hover {
   opacity: 1;
- }
- 
- .nav-button:active {
+}
+
+.nav-button:active {
   transform: scale(1.2);
- }
- 
- .left {
+}
+
+.left {
   left: 0;
- }
- 
- .right {
+}
+
+.right {
   right: 0;
- }
- 
- .preview-image {
+}
+
+.preview-image {
   max-width: 100%;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
- }
-
-
+}

@@ -24,13 +24,18 @@ import {
   SET_SELECTED_SNEAKER_INDEX,
   SET_SELECTED_IMAGE_INDEX,
   SET_REVIEWS,
-
   CREATE_USER_REQUEST,
   CREATE_USER_SUCCESS,
   CREATE_USER_FAILURE,
   REVIEW_POSTED_FAILURE,
   REVIEW_POSTED_SUCCESS,
-  REVIEW_POST_REQUEST
+  REVIEW_POST_REQUEST,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILURE,
+  UPDATE_USER_REQUEST,
+  UPDATE_PASSWORD_REQUEST,
+  UPDATE_PASSWORD_SUCCESS,
+  UPDATE_PASSWORD_FAILURE,
 } from "../action-types/action-types";
 
 export const registerUser = (datauser) => async (dispatch) => {
@@ -80,7 +85,14 @@ export const fetchProductDetail = (idKey) => async (dispatch) => {
   }
 };
 
-export const getSneakers = (page, pageSize ="8", brand, colors, size, price) => {
+export const getSneakers = (
+  page,
+  pageSize = "8",
+  brand,
+  colors,
+  size,
+  price
+) => {
   return async function (dispatch) {
     try {
       const queryParams = {
@@ -149,15 +161,20 @@ export const postCreateProduct = (productData) => async (dispatch) => {
   dispatch(createProductRequest());
   try {
     // Lógica para enviar la solicitud al backend y crear el producto
-    const response = await axios.post("http://localhost:3000/products/create", productData);
+    const response = await axios.post(
+      "http://localhost:3000/products/create",
+      productData
+    );
 
     // Si la solicitud fue exitosa
     dispatch(createProductSuccess(response.data));
   } catch (error) {
     // Si la solicitud falla
-    dispatch(createProductFailure(error.message || "Error al crear el producto"));
+    dispatch(
+      createProductFailure(error.message || "Error al crear el producto")
+    );
   }
-}
+};
 
 export const getSearchRequest = () => ({
   type: GET_SEARCH_REQUEST,
@@ -165,10 +182,10 @@ export const getSearchRequest = () => ({
 
 export const getSearchSuccess = (data) => ({
   type: GET_SEARCH_SUCCESS,
-  payload:{
-    sneakers:data.paginatedResponse,
-    currentPage:data.setCurrentPage,
-    totalSneaker:data.totalSneakers
+  payload: {
+    sneakers: data.paginatedResponse,
+    currentPage: data.setCurrentPage,
+    totalSneaker: data.totalSneakers,
   },
 });
 
@@ -177,9 +194,7 @@ export const getSearchNotFound = (error) => ({
   payload: error,
 });
 
-
-
-export const searchBar = (searchTerm,page,pageSize="4",price) => {
+export const searchBar = (searchTerm, page, pageSize = "4", price) => {
   return async (dispatch) => {
     try {
       dispatch(getSearchRequest());
@@ -193,13 +208,13 @@ export const searchBar = (searchTerm,page,pageSize="4",price) => {
       const queryString = Object.entries(queryParams)
         .map(([key, value]) => `${key}=${value}`)
         .join("&");
-        const url =`http://localhost:3000/products/search/${searchTerm}?${queryString}`
-        console.log(url)
+      const url = `http://localhost:3000/products/search/${searchTerm}?${queryString}`;
+      console.log(url);
       const response = await axios.get(url);
-      
-      console.log(response)
-      if ( response.data ) {
-        console.log(response.data)
+
+      console.log(response);
+      if (response.data) {
+        console.log(response.data);
         dispatch(getSearchSuccess(response.data));
       }
     } catch (error) {
@@ -207,8 +222,6 @@ export const searchBar = (searchTerm,page,pageSize="4",price) => {
     }
   };
 };
-
-
 
 export const resetCurrentPage = (page) => ({
   type: RESET_CURRENTPAGE,
@@ -269,8 +282,6 @@ export const setSelectedImageIndex = (index) => ({
   payload: index,
 });
 
-
-
 const validation = (input, existingNames) => {
   let errors = {};
 
@@ -285,9 +296,9 @@ const validation = (input, existingNames) => {
   ) {
     errors.name = "Este nombre ya está en uso. Por favor, elige otro.";
   } else if (
-    !noEmpty.test(input.name),
+    (!noEmpty.test(input.name),
     !validateName.test(input.name),
-    input.name.trim().length < 3
+    input.name.trim().length < 3)
   ) {
     errors.name = "Nombre necesario. Mayor de 3 letras y único";
   }
@@ -297,9 +308,9 @@ const validation = (input, existingNames) => {
   }
 
   if (
-    isNaN(parseFloat(input.price)),
+    (isNaN(parseFloat(input.price)),
     parseFloat(input.price) < 1,
-    parseFloat(input.price) > 10000
+    parseFloat(input.price) > 10000)
   ) {
     errors.price = "Ingrese un precio entre 1 y 10000";
   }
@@ -307,42 +318,133 @@ const validation = (input, existingNames) => {
   return errors;
 };
 
-export const postReviews = (productId, rating, content, name, profileImage) => async (dispatch) => {
-  dispatch({ type: REVIEW_POST_REQUEST });
-  console.log("ESTO RECIBE LA ACTION POSTREVIEW", productId, rating, content, name, profileImage)
-  try {
-    const response = await axios.post(`http://localhost:3000/reviews/products/detail/${productId}`, {
-      profileImage,
+export const postReviews =
+  (productId, rating, content, name, profileImage) => async (dispatch) => {
+    dispatch({ type: REVIEW_POST_REQUEST });
+    console.log(
+      "ESTO RECIBE LA ACTION POSTREVIEW",
       productId,
-      content,
       rating,
-      name
-    });
-    console.log("ESTO VIENE DE LA ACTION ", response)
-    dispatch({ type: REVIEW_POSTED_SUCCESS, payload: response.data.review });
-  } catch (error) {
-    console.error("Error en la acción postReviews:", error);
-    dispatch({ type: REVIEW_POSTED_FAILURE, payload: error.message });
-  }
-  };
-
-   export const setReviews = (reviews) => ({
-    type: SET_REVIEWS,
-    payload: reviews || [],
-  });
-  
-  export const fetchReviews = () => async (dispatch) => {
+      content,
+      name,
+      profileImage
+    );
     try {
-      const response = await axios.get('http://localhost:3000/reviews'); // Update the URL to the correct endpoint
-      const data = response.data;
-      console.log("TODAS LAS REVIEWS:", data)
-      if (Array.isArray(data)) {
-        dispatch(setReviews(data));
-      } else {
-        console.error('Error: The response is not an array of reviews');
-      }
+      const response = await axios.post(
+        `http://localhost:3000/reviews/products/detail/${productId}`,
+        {
+          profileImage,
+          productId,
+          content,
+          rating,
+          name,
+        }
+      );
+      console.log("ESTO VIENE DE LA ACTION ", response);
+      dispatch({ type: REVIEW_POSTED_SUCCESS, payload: response.data.review });
     } catch (error) {
-      console.error('Error fetching reviews:', error);
+      console.error("Error en la acción postReviews:", error);
+      dispatch({ type: REVIEW_POSTED_FAILURE, payload: error.message });
     }
-
   };
+
+export const setReviews = (reviews) => ({
+  type: SET_REVIEWS,
+  payload: reviews || [],
+});
+
+export const fetchReviews = () => async (dispatch) => {
+  try {
+    const response = await axios.get("http://localhost:3000/reviews"); // Update the URL to the correct endpoint
+    const data = response.data;
+    console.log("TODAS LAS REVIEWS:", data);
+    if (Array.isArray(data)) {
+      dispatch(setReviews(data));
+    } else {
+      console.error("Error: The response is not an array of reviews");
+    }
+  } catch (error) {
+    console.error("Error fetching reviews:", error);
+  }
+};
+
+export const updateUserRequest = () => ({
+  type: UPDATE_USER_REQUEST,
+});
+
+export const updateUserSuccess = () => ({
+  type: UPDATE_USER_SUCCESS,
+});
+
+export const updateUserFailure = (error) => ({
+  type: UPDATE_USER_FAILURE,
+  payload: error,
+});
+
+export const updateUser = (id, updatedFields) => {
+  return async (dispatch) => {
+    dispatch(updateUserRequest());
+
+    try {
+      const response = await fetch(`http://localhost:3000/users/perfil/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedFields),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
+      }
+
+      dispatch(updateUserSuccess());
+    } catch (error) {
+      dispatch(updateUserFailure(error.message));
+    }
+  };
+};
+
+export const updatePasswordRequest = () => ({
+  type: UPDATE_PASSWORD_REQUEST,
+});
+
+export const updatePasswordSuccess = () => ({
+  type: UPDATE_PASSWORD_SUCCESS,
+});
+
+export const updatePasswordFailure = (error) => ({
+  type: UPDATE_PASSWORD_FAILURE,
+  payload: error,
+});
+
+export const updatePassword = (id, currentPassword, newPassword) => {
+  return async (dispatch) => {
+    dispatch(updatePasswordRequest());
+
+    try {
+      const response = await fetch(
+        `http://localhost:3000/users/perfil/updatepassword/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            currentPassword,
+            newPassword,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Error (${response.status}): ${errorData.message}`);
+      }
+
+      dispatch(updatePasswordSuccess());
+    } catch (error) {
+      dispatch(updatePasswordFailure(error.message));
+    }
+  };
+};

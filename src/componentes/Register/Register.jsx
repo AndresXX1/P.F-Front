@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import styles from "./Register.module.css";
 import { registerUser } from "../../redux/actions/actions";
-import UserList from "./UserList";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import Snackbar from "@mui/material/Snackbar";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -11,6 +13,7 @@ const Register = () => {
     surName: "",
     email: "",
     password: "",
+    rol: "buyer",
   };
 
   const [formData, setFormData] = useState(initialFormData);
@@ -18,6 +21,15 @@ const Register = () => {
   const [isFormValid, setIsFormValid] = useState(false);
   const [createdUsersList, setCreatedUsersList] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
+  const [message, setMessage] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
 
   useEffect(() => {
     validateForm();
@@ -28,32 +40,32 @@ const Register = () => {
 
     Object.entries(formData).forEach(([key, value]) => {
       if (value.trim() === "") {
-        newErrors[key] = "This field is required";
+        newErrors[key] = "*Campo obligatorio*";
       }
     });
 
     const nameRegex = /^[A-Z][a-z]{0,9}( [A-Z][a-z]{0,9})?$/;
-    if (!nameRegex.test(formData.name)) {
+    if (formData.name !== "" && !nameRegex.test(formData.name)) {
       newErrors.name =
-        "The name should only contain letters, start with an uppercase letter, and have a maximum of 10 characters. Example: John";
+        "El campo nombre debe comenzar con mayúscula y debe contener no más de 10 caracteres. Ejemplo: Juan";
     }
 
     const surNameRegex = /^[A-ZÑñ][a-zñ]{0,9}( [A-ZÑñ][a-zñ]{0,9})?$/;
-    if (formData.surName && !surNameRegex.test(formData.surName)) {
+    if (formData.surName !== "" && !surNameRegex.test(formData.surName)) {
       newErrors.surName =
-        "The last name should only contain letters, start with an uppercase letter, and have a maximum of 10 characters. Example: Doe";
+        "El campo apellido debe comenzar con mayúscula y debe contener no más de 10 caracteres. Ejemplo: Pérez";
     }
 
     const passwordRegex = /^(?=.*[A-Z])(?=.*[@.])[a-zA-Z0-9@.]{6,12}$/;
-    if (!passwordRegex.test(formData.password)) {
+    if (formData.password !== "" && !passwordRegex.test(formData.password)) {
       newErrors.password =
-        "The password must contain 6 to 12 characters, including at least one uppercase letter and a special character. Example: Password@";
+        "La contraseña debe contener de 6 a 12 caracteres e incluir: una mayúscula como primer caracter, una minúscula y un caracter especial: Password@";
     }
 
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    if (!emailRegex.test(formData.email)) {
+    if (formData.email !== "" && !emailRegex.test(formData.email)) {
       newErrors.email =
-        "The email address is not valid or is empty. Example: user@example.com";
+        "Ingrese una dirección de e-mail válida. Ejemplo: user@example.com";
     }
 
     setErrors(newErrors);
@@ -68,8 +80,12 @@ const Register = () => {
   };
 
   const handleSubmit = (datauser) => {
+    console.log("Datos enviados al backend:", datauser);
     dispatch(registerUser(datauser));
-    alert("Successful registration");
+    setMessage(
+      "¡Te has registrado correctamente! Verifica tu casilla de correo"
+    );
+    setSnackbarOpen(true);
     setFormData(initialFormData);
     setErrors({});
     setIsFormValid(false);
@@ -83,23 +99,23 @@ const Register = () => {
   return (
     <div className={styles.container}>
       <form className={styles.form}>
-        <label htmlFor="name">Name:</label>
+        <label htmlFor="name">Nombre:</label>
         <input
           type="text"
           id="name"
           name="name"
-          placeholder="Enter Your Name"
+          placeholder="Ingrese su nombre..."
           value={formData.name}
           onChange={handleChange}
         />
         {errors.name && <span className={styles.error}>{errors.name}</span>}
 
-        <label htmlFor="surName">surName:</label>
+        <label htmlFor="surName">Apellido:</label>
         <input
           type="text"
           id="surName"
           name="surName"
-          placeholder="Enter Your Last Name"
+          placeholder="Ingrese su apellido..."
           value={formData.surName}
           onChange={handleChange}
         />
@@ -107,24 +123,24 @@ const Register = () => {
           <span className={styles.error}>{errors.surName}</span>
         )}
 
-        <label htmlFor="email">Email:</label>
+        <label htmlFor="email">E-mail:</label>
         <input
           type="email"
           id="email"
           name="email"
-          placeholder="Enter Your Email"
+          placeholder="Ingrese su dirección de e-mail..."
           value={formData.email}
           onChange={handleChange}
         />
         {errors.email && <span className={styles.error}>{errors.email}</span>}
 
-        <label htmlFor="password">Password:</label>
+        <label htmlFor="password">Contraseña:</label>
         <div className={styles.passwordInputContainer}>
           <input
             type={showPassword ? "text" : "password"}
             id="password"
             name="password"
-            placeholder="Enter a Password"
+            placeholder="Ingrese su contraseña..."
             value={formData.password}
             onChange={handleChange}
           />
@@ -133,12 +149,24 @@ const Register = () => {
             onClick={() => setShowPassword(!showPassword)}
             className={styles.showHideButton}
           >
-            {showPassword ? "Hide" : "Show"}
+            {showPassword ? "Ocultar" : "Mostrar"}
           </button>
         </div>
         {errors.password && (
           <span className={styles.error}>{errors.password}</span>
         )}
+
+        <label htmlFor="rol">Rol:</label>
+        <select
+          id="rol"
+          name="rol"
+          value={formData.rol}
+          onChange={handleChange}
+        >
+          <option value="buyer">Comprador</option>
+          <option value="seller">Vendedor</option>
+          <option value="admin">Administrador</option>
+        </select>
 
         <button
           type="button"
@@ -148,13 +176,27 @@ const Register = () => {
           }`}
           disabled={!isFormValid}
         >
-          Register
+          -- Registrarse --
         </button>
       </form>
-
-      <div className={styles.userCardsContainer}>
-        <UserList users={createdUsersList} />
-      </div>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message={message}
+        action={
+          <React.Fragment>
+            <IconButton
+              size="small"
+              aria-label="close"
+              color="inherit"
+              onClick={handleSnackbarClose}
+            >
+              <CloseIcon fontSize="small" />
+            </IconButton>
+          </React.Fragment>
+        }
+      />
     </div>
   );
 };

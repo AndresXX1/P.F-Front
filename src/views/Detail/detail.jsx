@@ -1,10 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {fetchProductDetail,clearProductDetail,getSneakers,setSelectedImageIndex} from "../../redux/actions/actions";
+import {
+  fetchProductDetail,
+  clearProductDetail,
+  getSneakers,
+  setSelectedImageIndex,
+} from "../../redux/actions/actions";
 import style from "./Detail.module.css";
 import BottomBar from "./bottomBar";
-import Reviews from "../../componentes/Reviews/Reviews"
-import { useParams, Link } from 'react-router-dom';
+import Reviews from "../../componentes/Reviews/Reviews";
+import { useParams, Link } from "react-router-dom";
 
 const Detail = ({ brand }) => {
   const { id } = useParams();
@@ -12,18 +17,19 @@ const Detail = ({ brand }) => {
   const [selectedColors, setSelectedColors] = useState([]);
   const zapatilla = useSelector((state) => state?.product?.detail);
   const currentPage = useSelector((state) => state?.product?.currentPage);
-  const setSelectedImageIndex = useSelector((state) => state?.selectedImageIndex);
+  const setSelectedImageIndex = useSelector(
+    (state) => state?.selectedImageIndex
+  );
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const intervalRef = useRef(null);
 
-  console.log(setSelectedImageIndex)
+  console.log(setSelectedImageIndex);
 
   useEffect(() => {
     if (id) {
       dispatch(fetchProductDetail(id));
     }
   }, [id, dispatch]);
-
 
   useEffect(() => {
     if (zapatilla && zapatilla.colors) {
@@ -55,7 +61,6 @@ const Detail = ({ brand }) => {
     };
   }, [dispatch]);
 
- 
   useEffect(() => {
     if (!zapatilla) {
       dispatch(fetchProductDetail(id));
@@ -69,7 +74,7 @@ const Detail = ({ brand }) => {
   if (!zapatilla.name) {
     return <div>Datos no disponibles</div>;
   }
-  
+
   const handleRatingChange = (value) => {
     setRating(value);
   };
@@ -78,21 +83,23 @@ const Detail = ({ brand }) => {
   const toggleCommentForm = () => {
     setCommentFormVisible(!isCommentFormVisible);
   };
-  
 
   return (
     <div className={style.container}>
       <div className={style.sneakersListContainer}>
-      <BottomBar
-        zapatilla={zapatilla}
-      />
-        </div>
+        <BottomBar zapatilla={zapatilla} />
+      </div>
       <div className={style.detailContainer}>
         <div className={style.imagePreview}>
-        <img
-        src={setSelectedImageIndex.length > 0 ? setSelectedImageIndex : (zapatilla && zapatilla.image[0] || zapatilla.image.secure_url)}
-          alt={zapatilla.name}
-        />
+          <img
+            src={
+              setSelectedImageIndex.length > 0
+                ? setSelectedImageIndex
+                : (zapatilla && zapatilla.image[0]) ||
+                  zapatilla.image.secure_url
+            }
+            alt={zapatilla.name}
+          />
         </div>
         <div className={style.detailContent}>
           <br />
@@ -109,30 +116,25 @@ const Detail = ({ brand }) => {
           </div>
           <h4>Colors:</h4>
           <div className={style.containerColors}>
-        {selectedColors.map((selectedColor, index) => (
-          <span key={index}>
-            {selectedColor}
-            {index < selectedColors.length - 1 && <span>&nbsp;</span>}
-          </span>
-        ))}
+            {selectedColors.map((selectedColor, index) => (
+              <span key={index}>
+                {selectedColor}
+                {index < selectedColors.length - 1 && <span>&nbsp;</span>}
+              </span>
+            ))}
           </div>
           <h4>Sizes:</h4>
           <div className={style.sizesContainer}>
             <span>{zapatilla && zapatilla.size.join(", ")}</span>
           </div>
           <br />
-          <h4>Gender:</h4>
-          <div>
-            <h4>{zapatilla && zapatilla.gender}</h4>
-          </div>
         </div>
       </div>
-          <div className={style.reviewContainer}>
-          <Reviews productId={id} />
-          </div>
-      <div>
+      <div className={style.reviewContainer}>
+        <Reviews productId={id} />
+      </div>
+      <div></div>
     </div>
-  </div>
   );
 };
 
