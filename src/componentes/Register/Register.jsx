@@ -13,7 +13,7 @@ const Register = () => {
     surName: "",
     email: "",
     password: "",
-    rol: "buyer",
+    admin: false,  
   };
 
   const [formData, setFormData] = useState(initialFormData);
@@ -39,7 +39,7 @@ const Register = () => {
     const newErrors = {};
 
     Object.entries(formData).forEach(([key, value]) => {
-      if (value.trim() === "") {
+      if (key !== "admin" && value.trim() === "") {
         newErrors[key] = "*Campo obligatorio*";
       }
     });
@@ -156,17 +156,16 @@ const Register = () => {
           <span className={styles.error}>{errors.password}</span>
         )}
 
-        <label htmlFor="rol">Rol:</label>
-        <select
-          id="rol"
-          name="rol"
-          value={formData.rol}
-          onChange={handleChange}
-        >
-          <option value="buyer">Comprador</option>
-          <option value="seller">Vendedor</option>
-          <option value="admin">Administrador</option>
-        </select>
+        <label htmlFor="admin">¿Admin?</label>
+        <input
+          type="checkbox"
+          id="admin"
+          name="admin"
+          checked={formData.admin}
+          onChange={(e) =>
+            setFormData({ ...formData, admin: e.target.checked })
+          }
+        />
 
         <button
           type="button"

@@ -36,7 +36,13 @@ import {
   UPDATE_PASSWORD_REQUEST,
   UPDATE_PASSWORD_SUCCESS,
   UPDATE_PASSWORD_FAILURE,
+  LOGIN_SUCCESS,
 } from "../action-types/action-types";
+
+export const loginSuccess = (userData) => ({
+  type: LOGIN_SUCCESS,
+  payload: userData,
+});
 
 export const registerUser = (datauser) => async (dispatch) => {
   dispatch({ type: CREATE_USER_REQUEST });
@@ -448,3 +454,4 @@ export const updatePassword = (id, currentPassword, newPassword) => {
     }
   };
 };
+

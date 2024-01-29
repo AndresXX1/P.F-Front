@@ -34,10 +34,16 @@ import {
   UPDATE_PASSWORD_REQUEST,
   UPDATE_PASSWORD_SUCCESS,
   UPDATE_PASSWORD_FAILURE,
+  LOGIN_SUCCESS,
+  LOGOUT,
 } from "../action-types/action-types";
 
 const initialState = {
   loading: false,
+  auth: {
+    isAuthenticated: false,
+    userData: null,
+  },
   product: {
     detail: null,
     createdProduct: null,
@@ -71,7 +77,7 @@ const initialState = {
   searchLoading: false,
   searchError: null,
   searchData: null,
-  isAdmin: false,
+  isAdmin: true,
   updateUserError: null,
 };
 const stateSearchBar = {
@@ -83,6 +89,24 @@ const stateSearchBar = {
 
 const productReducer = (state = initialState, action) => {
   switch (action.type) {
+    case LOGIN_SUCCESS:
+      return {
+        ...state,
+        auth: {
+          isAuthenticated: true,
+          userData: action.payload,
+        },
+      };
+
+    case LOGOUT:
+      return {
+        ...state,
+        auth: {
+          isAuthenticated: false,
+          userData: null,
+        },
+      };
+
     case POST_PRODUCT_REQUEST:
       return {
         ...state,
