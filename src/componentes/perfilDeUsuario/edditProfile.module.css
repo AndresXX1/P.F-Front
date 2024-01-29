@@ -86,3 +86,8 @@
 margin-bottom: 20px;
   border-bottom: 2px black;
 }
+
+.fileInput{
+  border: 1px solid rgb(186, 184, 184);
+}
+

@@ -5,8 +5,11 @@
     display: top;
     background-attachment: fixed;
     box-sizing: border-box;
+    position: relative;
+    
     
 }
+
   
   .container {
     align-items: center;
@@ -24,14 +27,14 @@
   
   .profileContainer {
     display: flex;
-    margin-top: 23.85px; 
+    margin-top: -10px; 
     border: 1px solid black;
     height: 100px; 
     width: 100px; 
     border-radius: 9px;
     background-color: #ffffff8e;
     box-shadow: 0 0 9px rgba(0, 0, 0, 0.7);
-    position: relative;
+    position: absolute;
     
   }
   
@@ -47,9 +50,10 @@
     justify-content: center;
     border: 1.8px solid #fff;
     box-shadow: 0 0 5px rgba(0, 0, 0, 3);
-    margin-left: 70px; 
-    margin-top: 15.3px; 
-    margin-bottom: 72.225px; 
+    margin-left: 75px; 
+    margin-top: 35px; 
+    margin-bottom: 30px; 
+    position: absolute;
   }
   
   .profileInfo {
@@ -68,21 +72,21 @@
     background-color: #fdfffee6;
     border-radius: 12.825px; 
     margin-right: 22.95px; 
-    margin-top: 180px; 
+    margin-top: 35px; 
     margin-bottom: 22.95px; 
-    position: relative;
+    position: absolute;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
     width: 250px;
+    height: 353px;
     margin-left: 225PX;
-    
-    
+    overflow: auto; /* Agregar scroll si el contenido es más grande */
   }
   
   .textopreview {
     text-align: center;
-    color: #bb3434;
-  margin-bottom: -15px;
-    margin-top: -35px;
+    font-size: 50px;
+  margin-bottom: 0px;
+    margin-top: -30px;
      
   }
   
@@ -98,7 +102,7 @@
     background-color: #ffffffc5;
     box-shadow: 0 0 9px rgba(0, 0, 0, 0.7);
     margin-left: 250PX;
-    margin-top: -60px;
+    margin-top: -13px;
     margin-bottom: 50px;
     position: absolute;
   }
@@ -118,20 +122,22 @@
 
   .userProfileFormContainer {
     margin-left: 38.475px; 
-    margin-top: -420.75px; 
-    margin-right: -497.25px; 
+    margin-top: -420px; 
+    margin-right: -3005px; 
   }
   
   .containerbotones {
     list-style: none;
     padding: 0;
     margin: 0;
-    margin-top: -30px;
+    margin-top: 150px;
     border-top: 1px solid black;
     z-index: 1;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
     position: absolute;
     margin-left: 12px;
+    margin-top: 200px;
+
   }
   .tabContent {
     display: flex;
@@ -141,6 +147,7 @@
     transition: background-color 0.3s ease;
     color: black;
      margin-left: 0px;
+     margin-top: -10px;
   }
   
   .tabContent:hover {
@@ -154,23 +161,84 @@
     margin-left: -23px;
     border: 1px solid #fdfffee6;
     width: 255px;
-    height: 395px; /* Ajusta según sea necesario */
-    margin-top: 116px;
+    height: 395px; 
+    margin-top: 100px;
     position: absolute;
     background-color: #ffffffcb;
     border-radius: 10px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
-  }
+    overflow-y: hidden; 
+    scrollbar-width: thin; 
+}
+
+.imageAndTabs:hover {
+    overflow-y: scroll; 
+}
+
+
+.imageAndTabs::-webkit-scrollbar {
+    width: 12px; 
+}
+
+.imageAndTabs::-webkit-scrollbar-thumb {
+    background-color: #888; 
+}
+
+
   
  
- 
-  
-  
 
   .userProfileFormContainer{
     height: -10px;
     width: 50px;
     margin-left: 80px;
-    margin-bottom: -15px;
+    margin-top: -13px;
+    position: absolute;
+  }
+
+
+  .upload{
+    margin-top: 25px;
+    position: absolute;
+    margin-left: 1px;
+    margin-bottom: 10px;
+  }
+
+.text{
+  font-size: 10px;
+  margin-top: 10px;
+  color: #0b0b0b;
+}
+
+.boton1 {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.boton1:hover {
+  background-color: #e0e0e0; /* Cambia el color de fondo en el hover según tus preferencias */
+}
+
+  .up {
+    position: absolute;
+    margin-top: 90px;
+    margin-left: 5px;
+    text-align: center;
+  }
+  
+  .guardar {
+    margin-top: -2px; /* Ajusta según sea necesario */
+    text-align: center;
+    margin-left: -5px;
+    font-size: 8px;
+    margin-bottom: -5px;
+  }
+
+  .icono {
+    margin-left: 0px;
+    margin-top: -2px;
+    color: #0b0b0b;
   }
 

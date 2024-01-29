@@ -34,6 +34,13 @@
     UPDATE_PASSWORD_REQUEST,
     UPDATE_PASSWORD_SUCCESS,
     UPDATE_PASSWORD_FAILURE,
+    UPDATE_USER_PROFILE_REQUEST,
+    UPDATE_USER_PROFILE_SUCCESS,
+    UPDATE_USER_PROFILE_FAILURE,
+    UPDATE_PROFILE_PICTURE_REQUEST,
+    UPDATE_PROFILE_PICTURE_SUCCESS,
+    UPDATE_PROFILE_PICTURE_FAILURE,
+    UPDATE_PROFILE_PICTURE
 
   } from "../action-types/action-types";
 
@@ -74,6 +81,10 @@
     searchData: null,
     isAdmin:false,
     updateUserError: null,
+    profilePicture: '',
+    isUpdatingProfilePicture: false,
+    updateProfilePictureError: null,
+    users: [],
     
   };
   const stateSearchBar = {
@@ -339,7 +350,54 @@
               passwordAndEmailUpdateError: action.payload,
             };
 
+            case UPDATE_USER_PROFILE_REQUEST:
+              return {
+                ...state,
+                loading: true,
+                error: null,
+              };
+            case UPDATE_USER_PROFILE_SUCCESS:
+              return {
+                ...state,
+                loading: false,
+                data: action.payload,
+              };
+            case UPDATE_USER_PROFILE_FAILURE:
+              return {
+                ...state,
+                loading: false,
+                error: action.payload,
+              };
+
+              case UPDATE_PROFILE_PICTURE_REQUEST:
+      return {
+        ...state,
+        isUpdatingProfilePicture: true,
+        updateProfilePictureError: null,
+      };
+
+    case UPDATE_PROFILE_PICTURE_SUCCESS:
+      return {
+        ...state,
+        profilePicture: action.payload, 
+        isUpdatingProfilePicture: false,
+        updateProfilePictureError: null,
+      };
+
+    case UPDATE_PROFILE_PICTURE_FAILURE:
+      return {
+        ...state,
+        isUpdatingProfilePicture: false,
+        updateProfilePictureError: action.payload,
+      };
+//caso para subir la imagen a cloudinary
+      case UPDATE_PROFILE_PICTURE:
+        const { userId, data } = action.payload;
+        const updatedUsers = state.users.map(user =>
+          user.id === userId ? { ...user, profilePicture: data.profilePicture } : user
+        );
    
+
                     default:
                     return state;
     }

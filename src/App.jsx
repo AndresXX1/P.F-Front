@@ -12,7 +12,7 @@ import Perfil from "./componentes/perfilDeUsuario/perfil"
 import Ajustes from "./componentes/Configuracion/configuracion"
 import UserProfileForm from "./componentes/perfilDeUsuario/edditProfile"
 // import ProtectedRoute from './GeneralLogin';
-import UserDashboard from './componentes/DashBoard Usuario/Header';
+import UserDashboard from './componentes/DashBoard Usuario/dashBoard';
 import { AuthProvider } from "./componentes/AuthProvider/authProvider";
 
 function App() {
@@ -37,8 +37,6 @@ function App() {
  <Route exact path="/about" component={About} />
  <Route exact path="/register" component={Registro} />
  <Route exact path="/detail/:id" component={Detail} />
- <Route exact path="/perfil" component= {Perfil} />
- <Route exact path="/perfilc" component={UserProfileForm} />
  <Route exact path="/Configuracion" component= {UserDashboard} />
 </Switch> 
       </div>
