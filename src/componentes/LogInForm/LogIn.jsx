@@ -73,7 +73,7 @@ export default function LogIn(props) {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:3000/users/login",
+        "https://backendrunnersparadise-production.up.railway.app/users/login",
         userData
       );
       console.log("response se envia a bdd:", response); // Update the URL to the correct endpoint

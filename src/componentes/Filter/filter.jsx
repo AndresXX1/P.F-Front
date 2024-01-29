@@ -57,7 +57,7 @@ function Filter({ page, pageSize }) {
             { value: "", label: "all brands" },
             { value: "ADIDAS", label: "ADIDAS" },
             { value: "NIKE", label: "NIKE" },
-            { value: "NEW BALANCE", label: "NEWBALANCE" },
+            { value: "NEWBALANCE", label: "NEWBALANCE" },
           ]}
           onChange={(e) => handleFilterBrand(e.target.value)}
         />
@@ -81,12 +81,12 @@ function Filter({ page, pageSize }) {
           name="FilterSize"
           options={[
             { value: "", label: "all Size" },
-            { value: "6", label: "6" },
             { value: "7", label: "7" },
             { value: "8", label: "8" },
             { value: "9", label: "9" },
             { value: "10", label: "10" },
             { value: "11", label: "11" },
+            { value: "12", label: "12" },
           ]}
           onChange={(e) => handleFilterSize(e.target.value)}
         />

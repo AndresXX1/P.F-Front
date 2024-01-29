@@ -48,7 +48,7 @@ export const registerUser = (datauser) => async (dispatch) => {
   dispatch({ type: CREATE_USER_REQUEST });
   try {
     const response = await axios.post(
-      "http://localhost:3000/users/create",
+      "https://backendrunnersparadise-production.up.railway.app/users/create",
       datauser
     );
     dispatch({ type: CREATE_USER_SUCCESS, payload: response.data });
@@ -78,7 +78,7 @@ export const postProductFailure = (error) => ({
 export const fetchProductDetail = (idKey) => async (dispatch) => {
   try {
     const response = await fetch(
-      `http://localhost:3000/products/detail/${idKey}`
+      `https://backendrunnersparadise-production.up.railway.app/products/detail/${idKey}`
     );
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -168,10 +168,10 @@ export const postCreateProduct = (productData) => async (dispatch) => {
   try {
     // Lógica para enviar la solicitud al backend y crear el producto
     const response = await axios.post(
-      "http://localhost:3000/products/create",
+      "https://backendrunnersparadise-production.up.railway.app/products/create",
       productData
     );
-
+    console.log(response.data);
     // Si la solicitud fue exitosa
     dispatch(createProductSuccess(response.data));
   } catch (error) {
@@ -214,7 +214,7 @@ export const searchBar = (searchTerm, page, pageSize = "4", price) => {
       const queryString = Object.entries(queryParams)
         .map(([key, value]) => `${key}=${value}`)
         .join("&");
-      const url = `http://localhost:3000/products/search/${searchTerm}?${queryString}`;
+      const url = `https://backendrunnersparadise-production.up.railway.app/products/search/${searchTerm}?${queryString}`;
       console.log(url);
       const response = await axios.get(url);
 
@@ -292,7 +292,7 @@ const validation = (input, existingNames) => {
   let errors = {};
 
   let noEmpty = /\S+/;
-  let validateName = /^[a-zA-ZñÑ\s]*$/; // Permitir espacios en blanco en el nombre
+  let validateName = /^[a-zA-ZñÑ\s]*$/;
 
   if (
     Array.isArray(existingNames) &&
@@ -361,7 +361,9 @@ export const setReviews = (reviews) => ({
 
 export const fetchReviews = () => async (dispatch) => {
   try {
-    const response = await axios.get("http://localhost:3000/reviews"); // Update the URL to the correct endpoint
+    const response = await axios.get(
+      "https://backendrunnersparadise-production.up.railway.app/reviews"
+    ); 
     const data = response.data;
     console.log("TODAS LAS REVIEWS:", data);
     if (Array.isArray(data)) {
@@ -388,7 +390,7 @@ export const updateUserFailure = (error) => ({
 });
 
 export const updateUser = (id, updatedFields) => {
-  return async (dispatch) => {
+  return async (dispatch) => {  
     dispatch(updateUserRequest());
 
     try {
@@ -454,4 +456,3 @@ export const updatePassword = (id, currentPassword, newPassword) => {
     }
   };
 };
-
