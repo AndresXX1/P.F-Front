@@ -318,16 +318,19 @@ const validation = (input, existingNames) => {
   return errors;
 };
 
-export const postReviews = (productId, rating, content, name, profileImage) => async (dispatch) => {
+export const postReviews = (productId, rating, content, name, surName, profileImage) => async (dispatch) => {
   dispatch({ type: REVIEW_POST_REQUEST });
-  console.log("ESTO RECIBE LA ACTION POSTREVIEW", productId, rating, content, name, profileImage)
+  console.log("ESTO RECIBE LA ACTION POSTREVIEW", productId, rating, content, name, surName, profileImage)
+  const imgDefault = "https://static-00.iconduck.com/assets.00/profile-circle-icon-512x512-dt9lf8um.png";
+  const profileImg = profileImage || imgDefault;
   try {
     const response = await axios.post(`http://localhost:3000/reviews/products/detail/${productId}`, {
-      profileImage,
+      profileImage: profileImg,
       productId,
       content,
       rating,
-      name
+      name,
+      surName
     });
     console.log("ESTO VIENE DE LA ACTION ", response)
     dispatch({ type: REVIEW_POSTED_SUCCESS, payload: response.data.review });
@@ -336,6 +339,7 @@ export const postReviews = (productId, rating, content, name, profileImage) => a
     dispatch({ type: REVIEW_POSTED_FAILURE, payload: error.message });
   }
   };
+
 
    export const setReviews = (reviews) => ({
     type: SET_REVIEWS,
