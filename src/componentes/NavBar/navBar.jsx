@@ -63,7 +63,7 @@ const accessToken = token ? token.accessToken : null;
                     <div className={style.userContent}>
                       <h4>{token?.name}</h4>
                     </div>
-                    <li className="nav-item dropdown" style={{ marginRight: "85px" }}>
+                    <li className="nav-item dropdown" style={{ marginRight: "5rem" }}>
                       <div className={style.userImage}></div>
                       <ul className="dropdown-menu">
                         <li>
@@ -73,12 +73,7 @@ const accessToken = token ? token.accessToken : null;
                         </li>
                         <li>
                           <Link to="/configuracion" className="dropdown-item">
-                           ajustes
-                          </Link>
-                        </li>
-                        <li>
-                          <Link to="/profiledit" className="dropdown-item">
-                           editar perfil
+                            Ajustes
                           </Link>
                         </li>
                         <div className="dropdown-divider"></div>
@@ -95,7 +90,7 @@ const accessToken = token ? token.accessToken : null;
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      <img src={token.imageUrl || imgDefault} style={{ borderRadius: "50%", height: "15%", width: "15%", }} alt="User Avatar" />
+                      <img src={token.imageUrl || imgDefault} style={{ borderRadius: "50%", height: "26%", width: "26%" }} alt="User Avatar" />
                     </Link>
                 </div>
               </div>
@@ -167,4 +162,7 @@ const accessToken = token ? token.accessToken : null;
   }
 }
 
-//dsadsds
+
+
+                      
+

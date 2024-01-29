@@ -85,10 +85,7 @@ console.log(userData)
     console.log('Valor actualizado de auth:', auth);
   }, [auth]);
   
-  useEffect(() => {
-    console.log('Valor actualizado de auth:', auth);
-  }, [auth]);
- 
+
   
   
   const onSuccess = (response) => {

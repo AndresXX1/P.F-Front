@@ -8,12 +8,14 @@ export const AuthProvider = ({ children }) => {
     return savedAuth ? JSON.parse(savedAuth) : null;
  });
 
+ const [tab, setTab] = useState("");
+
  useEffect(() => {
     localStorage.setItem('auth', JSON.stringify(auth));
  }, [auth]);
 
  return (
-    <AuthContext.Provider value={{ auth, setAuth }}>
+    <AuthContext.Provider value={{ auth, setAuth, tab, setTab }}>
       {children}
     </AuthContext.Provider>
  );

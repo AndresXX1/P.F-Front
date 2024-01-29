@@ -24,7 +24,6 @@ import {
   SET_SELECTED_SNEAKER_INDEX,
   SET_SELECTED_IMAGE_INDEX,
   SET_REVIEWS,
-
   CREATE_USER_REQUEST,
   CREATE_USER_SUCCESS,
   CREATE_USER_FAILURE,
@@ -34,7 +33,15 @@ import {
   UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE,UPDATE_USER_REQUEST,
   UPDATE_PASSWORD_REQUEST,
   UPDATE_PASSWORD_SUCCESS,
-  UPDATE_PASSWORD_FAILURE
+  UPDATE_PASSWORD_FAILURE,
+  UPDATE_USER_PROFILE_REQUEST, UPDATE_USER_PROFILE_SUCCESS, UPDATE_USER_PROFILE_FAILURE,
+  UPDATE_PROFILE_PICTURE_REQUEST,
+  UPDATE_PROFILE_PICTURE_SUCCESS,
+  UPDATE_PROFILE_PICTURE_FAILURE,
+  UPDATE_PROFILE_PICTURE,
+  ADD_PAYMENT_METHOD_FAILURE,
+  ADD_PAYMENT_METHOD_SUCCESS,
+  ADD_PAYMENT_METHOD_REQUEST,
 } from "../action-types/action-types";
 
 export const registerUser = (datauser) => async (dispatch) => {
@@ -364,12 +371,15 @@ export const postReviews = (productId, rating, content, name, profileImage) => a
     payload: error,
   });
   
+  //action para modificar el mail
   export const updateUser = (id, updatedFields) => {
     return async (dispatch) => {
       dispatch(updateUserRequest());
   
       try {
-        const response = await fetch(`http://localhost:3000/users/perfil/${id}`, {
+        console.log('Datos enviados al servidor:', { id, updatedFields });
+  
+        const response = await fetch(`http://localhost:3000/users/perfil/update/${id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -383,6 +393,7 @@ export const postReviews = (productId, rating, content, name, profileImage) => a
   
         dispatch(updateUserSuccess());
       } catch (error) {
+        console.error('Error en la acción:', error);
         dispatch(updateUserFailure(error.message));
       }
     };
@@ -401,6 +412,7 @@ export const updatePasswordFailure = (error) => ({
   payload: error,
 });
 
+//action para el pasww
 export const updatePassword = (id, currentPassword, newPassword) => {
   return async (dispatch) => {
     dispatch(updatePasswordRequest());
@@ -425,6 +437,90 @@ export const updatePassword = (id, currentPassword, newPassword) => {
       dispatch(updatePasswordSuccess());
     } catch (error) {
       dispatch(updatePasswordFailure(error.message));
+    }
+  };
+};
+
+export const updateUserProfileRequest = () => ({
+  type: UPDATE_USER_PROFILE_REQUEST,
+});
+
+export const updateUserProfileSuccess = (data) => ({
+  type: UPDATE_USER_PROFILE_SUCCESS,
+  payload: data,
+});
+
+export const updateUserProfileFailure = (error) => ({
+  type: UPDATE_USER_PROFILE_FAILURE,
+  payload: error,
+});
+
+// Acción para modificar cualquier dato del perfil de usuario
+export const updateUserProfileData = (idKey, updatedFields) => async (dispatch) => {
+  dispatch(updateUserProfileRequest());
+
+  try {
+    
+    const response = await axios.put(`http://localhost:3000/users/perfil/${idKey}`, updatedFields);
+
+   
+    dispatch(updateUserProfileSuccess(response.data));
+  } catch (error) {
+    
+    console.error('Error al actualizar datos de usuario:', error);
+    dispatch(updateUserProfileFailure(error.response?.data || 'Error en el servidor'));
+  }
+};
+
+
+export const updateProfilePictureRequest = () => ({
+  type: UPDATE_PROFILE_PICTURE_REQUEST,
+});
+
+export const updateProfilePictureSuccess = (data) => ({
+  type: UPDATE_PROFILE_PICTURE_SUCCESS,
+  payload: data,
+});
+
+export const updateProfilePictureFailure = (error) => ({
+  type: UPDATE_PROFILE_PICTURE_FAILURE,
+  payload: error,
+});
+//actin para subir la imagen a cloudinary
+export const updateProfilePicturee = (userId, data) => ({
+  type: UPDATE_PROFILE_PICTURE,
+  payload: { userId, data },
+});
+
+// action para modificar la foto de perfil
+export const updateProfilePicture = (idKey, updatedFields) => async (dispatch) => {
+  dispatch(updateUserProfileRequest());
+
+  try {
+    
+    const response = await axios.put(`http://localhost:3000/users/profile/picture/${idKey}`, updatedFields);
+
+    dispatch(updateUserProfileSuccess(response.data));
+  } catch (error) {
+    console.error('Error al actualizar datos de usuario:', error);
+    dispatch(updateUserProfileFailure(error.response?.data || 'Error en el servidor'));
+  }
+};
+// action para agregar tarjeta
+export const addPaymentMethod = (paymentInfo) => {
+  return async (dispatch) => {
+    dispatch({ type: ADD_PAYMENT_METHOD_REQUEST });
+    try {
+      const response = await axios.post('http://localhost:3003/users/addPayment', paymentInfo);
+      dispatch({
+        type: ADD_PAYMENT_METHOD_SUCCESS,
+        payload: response.data 
+      });
+    } catch (error) {
+      dispatch({
+        type: ADD_PAYMENT_METHOD_FAILURE,
+        payload: error.response.data 
+      });
     }
   };
 };

@@ -1,162 +1,124 @@
-import React, { useState } from 'react';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import CssBaseline from '@mui/material/CssBaseline';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import HomeIcon from '@mui/icons-material/Home';
-import PeopleIcon from '@mui/icons-material/People';
-import DnsRoundedIcon from '@mui/icons-material/DnsRounded';
-import PermMediaOutlinedIcon from '@mui/icons-material/PermMediaOutlined';
+import * as React from 'react';
+import PropTypes from 'prop-types';
+import AppBar from '@mui/material/AppBar';
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import Grid from '@mui/material/Grid';
+import HelpIcon from '@mui/icons-material/Help';
 import IconButton from '@mui/material/IconButton';
-import Toolbar from '@mui/material/Toolbar';
+import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
-import UserProfile from '../perfilDeUsuario/perfil';
-import UserProfileForm from '../perfilDeUsuario/edditProfile';
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import Toolbar from '@mui/material/Toolbar';
+import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 
-// Definir tus componentes PeopleComponent, DnsRoundedComponent, PermMediaOutlinedComponent aquí
+const lightColor = 'rgba(255, 255, 255, 0.7)';
 
-const drawerWidth = 256;
+function Header(props) {
+  const { onDrawerToggle } = props;
 
-export default function UserDashboard() {
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [selectedComponent, setSelectedComponent] = useState('home');
-  const isSmUp = useMediaQuery(createTheme().breakpoints.up('sm'));
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
-  const handleComponentChange = (component) => {
-    setSelectedComponent(component);
-  };
-
-  const renderComponent = () => {
-    switch (selectedComponent) {
-      case 'home':
-        return <UserProfile />;
-      case 'people':
-        return <UserProfileForm />;
-      case 'compras':
-        return <DnsRoundedComponent />;
-      case 'medios-de-pago':
-        return <PermMediaOutlinedComponent />;
-      default:
-        return null;
-    }
-  };
-
-  const PeopleComponent = () => (
-    <div style={{ margin: '16px', padding: '16px', background: '#fff', borderRadius: '8px' }}>
-      <h2 style={{ color: '#333' }}>People Component</h2>
-      {/* Contenido del componente People */}
-    </div>
-  );
-
-  const DnsRoundedComponent = () => (
-    <div style={{ margin: '16px', padding: '16px', background: '#fff', borderRadius: '8px' }}>
-      <h2 style={{ color: '#333' }}>Compras Component</h2>
-      {/* Contenido del componente Compras */}
-    </div>
-  );
-
-  const PermMediaOutlinedComponent = () => (
-    <div style={{ margin: '16px', padding: '16px', background: '#fff', borderRadius: '8px' }}>
-      <h2 style={{ color: '#333' }}>Medios de Pago Component</h2>
-      {/* Contenido del componente Medios de Pago */}
-    </div>
-  );
-
-  const drawer = (
-    <Drawer
-      variant={isSmUp ? 'permanent' : 'temporary'}
-      open={mobileOpen}
-      onClose={handleDrawerToggle}
-      sx={{
-        width: drawerWidth,
-        flexShrink: 0,
-        backgroundColor: '#101F33',
-        borderRight: '1px solid #444',
-      }}
-    >
-      <List>
-        <ListItemButton
-          onClick={() => handleComponentChange('home')}
-          sx={{
-            '&:hover, &:focus': {
-              backgroundColor: '#2C3E50',
-            },
-          }}
-        >
-          <ListItemIcon>
-            <HomeIcon />
-          </ListItemIcon>
-          <ListItemText primary="Tus Datos" />
-        </ListItemButton>
-        <ListItemButton
-          onClick={() => handleComponentChange('people')}
-          sx={{
-            '&:hover, &:focus': {
-              backgroundColor: '#2C3E50',
-            },
-          }}
-        >
-          <ListItemIcon>
-            <PeopleIcon />
-          </ListItemIcon>
-          <ListItemText primary="Configuracion de datos" />
-        </ListItemButton>
-        <ListItemButton
-          onClick={() => handleComponentChange('compras')}
-          sx={{
-            '&:hover, &:focus': {
-              backgroundColor: '#2C3E50',
-            },
-          }}
-        >
-          <ListItemIcon>
-            <DnsRoundedIcon />
-          </ListItemIcon>
-          <ListItemText primary="Compras" />
-        </ListItemButton>
-        <ListItemButton
-          onClick={() => handleComponentChange('medios-de-pago')}
-          sx={{
-            '&:hover, &:focus': {
-              backgroundColor: '#2C3E50',
-            },
-          }}
-        >
-          <ListItemIcon>
-            <PermMediaOutlinedIcon />
-          </ListItemIcon>
-          <ListItemText primary="Medios de pago" />
-        </ListItemButton>
-      </List>
-    </Drawer>
-  );
+  console.log('onDrawerToggle:', onDrawerToggle);
 
   return (
-    <ThemeProvider theme={createTheme()}>
-      
+    <React.Fragment>
+      <AppBar color="primary" position="sticky" elevation={0}>
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerToggle}
-            edge="start"
-          >
-            <MenuIcon />
-          </IconButton>
+          <Grid container spacing={1} alignItems="center">
+            <Grid sx={{ display: { sm: 'none', xs: 'block' } }} item>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                onClick={onDrawerToggle}
+                edge="start"
+              >
+                <MenuIcon />
+              </IconButton>
+            </Grid>
+            <Grid item xs />
+            <Grid item>
+              <Link
+                href="/"
+                variant="body2"
+                sx={{
+                  textDecoration: 'none',
+                  color: lightColor,
+                  '&:hover': {
+                    color: 'common.white',
+                  },
+                }}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                Go to docs
+              </Link>
+            </Grid>
+            <Grid item>
+              <Tooltip title="Alerts • No alerts">
+                <IconButton color="inherit">
+                  <NotificationsIcon />
+                </IconButton>
+              </Tooltip>
+            </Grid>
+            <Grid item>
+              <IconButton color="inherit" sx={{ p: 0.5 }}>
+                <Avatar src="/static/images/avatar/1.jpg" alt="My Avatar" />
+              </IconButton>
+            </Grid>
+          </Grid>
         </Toolbar>
-        {drawer}
-        <div style={{ flexGrow: 1, padding: '16px' }}>
-          {renderComponent()}
-        </div>
-      
-    </ThemeProvider>
+      </AppBar>
+      <AppBar
+        component="div"
+        color="primary"
+        position="static"
+        elevation={0}
+        sx={{ zIndex: 0 }}
+      >
+        <Toolbar>
+          <Grid container alignItems="center" spacing={1}>
+            <Grid item xs>
+              <Typography color="inherit" variant="h5" component="h1">
+              Desde aquí podra establecer los ajustes y la información relacionada a su cuenta de usuario.
+              </Typography>
+            </Grid>
+            <Grid item>
+              {/* <Button
+                sx={{ borderColor: lightColor }}
+                variant="outlined"
+                color="inherit"
+                size="small"
+              >
+                Web setup
+              </Button> */}
+            </Grid>
+            <Grid item>
+              {/* <Tooltip title="Help">
+                <IconButton color="inherit">
+                  <HelpIcon />
+                </IconButton>
+              </Tooltip> */}
+            </Grid>
+          </Grid>
+        </Toolbar>
+      </AppBar>
+      <AppBar component="div" position="static" elevation={0} sx={{ zIndex: 0 }}>
+       {/*  <Tabs value={0} textColor="inherit">
+          <Tab label="Users" />
+          <Tab label="Sign-in method" />
+          <Tab label="Templates" />
+          <Tab label="Usage" />
+        </Tabs> */}
+      </AppBar>
+    </React.Fragment>
   );
 }
+
+Header.propTypes = {
+  onDrawerToggle: PropTypes.func.isRequired,
+};
+
+export default Header;
+//comentario pa que aparezca este archivo entre los cambios para hacer pull
