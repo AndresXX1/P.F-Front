@@ -3,10 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateUserProfileData } from '../../redux/actions/actions';
 import { AuthContext } from '../AuthProvider/authProvider';
 import { TextField, Button, Typography, Box } from '@mui/material';
+import { Alert } from '@mui/material';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import styles from './edditProfile.module.css';
 
 const UserProfileForm = ({ updateUserData }) => {
-    const { auth } = useContext(AuthContext);
+    const { auth ,setAuth } = useContext(AuthContext);
     const [formData, setFormData] = useState({
         id: '',
         name: '',
@@ -50,9 +52,33 @@ const UserProfileForm = ({ updateUserData }) => {
         }));
     };
 
+    const history = useHistory()
+
+    const logOut = () => {
+        if (window.gapi && window.gapi.auth2) {
+          var auth2 = window.gapi.auth2.getAuthInstance();
+          auth2.disconnect().then(function () {
+            console.log('User disconnected.');
+          });
+        }
+    
+        setAuth(null);
+        localStorage.removeItem('auth');
+        history.push('/home');
+    };
+    
     const handleSaveClick = () => {
         const userId = formData.id;
         dispatch(updateUserProfileData(userId, formData));
+    
+        const confirmationMessage = "Cambios realizados con éxito. ¿Deseas salir de tu sesión?";
+        const shouldLogOut = window.confirm(confirmationMessage);
+    
+        if (shouldLogOut) {
+            
+            logOut();
+        }
+    
         setEditMode({
             name: false,
             phone: false,
