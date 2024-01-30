@@ -93,7 +93,7 @@ const accessToken = token ? token.accessToken : null;
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
-                    <img src={token.imageUrl || imgDefault} style={{ borderRadius: "50%", height: "26%", width: "16%" }} alt="User Avatar" />
+                    <img src={token?.imageUrl || imgDefault} style={{ borderRadius: "50%", height: "26%", width: "16%" }} alt="User Avatar" />
                   </Link>
                 </div>
               </div>

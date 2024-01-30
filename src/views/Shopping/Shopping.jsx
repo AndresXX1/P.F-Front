@@ -3,7 +3,7 @@ import style from "./Shopping.module.css";
 import { useEffect,useState } from "react";
 import React, {useContext} from "react";
 import axios from "axios";
-import { getAllItems, removeFromCart,mercadoPago } from "../../redux/actions/actions";
+import { getAllItems, removeFromCart } from "../../redux/actions/actions";
 import { AuthContext } from "../../componentes/AuthProvider/authProvider";
 import { initMercadoPago, Wallet } from '@mercadopago/sdk-react'
 

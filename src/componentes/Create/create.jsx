@@ -50,16 +50,13 @@ const ProductForm = () => {
 
     if (name === "size") {
       // Manejar cambios en el input de tallas si es necesario
-    } else if (name === "image") {
-      const imagesArray = value.split(',').map((url) => url.trim()); // Divide el string por comas y elimina espacios en blanco
-      setInput((prevInput) => ({ ...prevInput, [name]: imagesArray }));
-      setImageUrl(value.name); // Esto puede que ya no sea necesario si muestras una vista previa de todas las imágenes
-    } else {
+    }  // Esto puede que ya no sea necesario si muestras una vista previa de todas las imágenes
+    else {
       setInput((prevInput) => ({ ...prevInput, [name]: value }));
     }
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event , files) => {
     event.preventDefault();
   
     if (handleValidation()) {
@@ -67,23 +64,25 @@ const ProductForm = () => {
         const formData = new FormData();
         formData.append('name', input.name);
         formData.append('brand', input.brand);
-        // Asegúrate de que 'size' sea un array de strings
         input.size.forEach((size) => {
           formData.append('size', size);
         });
         formData.append('price', input.price);
-        // Asegúrate de que 'colors' sea un array de strings
         input.colors.forEach((color) => {
           formData.append("colors", color);
         });
-        // Agregar la imagen como un archivo
-            formData.append('files[]', input.image);
-        // Agregado para ver los datos enviados
+
+        const inputFile = document.querySelector("input[name='image']").files;
+          for (let i = 0 ; i < inputFile.length; i++){
+          formData.append('image', inputFile[i]);
+        }
+
         for (let [key, value] of formData.entries()) {
           console.log(`${key}: ${value}`);
         }
         console.log(input.image)
         console.log(formData)
+        console.log(inputFile)
         const response = await dispatch(
           postCreateProduct( formData,)
         );
@@ -139,12 +138,13 @@ const ProductForm = () => {
     }));
   };
   
-  const handleFileChange = (event) => {
-    const files = event.target.files
-    setInput((prevInput) => ({ ...prevInput, image: Array.from(files) }));
-    console.log(input.image)
-  };
-  
+    
+    const handleFileChange = (event) => {
+      const files = event.target.files;
+      setInput((prevInput) => ({ ...prevInput, image: files }));
+      console.log("Tipo de files:", typeof files);
+      console.log("Tipo de files:", input.image[0]);
+    };
 
   const sizeOptions = [
     { value: "all", label: "Todos" },
@@ -221,7 +221,9 @@ const ProductForm = () => {
           <p className="error-message">{errors.price}</p>
 
       <label className="form-label">Imagen</label>
-      <input type="file" name="image" onChange={handleFileChange} multiple />
+      <form>
+      <input type="file" name="image"  multiple/>
+      </form>
             <p className="error-message">{errors.image}</p>
   
           <label className="form-label">Marca</label>

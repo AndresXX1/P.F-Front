@@ -147,16 +147,21 @@ export const clearCreateProductState = () => ({
   type: CLEAR_CREATE_PRODUCT_STATE,
 });
 
-export const postCreateProduct = (productData) => async (dispatch) => {
+export const postCreateProduct = (formData) => async (dispatch) => {
   dispatch(createProductRequest());
   try {
     // Lógica para enviar la solicitud al backend y crear el producto
-    const response = await axios.post("http://localhost:3000/products/create", productData);
-
+    const response = await axios.post("http://localhost:3000/products/create", formData, {
+      headers : {
+        "Content-Type" : "multipart/form-data",
+      },
+    });
+    console.log(response.data)
     // Si la solicitud fue exitosa
     dispatch(createProductSuccess(response.data));
   } catch (error) {
     // Si la solicitud falla
+    console.error(error);
     dispatch(createProductFailure(error.message || "Error al crear el producto"));
   }
 }
