@@ -1,0 +1,167 @@
+.fonde1 {
+  background-image: url("https://www.crfmontigala.com/wp-content/uploads/2019/03/elegir-zapatillas-deporte.jpg");
+  background-size: cover;
+  background-position: top;
+  display: top;
+  background-attachment: fixed;
+ 
+}
+
+
+.payment-form {
+  width: 270px;
+  height: 100px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #ffffffda;
+  margin-left: 410px;
+  margin-top: 0px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  overflow-y: auto;
+  
+}
+
+.payment-container {
+  margin-bottom: 20px;
+  border-bottom: 2px solid black;
+}
+
+.select-box {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-top: -5px;
+}
+
+.input {
+  width: 80%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 8px;
+  margin-top: 2px;
+  
+}
+
+.submit-button {
+  width: 100%;
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #27ae60;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #7f8c85;
+}
+
+.error {
+  color: #c0392b;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+/* Media Query para pantallas más pequeñas */
+@media (max-width: 600px) {
+  .payment-form {
+    width: 80%;
+  }
+}
+
+.title {
+  margin-bottom: 10px;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin-top: 20px;
+  height: 50px;
+  text-align: center;
+  width: 300px;
+  font-size: 10px;
+  margin-left: 400px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  background-color: #ffffffd2;
+
+}
+
+
+.cont{
+  border: 1px solid black;
+  height: 400px;
+  width: 300px;
+  margin-left: 400px;
+  margin-top: 20px;
+  border-radius: 5px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  margin-bottom: 300px;
+  background-color: #ffffffd2;
+}
+
+.imageAndTabs:hover {
+  overflow-y: scroll; 
+}
+
+
+.imageAndTabs::-webkit-scrollbar {
+  width: 12px; 
+}
+
+.imageAndTabs::-webkit-scrollbar-thumb {
+  background-color: #888; 
+}
+
+.inputContainer{
+  margin-left: 20px;
+  margin-top: 40px;
+
+}
+
+.selectedit{
+  margin-left: 210px;
+  margin-top: -30px;
+}
+
+
+
+.brandImage {
+  border: 1px black;
+  padding: auto;
+  margin-top: 20px;
+  position: relative;
+  height: 100px;
+  width: 190;
+  margin-left: 65px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  
+}
+
+.submit {
+  text-align: center;
+  margin-left: 50px;
+  position: absolute;
+  margin-top: 30px;
+}
+
+.saveButton {
+  text-align: center;
+margin-top: 50px;
+margin-left: 30px;
+border-top: 2px black;
+position: absolute;
+}
+
+.texttt{
+  font-size: 20px;
+  margin-top: 10px;
+}

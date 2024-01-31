@@ -38,10 +38,21 @@ import {
   UPDATE_PROFILE_PICTURE_REQUEST,
   UPDATE_PROFILE_PICTURE_SUCCESS,
   UPDATE_PROFILE_PICTURE_FAILURE,
-  UPDATE_PROFILE_PICTURE,
-  ADD_PAYMENT_METHOD_FAILURE,
-  ADD_PAYMENT_METHOD_SUCCESS,
-  ADD_PAYMENT_METHOD_REQUEST,
+
+  UPDATE_USER_PAYMONTH_FAILURE,
+  UPDATE_USER_PAYMONTH_SUCCESS,
+  UPDATE_USER_PAYMONTH_REQUEST,
+
+      FETCH_USERS_REQUEST,
+    FETCH_USERS_SUCCESS,
+    FETCH_USERS_FAILURE,
+
+    DELETE_USER_SUCCESS,
+    DELETE_USER_FAILURE,
+
+    UPDATE_USER_ADMIN_REQUEST,
+  UPDATE_USER_ADMIN_SUCCESS,
+  UPDATE_USER_ADMIN_FAILURE,
 } from "../action-types/action-types";
 
 export const registerUser = (datauser) => async (dispatch) => {
@@ -486,11 +497,7 @@ export const updateProfilePictureFailure = (error) => ({
   type: UPDATE_PROFILE_PICTURE_FAILURE,
   payload: error,
 });
-//actin para subir la imagen a cloudinary
-export const updateProfilePicturee = (userId, data) => ({
-  type: UPDATE_PROFILE_PICTURE,
-  payload: { userId, data },
-});
+
 
 // action para modificar la foto de perfil
 export const updateProfilePicture = (idKey, updatedFields) => async (dispatch) => {
@@ -506,21 +513,116 @@ export const updateProfilePicture = (idKey, updatedFields) => async (dispatch) =
     dispatch(updateUserProfileFailure(error.response?.data || 'Error en el servidor'));
   }
 };
+
+
+
+
 // action para agregar tarjeta
-export const addPaymentMethod = (paymentInfo) => {
+export const updateUserpay = (userId, paymentMethods) => {
   return async (dispatch) => {
-    dispatch({ type: ADD_PAYMENT_METHOD_REQUEST });
+    dispatch({ type: UPDATE_USER_PAYMONTH_REQUEST });
+
     try {
-      const response = await axios.post('http://localhost:3003/users/addPayment', paymentInfo);
+      const response = await fetch(`http://localhost:3000/users/${userId}/paymentMethods`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(paymentMethods), // Envía solo los datos de la tarjeta, no un objeto anidado
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al actualizar paymentMethods');
+      }
+
+      const updatedProfile = await response.json();
+
       dispatch({
-        type: ADD_PAYMENT_METHOD_SUCCESS,
-        payload: response.data 
+        type: UPDATE_USER_PAYMONTH_SUCCESS,
+        payload: updatedProfile,
       });
     } catch (error) {
       dispatch({
-        type: ADD_PAYMENT_METHOD_FAILURE,
-        payload: error.response.data 
+        type: UPDATE_USER_PAYMONTH_FAILURE,
+        payload: error.message || 'Error al actualizar el perfil del usuario',
       });
     }
   };
+};
+
+
+
+//action para modificar usuarios desde admin
+
+const fetchUsersRequest = () => ({
+  type: FETCH_USERS_REQUEST,
+});
+
+const fetchUsersSuccess = (users) => ({
+  type: FETCH_USERS_SUCCESS,
+  payload: users,
+});
+
+const fetchUsersFailure = (error) => ({
+  type: FETCH_USERS_FAILURE,
+  payload: error,
+});
+
+export const fetchUsers = () => {
+  return async (dispatch) => {
+    dispatch(fetchUsersRequest());
+
+    try {
+      const response = await axios.get('http://localhost:3000/users/'); // Assuming your endpoint is '/users'
+      dispatch(fetchUsersSuccess(response.data));
+    } catch (error) {
+      console.error('Error fetching users:', error);
+      dispatch(fetchUsersFailure('Error fetching users'));
+    }
+  };
+};
+
+
+//action para eliminar usuarios
+export const deleteUser = (userId) => async (dispatch) => {
+  try {
+    await axios.delete(`http://localhost:3000/users/delete/${userId}`);
+    dispatch({
+      type: DELETE_USER_SUCCESS,
+      payload: userId,
+    });
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    dispatch({
+      type: DELETE_USER_FAILURE,
+      payload: error.message || "Failed to delete user",
+    });
+  }
+};
+
+//action para modificar los datos del usuario desde admin
+const updateUserAdminRequest = () => ({
+  type: UPDATE_USER_ADMIN_REQUEST,
+});
+
+const updateUserAdminSuccess = (user) => ({
+  type: UPDATE_USER_ADMIN_SUCCESS,
+  payload: user,
+});
+
+const updateUserAdminFailure = (error) => ({
+  type: UPDATE_USER_ADMIN_FAILURE,
+  payload: error,
+});
+
+export const updateUserAdmin = (userId, userData) => async (dispatch) => {
+  dispatch(updateUserAdminRequest());
+
+  try {
+    const response = await axios.put(`http://localhost:3000/users/eddituseradmin/${userId}`, userData);
+    dispatch(updateUserAdminSuccess(response.data));  // Puedes ajustar esto según la estructura de tu respuesta
+  } catch (error) {
+    console.error('Error updating user by admin:', error);
+    dispatch(updateUserAdminFailure('Error updating user by admin'));
+  }
 };

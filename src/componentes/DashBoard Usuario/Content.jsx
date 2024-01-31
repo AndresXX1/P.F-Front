@@ -21,6 +21,13 @@ const {tab} = React.useContext(AuthContext)
           </div>
         )
         break;
+        case 'Home':
+          return(
+            <div>
+              <PaymentMethods />
+            </div>
+          )
+          break;
         default:
           return(
             <div>

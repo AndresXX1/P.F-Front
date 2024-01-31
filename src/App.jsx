@@ -8,10 +8,9 @@ import Create from "./componentes/Create/create";
 import LogIn from "./componentes/LogInForm/LogIn";
 import About from "./componentes/About/about";
 import Registro from "./componentes/Register/Register";
-import Perfil from "./componentes/perfilDeUsuario/perfil"
-import Ajustes from "./componentes/Configuracion/configuracion"
-import UserProfileForm from "./componentes/perfilDeUsuario/edditProfile"
+import UserTableComponent from "./componentes/admin/deleteUsers"
 // import ProtectedRoute from './GeneralLogin';
+
 import UserDashboard from './componentes/DashBoard Usuario/dashBoard';
 import { AuthProvider } from "./componentes/AuthProvider/authProvider";
 
@@ -38,6 +37,7 @@ function App() {
  <Route exact path="/register" component={Registro} />
  <Route exact path="/detail/:id" component={Detail} />
  <Route exact path="/Configuracion" component= {UserDashboard} />
+ <Route exact path="/admin/users" component= {UserTableComponent} />
 </Switch> 
       </div>
     </Router>

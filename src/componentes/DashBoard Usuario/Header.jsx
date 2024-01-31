@@ -24,7 +24,7 @@ function Header(props) {
 
   return (
     <React.Fragment>
-
+      
       <AppBar
         component="div"
         color="primary"
@@ -35,8 +35,8 @@ function Header(props) {
         <Toolbar>
           <Grid container alignItems="center" spacing={1}>
             <Grid item xs>
-              <Typography color="inherit" variant="h5" component="h1">
-              Desde aquí podra establecer los ajustes y la información relacionada a su cuenta de usuario.
+              <Typography color="inherit" variant="h" component="h1">
+              
               </Typography>
             </Grid>
             <Grid item>
