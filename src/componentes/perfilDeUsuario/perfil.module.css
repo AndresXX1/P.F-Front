@@ -1,5 +1,5 @@
 .Fullstack {
-    background-image: url("https://tressalud.com/wp-content/uploads/freshizer/40322d005fd6244cc031d4a137ad7c3a_13883202_ml-21x10-1-1680-c-90.jpg");
+    background-image: url("https://www.crfmontigala.com/wp-content/uploads/2019/03/elegir-zapatillas-deporte.jpg");
     background-size: cover;
     background-position: top;
     display: top;
@@ -15,7 +15,7 @@
     align-items: center;
     justify-content: center;
     height: 700px; 
-    margin-top: -85px;
+    margin-top: -50px;
     margin-left: 350px;
   }
   
@@ -72,13 +72,13 @@
     background-color: #fdfffee6;
     border-radius: 12.825px; 
     margin-right: 22.95px; 
-    margin-top: 35px; 
+    margin-top: -17px; 
     margin-bottom: 22.95px; 
     position: absolute;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
     width: 250px;
     height: 353px;
-    margin-left: 225PX;
+    margin-left: 10PX;
     overflow: auto; /* Agregar scroll si el contenido es más grande */
   }
   
@@ -101,8 +101,8 @@
     text-align: center;
     background-color: #ffffffc5;
     box-shadow: 0 0 9px rgba(0, 0, 0, 0.7);
-    margin-left: 250PX;
-    margin-top: -13px;
+    margin-left: 35PX;
+    margin-top: -60px;
     margin-bottom: 50px;
     position: absolute;
   }
@@ -120,11 +120,6 @@
   }
   
 
-  .userProfileFormContainer {
-    margin-left: 38.475px; 
-    margin-top: -420px; 
-    margin-right: -3005px; 
-  }
   
   .containerbotones {
     list-style: none;
@@ -162,13 +157,14 @@
     border: 1px solid #fdfffee6;
     width: 255px;
     height: 395px; 
-    margin-top: 100px;
+    margin-top: 50px;
     position: absolute;
     background-color: #ffffffcb;
     border-radius: 10px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
     overflow-y: hidden; 
-    scrollbar-width: thin; 
+    scrollbar-width: thin;
+    margin-left: -232px; 
 }
 
 .imageAndTabs:hover {
@@ -191,8 +187,8 @@
   .userProfileFormContainer{
     height: -10px;
     width: 50px;
-    margin-left: 80px;
-    margin-top: -13px;
+    margin-left: -140px;
+    margin-top: -65px;
     position: absolute;
   }
 
@@ -215,7 +211,11 @@
   border: none;
   cursor: pointer;
   outline: none;
+  font-size: 12px;
+  text-align: center;
+  margin-left: 5px;
 }
+
 
 .boton1:hover {
   background-color: #e0e0e0; /* Cambia el color de fondo en el hover según tus preferencias */

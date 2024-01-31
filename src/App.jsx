@@ -8,7 +8,9 @@ import Create from "./componentes/Create/create(12)";
 import LogIn from "./componentes/LogInForm/LogIn";
 import About from "./componentes/About/about";
 import Registro from "./componentes/Register/Register";
+
 import AdminDashboard from './componentes/DashBoard Admin/dashBoard'
+
 import UserDashboard from './componentes/DashBoard Usuario/dashBoard';
 import { AuthProvider } from "./componentes/AuthProvider/authProvider";
 
@@ -34,8 +36,10 @@ function App() {
  <Route exact path="/about" component={About} />
  <Route exact path="/register" component={Registro} />
  <Route exact path="/detail/:id" component={Detail} />
+
  <Route exact path="/configUser" component= {UserDashboard} />
  <Route exact path="/configAdmin" component= {AdminDashboard} />
+
 </Switch> 
       </div>
     </Router>

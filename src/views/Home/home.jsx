@@ -26,6 +26,7 @@ const Home = () => {
   const pageSize = 8;
 console.log(searchState)
 console.log(price)
+console.log("todas las sneakers", totalSneaker);
 
   useEffect(() => {
     if(searchState && searchState.length > 0){

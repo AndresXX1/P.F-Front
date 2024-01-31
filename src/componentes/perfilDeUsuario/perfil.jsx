@@ -28,12 +28,13 @@ const UserProfile = () => {
     address: '',
     country: '',
     email: '',
+    paymentMethods:"",
   });
   const [value, setValue] = useState(0);
 
   useEffect(() => {
     if (auth && auth.token) {
-      const { name, email, phone, address, country, profilePicture } = auth.token;
+      const { name, email, phone, address, country, profilePicture, paymentMethods } = auth.token;
       setUserData({
         name: name || '',
         profilePicture: profilePicture || '',
@@ -41,22 +42,11 @@ const UserProfile = () => {
         address: address || '',
         country: country || '',
         email: email || '',
+        paymentMethods: paymentMethods || null, // No necesitas usar JSON.parse aquí
       });
     }
   }, [auth, dispatch]);
-
-  const handleChange = (newValue) => {
-    setValue(newValue);
-  };
   
-  const handleUrlChange = (event) => {
-    setInputUrl(event.target.value);
-  };
-
-  const handleLoadUrlClick = () => {
-    setImageUrl(inputUrl);
-    setImageModified(true);
-  };
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -100,6 +90,10 @@ const UserProfile = () => {
     }
   }
 
+  const handleChange = (newValue) => {
+    setValue(newValue);
+  };
+
   const renderComponent = () => {
     switch (value) {
       case 0:
@@ -124,7 +118,14 @@ const UserProfile = () => {
             <div className={styles.userProfile}>
               <div className={styles.imageAndTabs}>
                 <div className={styles.imageContainer}>
-                <div className={styles.profilePicture} style={{ backgroundImage: `url(${userData.profilePicture})` }}></div>
+                <div className={styles.profilePicture} style={{ backgroundImage: userData.profilePicture ? `url(${userData.profilePicture})` : 'none' }}>
+  {!userData.profilePicture && (
+    <div>
+     
+      <p>No hay imagen</p>
+    </div>
+  )}
+</div>
                 </div>
                 <div className={styles.upload}>
               <Box
@@ -199,6 +200,15 @@ const UserProfile = () => {
                     <p className={styles.name}><strong> <FaEnvelope /> Email: </strong>{userData.email}</p>
                     <p className={styles.name}><strong> <FaLock /> Password: ********* </strong></p>
                     <p className={styles.name}><strong> < FaImage/> Profile Picture: </strong>{userData.profilePicture}</p>
+                    <p className={styles.name}><strong><FaImage /> Métodos de pago:</strong></p>
+                   {userData.paymentMethods && userData.paymentMethods.length > 0 && (
+  <div>
+    <p className={styles.name}><strong>Número:</strong> {userData.paymentMethods[0].number ?? 'No disponible'}</p>
+    <p className={styles.name}><strong>Marca:</strong> {userData.paymentMethods[0].brand ?? 'No disponible'}</p>
+    <p className={styles.name}><strong>Fecha de vencimiento:</strong> {userData.paymentMethods[0].expirationDate ?? 'No disponible'}</p>
+    <p className={styles.name}><strong>CVV:</strong> {userData.paymentMethods[0].cvv ?? 'No disponible'}</p>
+  </div>
+)}
                      
                   </div>
                 </div>
