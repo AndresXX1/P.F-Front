@@ -3,7 +3,6 @@ import axios from "axios";
 import styles from "./DeleteReviews.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteReviewAction } from "../../../redux/actions/actions";
-import { REVIEW_POSTED_FAILURE } from "../../../redux/action-types/action-types";
 
 const DeleteReview = () => {
   const [localReviews, setLocalReviews] = useState([]);
