@@ -1,5 +1,5 @@
 .Fullstack {
-    background-image: url("https://tressalud.com/wp-content/uploads/freshizer/40322d005fd6244cc031d4a137ad7c3a_13883202_ml-21x10-1-1680-c-90.jpg");
+    background-image: url("https://www.crfmontigala.com/wp-content/uploads/2019/03/elegir-zapatillas-deporte.jpg");
     background-size: cover;
     background-position: top;
     display: top;
@@ -15,7 +15,7 @@
     align-items: center;
     justify-content: center;
     height: 700px; 
-    margin-top: -85px;
+    margin-top: -50px;
     margin-left: 350px;
   }
   
@@ -211,7 +211,11 @@
   border: none;
   cursor: pointer;
   outline: none;
+  font-size: 12px;
+  text-align: center;
+  margin-left: 5px;
 }
+
 
 .boton1:hover {
   background-color: #e0e0e0; /* Cambia el color de fondo en el hover según tus preferencias */

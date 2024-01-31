@@ -4,17 +4,15 @@ import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import Landing from "./views/Landing/landing";
 import Home from "./views/Home/home";
 import Detail from "./views/Detail/detail";
-import Create from "./componentes/Create/create";
+import Create from "./componentes/Create/create(12)";
 import LogIn from "./componentes/LogInForm/LogIn";
 import About from "./componentes/About/about";
 import Registro from "./componentes/Register/Register";
-import Perfil from "./componentes/perfilDeUsuario/perfil";
-import Ajustes from "./componentes/Configuracion/configuracion";
-import UserProfileForm from "./componentes/perfilDeUsuario/edditProfile";
+import AdminDashboard from "./componentes/DashBoard Admin/dashBoard";
 import UserDashboard from "./componentes/DashBoard Usuario/dashBoard";
+import { AuthProvider } from "./componentes/AuthProvider/authProvider";
 import Shopping from "./views/Shopping/Shopping";
 import ProtectedRoute from "./GeneralLogin";
-import { AuthProvider } from "./componentes/AuthProvider/authProvider";
 import Unauthorized from "./views/Unauthorized/Unauthorized";
 
 function App() {
@@ -48,6 +46,8 @@ function App() {
             <Route exact path="/shopping" component={Shopping} />
             <Route exact path="/shopping" component={Shopping} />
             <Route exact path="/unauthorized" component={Unauthorized} />
+            <Route exact path="/configUser" component={UserDashboard} />
+            <Route exact path="/configAdmin" component={AdminDashboard} />
           </Switch>
         </div>
       </Router>

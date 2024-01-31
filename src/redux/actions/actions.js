@@ -29,28 +29,42 @@ import {
   CREATE_USER_FAILURE,
   POST_CART_ITEMS,
   GET_ALL_ITEMS,
-  REMOVE_FROM_CART,  REVIEW_POSTED_FAILURE,
+  REMOVE_FROM_CART,
+  REVIEW_POSTED_FAILURE,
   REVIEW_POSTED_SUCCESS,
   REVIEW_POST_REQUEST,
-  UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE,UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILURE,
+  UPDATE_USER_REQUEST,
   UPDATE_PASSWORD_REQUEST,
   UPDATE_PASSWORD_SUCCESS,
   UPDATE_PASSWORD_FAILURE,
-  UPDATE_USER_PROFILE_REQUEST, UPDATE_USER_PROFILE_SUCCESS, UPDATE_USER_PROFILE_FAILURE,
+  UPDATE_USER_PROFILE_REQUEST,
+  UPDATE_USER_PROFILE_SUCCESS,
+  UPDATE_USER_PROFILE_FAILURE,
   UPDATE_PROFILE_PICTURE_REQUEST,
   UPDATE_PROFILE_PICTURE_SUCCESS,
   UPDATE_PROFILE_PICTURE_FAILURE,
-  UPDATE_PROFILE_PICTURE,
-  ADD_PAYMENT_METHOD_FAILURE,
-  ADD_PAYMENT_METHOD_SUCCESS,
-  ADD_PAYMENT_METHOD_REQUEST,
+  UPDATE_USER_PAYMONTH_FAILURE,
+  UPDATE_USER_PAYMONTH_SUCCESS,
+  UPDATE_USER_PAYMONTH_REQUEST,
+  FETCH_USERS_REQUEST,
+  FETCH_USERS_SUCCESS,
+  FETCH_USERS_FAILURE,
+  DELETE_USER_SUCCESS,
+  DELETE_USER_FAILURE,
+  UPDATE_USER_ADMIN_REQUEST,
+  UPDATE_USER_ADMIN_SUCCESS,
+  UPDATE_USER_ADMIN_FAILURE,
+  DELETE_REVIEW_SUCCESS,
+  DELETE_REVIEW_ERROR,
 } from "../action-types/action-types";
 
 export const registerUser = (datauser) => async (dispatch) => {
   dispatch({ type: CREATE_USER_REQUEST });
   try {
     const response = await axios.post(
-      "http://localhost:3000/users/create",
+      "http://localhost:3003/users/create",
       datauser
     );
     dispatch({ type: CREATE_USER_SUCCESS, payload: response.data });
@@ -80,7 +94,7 @@ export const postProductFailure = (error) => ({
 export const fetchProductDetail = (idKey) => async (dispatch) => {
   try {
     const response = await fetch(
-      `http://localhost:3000/products/detail/${idKey}`
+      `http://localhost:3003/products/detail/${idKey}`
     );
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -93,7 +107,14 @@ export const fetchProductDetail = (idKey) => async (dispatch) => {
   }
 };
 
-export const getSneakers = (page, pageSize ="8", brand, colors, size, price) => {
+export const getSneakers = (
+  page,
+  pageSize = "8",
+  brand,
+  colors,
+  size,
+  price
+) => {
   return async function (dispatch) {
     try {
       const queryParams = {
@@ -121,7 +142,7 @@ export const getSneakers = (page, pageSize ="8", brand, colors, size, price) => 
         .map(([key, value]) => `${key}=${value}`)
         .join("&");
 
-      const url = `http://localhost:3000/products?${queryString}`;
+      const url = `http://localhost:3003/products?${queryString}`;
       console.log(url);
       const response = await axios.get(url);
       const sneakersData = response.data;
@@ -162,20 +183,26 @@ export const postCreateProduct = (formData) => async (dispatch) => {
   dispatch(createProductRequest());
   try {
     // Lógica para enviar la solicitud al backend y crear el producto
-    const response = await axios.post("http://localhost:3000/products/create", formData, {
-      headers : {
-        "Content-Type" : "multipart/form-data",
-      },
-    });
-    console.log(response.data)
+    const response = await axios.post(
+      "http://localhost:3000/products/create",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    console.log(response.data);
     // Si la solicitud fue exitosa
     dispatch(createProductSuccess(response.data));
   } catch (error) {
     // Si la solicitud falla
     console.error(error);
-    dispatch(createProductFailure(error.message || "Error al crear el producto"));
+    dispatch(
+      createProductFailure(error.message || "Error al crear el producto")
+    );
   }
-}
+};
 
 export const getSearchRequest = () => ({
   type: GET_SEARCH_REQUEST,
@@ -183,10 +210,10 @@ export const getSearchRequest = () => ({
 
 export const getSearchSuccess = (data) => ({
   type: GET_SEARCH_SUCCESS,
-  payload:{
-    sneakers:data.paginatedResponse,
-    currentPage:data.setCurrentPage,
-    totalSneaker:data.totalSneakers
+  payload: {
+    sneakers: data.paginatedResponse,
+    currentPage: data.setCurrentPage,
+    totalSneaker: data.totalSneakers,
   },
 });
 
@@ -195,9 +222,7 @@ export const getSearchNotFound = (error) => ({
   payload: error,
 });
 
-
-
-export const searchBar = (searchTerm,page,pageSize="4",price) => {
+export const searchBar = (searchTerm, page, pageSize = "4", price) => {
   return async (dispatch) => {
     try {
       dispatch(getSearchRequest());
@@ -211,13 +236,13 @@ export const searchBar = (searchTerm,page,pageSize="4",price) => {
       const queryString = Object.entries(queryParams)
         .map(([key, value]) => `${key}=${value}`)
         .join("&");
-        const url =`http://localhost:3000/products/search/${searchTerm}?${queryString}`
-        console.log(url)
+      const url = `http://localhost:3003/products/search/${searchTerm}?${queryString}`;
+      console.log(url);
       const response = await axios.get(url);
-      
-      console.log(response)
-      if ( response.data ) {
-        console.log(response.data)
+
+      console.log(response);
+      if (response.data) {
+        console.log(response.data);
         dispatch(getSearchSuccess(response.data));
       }
     } catch (error) {
@@ -225,8 +250,6 @@ export const searchBar = (searchTerm,page,pageSize="4",price) => {
     }
   };
 };
-
-
 
 export const resetCurrentPage = (page) => ({
   type: RESET_CURRENTPAGE,
@@ -287,87 +310,99 @@ export const setSelectedImageIndex = (index) => ({
   payload: index,
 });
 
-
-export const postReviews = (productId, rating, content, name, profileImage) => async (dispatch) => {
-  dispatch({ type: REVIEW_POST_REQUEST });
-  console.log("ESTO RECIBE LA ACTION POSTREVIEW", productId, rating, content, name, profileImage)
-  try {
-    const response = await axios.post(`http://localhost:3000/reviews/products/detail/${productId}`, {
-      profileImage,
+export const postReviews =
+  (productId, rating, content, name, profileImage) => async (dispatch) => {
+    dispatch({ type: REVIEW_POST_REQUEST });
+    console.log(
+      "ESTO RECIBE LA ACTION POSTREVIEW",
       productId,
-      content,
       rating,
-      name
-    });
-    console.log("ESTO VIENE DE LA ACTION ", response)
-    dispatch({ type: REVIEW_POSTED_SUCCESS, payload: response.data.review });
-  } catch (error) {
-    console.error("Error en la acción postReviews:", error);
-    dispatch({ type: REVIEW_POSTED_FAILURE, payload: error.message });
-  }
-  };
-
-   export const setReviews = (reviews) => ({
-    type: SET_REVIEWS,
-    payload: reviews || [],
-  });
-  
-  export const fetchReviews = () => async (dispatch) => {
+      content,
+      name,
+      profileImage
+    );
     try {
-      const response = await axios.get('http://localhost:3000/reviews'); // Update the URL to the correct endpoint
-      const data = response.data;
-      console.log("TODAS LAS REVIEWS:", data)
-      if (Array.isArray(data)) {
-        dispatch(setReviews(data));
-      } else {
-        console.error('Error: The response is not an array of reviews');
-      }
+      const response = await axios.post(
+        `http://localhost:3003/reviews/products/detail/${productId}`,
+        {
+          profileImage,
+          productId,
+          content,
+          rating,
+          name,
+        }
+      );
+      console.log("ESTO VIENE DE LA ACTION ", response);
+      dispatch({ type: REVIEW_POSTED_SUCCESS, payload: response.data.review });
     } catch (error) {
-      console.error('Error fetching reviews:', error);
+      console.error("Error en la acción postReviews:", error);
+      dispatch({ type: REVIEW_POSTED_FAILURE, payload: error.message });
     }
-
   };
 
-  export const updateUserRequest = () => ({
-    type: UPDATE_USER_REQUEST,
-  });
-  
-  export const updateUserSuccess = () => ({
-    type: UPDATE_USER_SUCCESS,
-  });
-  
-  export const updateUserFailure = (error) => ({
-    type: UPDATE_USER_FAILURE,
-    payload: error,
-  });
-  
-  //action para modificar el mail
-  export const updateUser = (id, updatedFields) => {
-    return async (dispatch) => {
-      dispatch(updateUserRequest());
-  
-      try {
-        console.log('Datos enviados al servidor:', { id, updatedFields });
-  
-        const response = await fetch(`http://localhost:3000/users/perfil/update/${id}`, {
-          method: 'PUT',
+export const setReviews = (reviews) => ({
+  type: SET_REVIEWS,
+  payload: reviews || [],
+});
+
+export const fetchReviews = () => async (dispatch) => {
+  try {
+    const response = await axios.get("http://localhost:3003/reviews"); // Update the URL to the correct endpoint
+    const data = response.data;
+    console.log("TODAS LAS REVIEWS:", data);
+    if (Array.isArray(data)) {
+      dispatch(setReviews(data));
+    } else {
+      console.error("Error: The response is not an array of reviews");
+    }
+  } catch (error) {
+    console.error("Error fetching reviews:", error);
+  }
+};
+
+export const updateUserRequest = () => ({
+  type: UPDATE_USER_REQUEST,
+});
+
+export const updateUserSuccess = () => ({
+  type: UPDATE_USER_SUCCESS,
+});
+
+export const updateUserFailure = (error) => ({
+  type: UPDATE_USER_FAILURE,
+  payload: error,
+});
+
+//action para modificar el mail
+export const updateUser = (id, updatedFields) => {
+  return async (dispatch) => {
+    dispatch(updateUserRequest());
+
+    try {
+      console.log("Datos enviados al servidor:", { id, updatedFields });
+
+      const response = await fetch(
+        `http://localhost:3003/users/perfil/update/${id}`,
+        {
+          method: "PUT",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(updatedFields),
-        });
-  
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status}`);
         }
-  
-        dispatch(updateUserSuccess());
-      } catch (error) {
-        console.error('Error en la acción:', error);
-        dispatch(updateUserFailure(error.message));
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status}`);
       }
-    };
+
+      dispatch(updateUserSuccess());
+    } catch (error) {
+      console.error("Error en la acción:", error);
+      dispatch(updateUserFailure(error.message));
+    }
   };
+};
 
 export const updatePasswordRequest = () => ({
   type: UPDATE_PASSWORD_REQUEST,
@@ -388,16 +423,19 @@ export const updatePassword = (id, currentPassword, newPassword) => {
     dispatch(updatePasswordRequest());
 
     try {
-      const response = await fetch(`http://localhost:3000/users/perfil/updatepassword/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          currentPassword,
-          newPassword,
-        }),
-      });
+      const response = await fetch(
+        `http://localhost:3003/users/perfil/updatepassword/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            currentPassword,
+            newPassword,
+          }),
+        }
+      );
 
       if (!response.ok) {
         const errorData = await response.json();
@@ -426,22 +464,24 @@ export const updateUserProfileFailure = (error) => ({
 });
 
 // Acción para modificar cualquier dato del perfil de usuario
-export const updateUserProfileData = (idKey, updatedFields) => async (dispatch) => {
-  dispatch(updateUserProfileRequest());
+export const updateUserProfileData =
+  (idKey, updatedFields) => async (dispatch) => {
+    dispatch(updateUserProfileRequest());
 
-  try {
-    
-    const response = await axios.put(`http://localhost:3000/users/perfil/${idKey}`, updatedFields);
+    try {
+      const response = await axios.put(
+        `http://localhost:3003/users/perfil/${idKey}`,
+        updatedFields
+      );
 
-   
-    dispatch(updateUserProfileSuccess(response.data));
-  } catch (error) {
-    
-    console.error('Error al actualizar datos de usuario:', error);
-    dispatch(updateUserProfileFailure(error.response?.data || 'Error en el servidor'));
-  }
-};
-
+      dispatch(updateUserProfileSuccess(response.data));
+    } catch (error) {
+      console.error("Error al actualizar datos de usuario:", error);
+      dispatch(
+        updateUserProfileFailure(error.response?.data || "Error en el servidor")
+      );
+    }
+  };
 
 export const updateProfilePictureRequest = () => ({
   type: UPDATE_PROFILE_PICTURE_REQUEST,
@@ -456,48 +496,186 @@ export const updateProfilePictureFailure = (error) => ({
   type: UPDATE_PROFILE_PICTURE_FAILURE,
   payload: error,
 });
-//actin para subir la imagen a cloudinary
-export const updateProfilePicturee = (userId, data) => ({
-  type: UPDATE_PROFILE_PICTURE,
-  payload: { userId, data },
-});
 
 // action para modificar la foto de perfil
-export const updateProfilePicture = (idKey, updatedFields) => async (dispatch) => {
-  dispatch(updateUserProfileRequest());
+export const updateProfilePicture =
+  (idKey, updatedFields) => async (dispatch) => {
+    dispatch(updateUserProfileRequest());
 
+    try {
+      const response = await axios.put(
+        `http://localhost:3003/users/profile/picture/${idKey}`,
+        updatedFields
+      );
+
+      dispatch(updateUserProfileSuccess(response.data));
+    } catch (error) {
+      console.error("Error al actualizar datos de usuario:", error);
+      dispatch(
+        updateUserProfileFailure(error.response?.data || "Error en el servidor")
+      );
+    }
+  };
+
+// action para agregar tarjeta
+export const updateUserpay = (userId, paymentMethods) => {
+  return async (dispatch) => {
+    dispatch({ type: UPDATE_USER_PAYMONTH_REQUEST });
+
+    try {
+      const response = await fetch(
+        `http://localhost:3003/users/${userId}/paymentMethods`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(paymentMethods), // Envía solo los datos de la tarjeta, no un objeto anidado
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Error al actualizar paymentMethods");
+      }
+
+      const updatedProfile = await response.json();
+
+      dispatch({
+        type: UPDATE_USER_PAYMONTH_SUCCESS,
+        payload: updatedProfile,
+      });
+    } catch (error) {
+      dispatch({
+        type: UPDATE_USER_PAYMONTH_FAILURE,
+        payload: error.message || "Error al actualizar el perfil del usuario",
+      });
+    }
+  };
+};
+
+//action para modificar usuarios desde admin
+
+const fetchUsersRequest = () => ({
+  type: FETCH_USERS_REQUEST,
+});
+
+const fetchUsersSuccess = (users) => ({
+  type: FETCH_USERS_SUCCESS,
+  payload: users,
+});
+
+const fetchUsersFailure = (error) => ({
+  type: FETCH_USERS_FAILURE,
+  payload: error,
+});
+
+export const fetchUsers = () => {
+  return async (dispatch) => {
+    dispatch(fetchUsersRequest());
+
+    try {
+      const response = await axios.get("http://localhost:3003/users/"); // Assuming your endpoint is '/users'
+
+      dispatch(fetchUsersSuccess(response.data));
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      dispatch(fetchUsersFailure("Error fetching users"));
+    }
+  };
+};
+
+//action para eliminar usuarios
+export const deleteUser = (userId) => async (dispatch) => {
   try {
-    
-    const response = await axios.put(`http://localhost:3000/users/profile/picture/${idKey}`, updatedFields);
+    await axios.delete(`http://localhost:3003/users/delete/${userId}`);
 
-    dispatch(updateUserProfileSuccess(response.data));
+    dispatch({
+      type: DELETE_USER_SUCCESS,
+      payload: userId,
+    });
   } catch (error) {
-    console.error('Error al actualizar datos de usuario:', error);
-    dispatch(updateUserProfileFailure(error.response?.data || 'Error en el servidor'));
+    console.error("Error deleting user:", error);
+    dispatch({
+      type: DELETE_USER_FAILURE,
+      payload: error.message || "Failed to delete user",
+    });
   }
 };
-// action para agregar tarjeta
+
+//action para modificar los datos del usuario desde admin
+const updateUserAdminRequest = () => ({
+  type: UPDATE_USER_ADMIN_REQUEST,
+});
+
+const updateUserAdminSuccess = (user) => ({
+  type: UPDATE_USER_ADMIN_SUCCESS,
+  payload: user,
+});
+
+const updateUserAdminFailure = (error) => ({
+  type: UPDATE_USER_ADMIN_FAILURE,
+  payload: error,
+});
+
+export const updateUserAdmin = (userId, userData) => async (dispatch) => {
+  dispatch(updateUserAdminRequest());
+
+  try {
+    const response = await axios.put(
+      `http://localhost:3003/users/eddituseradmin/${userId}`,
+      userData
+    );
+
+    dispatch(updateUserAdminSuccess(response.data)); // Puedes ajustar esto según la estructura de tu respuesta
+  } catch (error) {
+    console.error("Error updating user by admin:", error);
+    dispatch(updateUserAdminFailure("Error updating user by admin"));
+  }
+};
+
+export const deleteReviewAction = (reviewId) => async (dispatch) => {
+  try {
+    // Realizar la petición para eliminar la revisión
+    await axios.delete(`http://localhost:3003/reviews/${reviewId}`);
+
+    // Dispatch de la acción de éxito
+    dispatch({ type: DELETE_REVIEW_SUCCESS, payload: reviewId });
+  } catch (error) {
+    // Dispatch de la acción de error
+    dispatch({ type: DELETE_REVIEW_ERROR, payload: error });
+  }
+};
+
 export const addPaymentMethod = (paymentInfo) => {
   return async (dispatch) => {
     dispatch({ type: ADD_PAYMENT_METHOD_REQUEST });
     try {
-      const response = await axios.post('http://localhost:3003/users/addPayment', paymentInfo);
+      const response = await axios.post(
+        "http://localhost:3003/users/addPayment",
+        paymentInfo
+      );
       dispatch({
         type: ADD_PAYMENT_METHOD_SUCCESS,
-        payload: response.data 
+        payload: response.data,
       });
     } catch (error) {
       dispatch({
         type: ADD_PAYMENT_METHOD_FAILURE,
-        payload: error.response.data 
+        payload: error.response.data,
       });
     }
   };
-};  export const postCartItems = (userId,productId,itemsData) => async (dispatch) => {
+};
+
+export const postCartItems =
+  (userId, productId, itemsData) => async (dispatch) => {
     try {
-      const response = await axios.post( `http://localhost:3000/cart/${userId}/${productId}`, itemsData);
+      const response = await axios.post(
+        `http://localhost:3000/cart/${userId}/${productId}`,
+        itemsData
+      );
       const item = response.data;
-      console.log(item)
+      console.log(item);
       dispatch({
         type: POST_CART_ITEMS,
         payload: {
@@ -507,28 +685,26 @@ export const addPaymentMethod = (paymentInfo) => {
     } catch (error) {
       dispatch(createProductFailure(error.message || "Error al añadir"));
     }
+  };
+
+export const getAllItems = (userId) => async (dispatch) => {
+  dispatch({ type: GET_ALL_ITEMS });
+  try {
+    const response = await axios.get(`http://localhost:3000/cart/${userId}`);
+    dispatch({ type: GET_ALL_ITEMS, payload: response.data.CartItems });
+  } catch (error) {
+    console.error("Error fetching items:", error);
+    alert("Not found this data.");
   }
+};
 
-  export const getAllItems = (userId) => async (dispatch) => {
-    dispatch({ type: GET_ALL_ITEMS });
-    try {
-      const response = await axios.get( `http://localhost:3000/cart/${userId}`);
-      dispatch({ type: GET_ALL_ITEMS, payload: response.data.CartItems });
-    } catch (error) {
-      console.error("Error fetching items:", error);
-      alert("Not found this data.");
-    }
-  };
-
-  export const removeFromCart = (productId) => async (dispatch) => {
-    dispatch({ type: REMOVE_FROM_CART });
-    try {
-      await axios.delete(`http://localhost:3000/cart/1/${productId}`);
-      dispatch({ type: REMOVE_FROM_CART, payload: { productId } });
-    } catch (error) {
-      console.error("Error removing item from cart:", error);
-      alert("Error removing item from cart. Please try again.");
-    }
-  };
-
- 
+export const removeFromCart = (productId) => async (dispatch) => {
+  dispatch({ type: REMOVE_FROM_CART });
+  try {
+    await axios.delete(`http://localhost:3000/cart/1/${productId}`);
+    dispatch({ type: REMOVE_FROM_CART, payload: { productId } });
+  } catch (error) {
+    console.error("Error removing item from cart:", error);
+    alert("Error removing item from cart. Please try again.");
+  }
+};

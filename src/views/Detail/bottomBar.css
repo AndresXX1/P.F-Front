@@ -54,3 +54,9 @@
   color: #ffcc00;
   transform: scale(1.2);
 }
+
+@media (max-width: 768px){
+  .sneakerImages {
+    width: 50px;
+  }
+}

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import validation from "../Validaciones/validaciones";
+import validation from "./validations";
 import "./create.css";
 import { Link } from "react-router-dom";
 import Select from "react-select";
@@ -10,14 +10,12 @@ import {
   createProductFailure,
 } from "../../redux/actions/actions";
 import { useEffect } from "react";
-import IconButton from "@mui/material/IconButton";
-import Snackbar from "@mui/material/Snackbar";
+import styled from "@emotion/styled";
 
 const ProductForm = () => {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const [input, setInput] = useState({
     name: "",
@@ -80,7 +78,7 @@ const ProductForm = () => {
 
         console.log("Respuesta del servidor:", response);
         setMessage("Producto creado exitosamente.");
-        setSnackbarOpen(true);
+  
         setInput({
           name: "",
           brand: "",
@@ -93,25 +91,13 @@ const ProductForm = () => {
       } catch (error) {
         console.error("Error al crear el producto:", error);
         dispatch(createProductFailure(error));
-        setMessage(
-          "Error al crear el producto. Contacta con un administrador para más detalles."
-        );
-        setSnackbarOpen(true);
+        setMessage("Error al crear el producto. Verifica la consola para más detalles.");
       }
     } else {
       setMessage("Por favor, completa el formulario correctamente.");
-      setSnackbarOpen(true);
     }
   };
-
-  const handleSnackbarClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setSnackbarOpen(false);
-  };
-
-  const availableBrands = ["ADIDAS", "NIKE", "NEWBALANCE"];
+  const availableBrands = ["NIKE", "ADIDAS", "NEWBALANCE"];
   const brandColors = {
     NIKE: ["green", "white", "black", "pink", "yellow", "red", "blue"],
     ADIDAS: ["green", "white", "black", "pink", "yellow", "red", "blue"],

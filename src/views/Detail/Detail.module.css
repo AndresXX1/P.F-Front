@@ -139,6 +139,395 @@
   padding: 20px;
   margin-bottom: 80px;
 }
+@media (max-width: 768px){
+  .container{
+    margin: 0 auto;
+    width: 500px;
+    height: 500px;
+  }
+
+
+  .sneakersListContainer{
+    position: absolute;
+    top: -206px;
+    left: 20px;
+    width: 200px;
+  }
+  
+  .detailContainer{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: 380px;
+    position: relative;
+    left: -36px;
+    margin-top:20px;
+    box-shadow: 0px 0px 2px black;
+  }
+    
+  .detailContent h2{
+    color: #0D6EFD;
+    font-size: 22px;
+    font-weight: 100;
+    position: relative;
+    top: -20px;
+    margin-bottom: 10px;
+    margin-left: 30px;
+  }
+  
+  .detailContent h4{
+    font-weight: 300;
+    margin-left: 30px;
+    font-size: 14px;
+  }
+  
+  .imagePreview{
+    width: 280px;
+    height: 280px;
+  }
+
+  .imagePreview img{
+    width: 380px;
+    height: 260px;
+    object-fit: cover;
+    user-select: none;
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none;
+  }
+  
+  .imagePreview {
+    user-select: none;
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none;
+  }
+  
+  .containerColors{
+    width: 150px;
+    height: 26px;
+    position: relative;
+    left: 80px;
+    top: -38px;
+    border-radius: 4px;
+    background-color: rgba(128, 128, 128, 0.14);
+    text-justify: center;
+    display: flex;
+  }
+  
+  .containerColors span{
+    display: flex;
+    text-justify: center;
+    font-size: 12px;
+    position: relative;
+    top: -4px;
+    left: -2px;
+    font-weight: 100;
+    margin-left: 10px;
+
+  }
+  
+  .sizesContainer{
+    border-radius: 4px;
+    display: inline-block;
+    position: absolute;
+    left: 20px;
+  }
+  
+  .sizesContainer span{
+    font-size: 12px;
+    position: relative;
+    top: -38px;
+    border-radius: 4px;
+    font-weight: 100;
+  }
+  
+  .price{
+    margin: 0 auto;
+    position: relative;
+    top: -50px;
+    font-weight: 100;
+    color: green;
+  }
+  
+  .price h4{
+    font-weight: 500;
+    font-size: 16px;
+    position: relative;
+    top: 20px;
+  }
+  
+  .nameContainer h4{
+    font-size: 26px;
+    font-weight:500;
+    position: relative;
+    top: -10px;
+  }
+  
+  .reviewContainer{
+    display: flex;
+    box-shadow: 0px 0px 2px black;
+    position: relative;
+    top: 10px;
+    left: -36px;
+    width: 380px;
+  }
+}
+
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .container{
+    margin: 0 auto;
+    width: 700px;
+    height: 700px;
+  }
+
+  .sneakersListContainer{
+    position: absolute;
+    top: -206px;
+    left: 20px;
+    width: 200px;
+  }
+  
+  .detailContainer{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: 600px;
+    position: relative;
+    left: -30px;
+    margin-top:20px;
+    box-shadow: 0px 0px 2px black;
+  }
+    
+  .detailContent h2{
+    color: #0D6EFD;
+    font-size: 30px;
+    font-weight: 100;
+    position: relative;
+    top: 40px;
+    margin-bottom: 30px;
+    margin-left: 30px;
+  }
+  
+  .detailContent h4{
+    font-weight: 300;
+    margin-left: 30px;
+    font-size: 18px;
+  }
+  
+  .imagePreview{
+    width: 280px;
+    height: 280px;
+  }
+
+  .imagePreview img{
+    width: 600px;
+    height: 320px;
+    object-fit: cover;
+    user-select: none;
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none;
+  }
+  
+  .containerColors{
+    width: 150px;
+    height: 26px;
+    position: relative;
+    left:100px;
+    top: -32px;
+    border-radius: 4px;
+    background-color: rgba(128, 128, 128, 0.14);
+    text-justify: center;
+    display: flex;
+  }
+  
+  .containerColors span{
+    display: flex;
+    text-justify: center;
+    font-size: 14px;
+    position: relative;
+    top: -4px;
+    left:-10px;
+    font-weight: 100;
+    margin-left: 10px;
+  }
+  
+  .sizesContainer{
+    border-radius: 4px;
+    display: inline-block;
+    position: absolute;
+    left: 20px;
+  }
+  
+  .sizesContainer span{
+    font-size: 14px;
+    position: relative;
+    top: -28px;
+    border-radius: 4px;
+    font-weight: 100;
+  }
+  
+  .price{
+    margin: 0 auto;
+    position: relative;
+    top: -50px;
+    font-weight: 100;
+    color: green;
+  }
+  
+  .price h4{
+    left: 4px;
+    font-weight: 700;
+    font-size: 18px;
+    position: relative;
+    top: 40px;
+  }
+  
+  .nameContainer h4{
+    font-size: 36px;
+    font-weight:400;
+    position: relative;
+    top: 30px;
+  }
+  
+  .reviewContainer{
+    display: flex;
+    box-shadow: 0px 0px 2px black;
+    position: relative;
+    top: 10px;
+    width: 470px;
+    padding: 20px;
+    margin-bottom: 80px;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1200px) {
+  .container{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 830px;
+    margin: 0 auto;
+    top: 20px;
+    left: 50px;
+    position: relative;
+    margin-top: 30px;
+  }
+  
+  .sneakersListContainer{
+    position: absolute;
+    top: -206px;
+    left: 90px;
+  }
+  
+  .detailContainer{
+    box-shadow: 0px 0px 2px black;
+    display:flex;
+    width: 800px;
+    position: relative;
+    left: -40px;
+  }
+    
+  .detailContent h2{
+    width: 400px;
+    color: #0D6EFD;
+    font-size: 20px;
+    font-weight: 400;
+    margin-left: 30px;
+  }
+  
+  .detailContent h4{
+    margin-top: 20px;
+    font-weight: 300;
+    margin-left: 30px;
+    font-size: 16px;
+  }
+  
+  .imagePreview img{
+    width: 440px;
+    height: 440px;
+    display: flex;
+    object-fit: cover;
+    user-select: none;
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none;
+  }
+  
+  .imagePreview {
+    user-select: none;
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none;
+  }
+  
+  .containerColors{
+    width: 190px;
+    height: 30px;
+    position: relative;
+    left: 100px;
+    top: -32px;
+    padding: 8px;
+    border-radius: 4px;
+    background-color: rgba(128, 128, 128, 0.14);
+    text-justify: center;
+    display: flex;
+    margin-bottom: 0px;
+  }
+  
+  .containerColors span{
+    display: flex;
+    text-justify: center;
+    font-size: 12px;
+    font-weight: 100;
+    top: -2px;
+    position: relative;
+    margin-left: 16px;
+  }
+  
+  .sizesContainer span{
+    font-size: 14px;
+    margin: 60px;
+    height: 40px;
+    padding: 8px;
+    border-radius: 4px;
+    background-color: rgba(128, 128, 128, 0.14);
+    top: -29px;
+    left: 40px;
+    position: relative;
+    font-weight: 100;
+  }
+  
+  .price{
+    margin: 0 auto;
+    position: relative;
+    top: -40px;
+    color: green;
+  }
+  .price h4{
+    font-weight: 400;
+    font-size: 18px;
+  }
+  
+  .nameContainer h4{
+    font-size: 24px;
+    font-weight: 500;
+  }
+  
+  
+  .reviewContainer{
+    display: flex;
+    box-shadow: 0px 0px 2px black;
+    position: relative;
+    top: 10px;
+    left: -40px;
+    width: 800px;
+    padding: 20px;
+    margin-bottom: 80px;
+  }
+}
 
 .quantityContainer {
   margin-top: 100px;
@@ -199,4 +588,395 @@
 
 .homeButton:hover {
   background-color: #0056b3;
+}
+
+
+@media (max-width: 768px){
+  .container{
+    margin: 0 auto;
+    width: 500px;
+    height: 500px;
+  }
+
+
+  .sneakersListContainer{
+    position: absolute;
+    top: -206px;
+    left: 20px;
+    width: 200px;
+  }
+  
+  .detailContainer{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: 380px;
+    position: relative;
+    left: -36px;
+    margin-top:20px;
+    box-shadow: 0px 0px 2px black;
+  }
+    
+  .detailContent h2{
+    color: #0D6EFD;
+    font-size: 22px;
+    font-weight: 100;
+    position: relative;
+    top: -20px;
+    margin-bottom: 10px;
+    margin-left: 30px;
+  }
+  
+  .detailContent h4{
+    font-weight: 300;
+    margin-left: 30px;
+    font-size: 14px;
+  }
+  
+  .imagePreview{
+    width: 280px;
+    height: 280px;
+  }
+
+  .imagePreview img{
+    width: 380px;
+    height: 260px;
+    object-fit: cover;
+    user-select: none;
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none;
+  }
+  
+  .imagePreview {
+    user-select: none;
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none;
+  }
+  
+  .containerColors{
+    width: 150px;
+    height: 26px;
+    position: relative;
+    left: 80px;
+    top: -38px;
+    border-radius: 4px;
+    background-color: rgba(128, 128, 128, 0.14);
+    text-justify: center;
+    display: flex;
+  }
+  
+  .containerColors span{
+    display: flex;
+    text-justify: center;
+    font-size: 12px;
+    position: relative;
+    top: -4px;
+    left: -2px;
+    font-weight: 100;
+    margin-left: 10px;
+
+  }
+  
+  .sizesContainer{
+    border-radius: 4px;
+    display: inline-block;
+    position: absolute;
+    left: 20px;
+  }
+  
+  .sizesContainer span{
+    font-size: 12px;
+    position: relative;
+    top: -38px;
+    border-radius: 4px;
+    font-weight: 100;
+  }
+  
+  .price{
+    margin: 0 auto;
+    position: relative;
+    top: -50px;
+    font-weight: 100;
+    color: green;
+  }
+  
+  .price h4{
+    font-weight: 500;
+    font-size: 16px;
+    position: relative;
+    top: 20px;
+  }
+  
+  .nameContainer h4{
+    font-size: 26px;
+    font-weight:500;
+    position: relative;
+    top: -10px;
+  }
+  
+  .reviewContainer{
+    display: flex;
+    box-shadow: 0px 0px 2px black;
+    position: relative;
+    top: 10px;
+    left: -36px;
+    width: 380px;
+  }
+}
+
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .container{
+    margin: 0 auto;
+    width: 700px;
+    height: 700px;
+  }
+
+  .sneakersListContainer{
+    position: absolute;
+    top: -206px;
+    left: 20px;
+    width: 200px;
+  }
+  
+  .detailContainer{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: 600px;
+    position: relative;
+    left: -30px;
+    margin-top:20px;
+    box-shadow: 0px 0px 2px black;
+  }
+    
+  .detailContent h2{
+    color: #0D6EFD;
+    font-size: 30px;
+    font-weight: 100;
+    position: relative;
+    top: 40px;
+    margin-bottom: 30px;
+    margin-left: 30px;
+  }
+  
+  .detailContent h4{
+    font-weight: 300;
+    margin-left: 30px;
+    font-size: 18px;
+  }
+  
+  .imagePreview{
+    width: 280px;
+    height: 280px;
+  }
+
+  .imagePreview img{
+    width: 600px;
+    height: 320px;
+    object-fit: cover;
+    user-select: none;
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none;
+  }
+  
+  .containerColors{
+    width: 150px;
+    height: 26px;
+    position: relative;
+    left:100px;
+    top: -32px;
+    border-radius: 4px;
+    background-color: rgba(128, 128, 128, 0.14);
+    text-justify: center;
+    display: flex;
+  }
+  
+  .containerColors span{
+    display: flex;
+    text-justify: center;
+    font-size: 14px;
+    position: relative;
+    top: -4px;
+    left:-10px;
+    font-weight: 100;
+    margin-left: 10px;
+  }
+  
+  .sizesContainer{
+    border-radius: 4px;
+    display: inline-block;
+    position: absolute;
+    left: 20px;
+  }
+  
+  .sizesContainer span{
+    font-size: 14px;
+    position: relative;
+    top: -28px;
+    border-radius: 4px;
+    font-weight: 100;
+  }
+  
+  .price{
+    margin: 0 auto;
+    position: relative;
+    top: -50px;
+    font-weight: 100;
+    color: green;
+  }
+  
+  .price h4{
+    left: 4px;
+    font-weight: 700;
+    font-size: 18px;
+    position: relative;
+    top: 40px;
+  }
+  
+  .nameContainer h4{
+    font-size: 36px;
+    font-weight:400;
+    position: relative;
+    top: 30px;
+  }
+  
+  .reviewContainer{
+    display: flex;
+    box-shadow: 0px 0px 2px black;
+    position: relative;
+    top: 10px;
+    width: 470px;
+    padding: 20px;
+    margin-bottom: 80px;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1200px) {
+  .container{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 830px;
+    margin: 0 auto;
+    top: 20px;
+    left: 50px;
+    position: relative;
+    margin-top: 30px;
+  }
+  
+  .sneakersListContainer{
+    position: absolute;
+    top: -206px;
+    left: 90px;
+  }
+  
+  .detailContainer{
+    box-shadow: 0px 0px 2px black;
+    display:flex;
+    width: 800px;
+    position: relative;
+    left: -40px;
+  }
+    
+  .detailContent h2{
+    width: 400px;
+    color: #0D6EFD;
+    font-size: 20px;
+    font-weight: 400;
+    margin-left: 30px;
+  }
+  
+  .detailContent h4{
+    margin-top: 20px;
+    font-weight: 300;
+    margin-left: 30px;
+    font-size: 16px;
+  }
+  
+  .imagePreview img{
+    width: 440px;
+    height: 440px;
+    display: flex;
+    object-fit: cover;
+    user-select: none;
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none;
+  }
+  
+  .imagePreview {
+    user-select: none;
+    -webkit-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none;
+  }
+  
+  .containerColors{
+    width: 190px;
+    height: 30px;
+    position: relative;
+    left: 100px;
+    top: -32px;
+    padding: 8px;
+    border-radius: 4px;
+    background-color: rgba(128, 128, 128, 0.14);
+    text-justify: center;
+    display: flex;
+    margin-bottom: 0px;
+  }
+  
+  .containerColors span{
+    display: flex;
+    text-justify: center;
+    font-size: 12px;
+    font-weight: 100;
+    top: -2px;
+    position: relative;
+    margin-left: 16px;
+  }
+  
+  .sizesContainer span{
+    font-size: 14px;
+    margin: 60px;
+    height: 40px;
+    padding: 8px;
+    border-radius: 4px;
+    background-color: rgba(128, 128, 128, 0.14);
+    top: -29px;
+    left: 40px;
+    position: relative;
+    font-weight: 100;
+  }
+  
+  .price{
+    margin: 0 auto;
+    position: relative;
+    top: -40px;
+    color: green;
+  }
+  .price h4{
+    font-weight: 400;
+    font-size: 18px;
+  }
+  
+  .nameContainer h4{
+    font-size: 24px;
+    font-weight: 500;
+  }
+  
+  
+  .reviewContainer{
+    display: flex;
+    box-shadow: 0px 0px 2px black;
+    position: relative;
+    top: 10px;
+    left: -40px;
+    width: 800px;
+    padding: 20px;
+    margin-bottom: 80px;
+  }
 }
