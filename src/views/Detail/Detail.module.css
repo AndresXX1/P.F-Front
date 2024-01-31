@@ -14,12 +14,14 @@
 .sneakersListContainer {
   position: absolute;
   top: 2px; /* Ajusta según tu diseño */
-  right: 93%; /* Ajusta según tu diseño */
+  right: 100%;
+  margin-right: 55px; /* Ajusta según tu diseño */
 }
 
 .detailContainer {
   box-shadow: 0px 0px 2px black;
   display: flex;
+  flex: 1;
 }
 
 .detailContent {
@@ -27,25 +29,48 @@
 }
 
 .detailContent h2 {
-  color: #0D6EFD;
-  font-size: 24px;
+  color: black;
+  font-size: 20px;
   font-weight: 600;
 }
 
 .detailContent h4 {
-  margin-top: 20px;
+  margin-top: 10px;
   font-weight: 400;
   font-size: 20px;
 }
 
+.detailContent label {
+  width: 100px;
+  color: #222;
+  padding-top: 10px;
+  font-weight: 700;
+}
+
+.detailContent select {
+  width: 100px;
+  border : none ;
+  padding-left: 10px;
+  background-color: #666;
+  color: white;
+  margin-left: 100px;
+}
+
 .imagePreview img {
-  width: 600px;
+  width: 800px;
   height: 600px;
-  object-fit: cover;
+  margin-bottom:50px;
+  margin-right: 50px;
+  object-fit: contain;
+  flex: 1;
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
+}
+
+.imagePreview {
+  flex: 1;
 }
 
 .containerColors,
@@ -54,13 +79,14 @@
   height: 40px;
   position: relative;
   top: 8px;
-  padding: 8px;
   border-radius: 4px;
   background-color: rgba(128, 128, 128, 0.14);
   text-align: center;
   display: flex;
-  margin-top: 20px;
+  margin-top: 40px;
 }
+
+
 
 .containerColors span {
   font-size: 16px;
@@ -84,18 +110,23 @@
   align-items: center;
 }
 
+.sizes h4 {
+  margin-bottom: 30px;
+  align-items: center;
+}
+
 .price {
   margin: 20px 0;
-  font-weight: 600;
-  color: green;
+  font-weight: 400;
+  color: black;
 }
 
 .price h4 {
-  font-size: 24px;
+  font-size: 20px;
 }
 
 .nameContainer h4 {
-  font-size: 30px;
+  font-size: 50px;
   font-weight: 600;
 }
 
@@ -110,7 +141,7 @@
 }
 
 .quantityContainer {
-  margin-top: 20px;
+  margin-top: 100px;
 }
 
 .quantityButtons {
@@ -120,7 +151,7 @@
 
 .quantityButtons button {
   font-size: 18px;
-  background-color: #0D6EFD;
+  background-color: black;
   color: white;
   border: none;
   padding: 8px 16px;
@@ -136,13 +167,13 @@
 
 .addToCartButton {
   font-size: 18px;
-  background-color: green;
+  background-color: black;
   color: white;
   border: none;
   padding: 12px 24px;
-  border-radius: 4px;
+  border-radius: 10px;
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: 50px;
   transition: background-color 0.3s ease-in-out;
 }
 

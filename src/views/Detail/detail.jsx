@@ -125,11 +125,12 @@ const Detail = ({ brand }) => {
             </div>
           )}
           <div className={style.price}>
-            <h4>${zapatilla.price} USD</h4>
+            <h4>${zapatilla.price * quantity} USD</h4>
           </div>
           <div className={style.containerColors}>
-            <h4>Colors:</h4>
+            <label>Colors:</label>
             <select onChange={handleColorChange}>
+            <option value="">Select</option>
               {zapatilla.colors.map((color, index) => (
                 <option key={index} value={color}>
                   {color}
@@ -138,8 +139,11 @@ const Detail = ({ brand }) => {
             </select>
           </div>
           <div className={style.sizesContainer}>
-            <h4>Sizes:</h4>
+            <div className={style.sizes}>
+            <label>Sizes:</label>
+            </div>
             <select onChange={handleSizeChange}>
+            <option value="">Select</option>
               {zapatilla.size.map((size, index) => (
                 <option key={index} value={size}>
                   {size}
@@ -155,9 +159,11 @@ const Detail = ({ brand }) => {
               <button onClick={() => setQuantity(quantity + 1)}>+</button>
             </div>
           </div>
+          
           <button className={style.addToCartButton} onClick={handleAddToCart}>
             Agregar al Carrito
           </button>
+         
         </div>
       </div>
       <div className={style.reviewContainer}>

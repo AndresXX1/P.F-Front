@@ -34,7 +34,7 @@ const Shopping = () => {
 
   const mercadoPago = async () => {
     try {
-      const response = await axios.post( "http://localhost:3000/payment/createOrder",{
+      const response = await axios.post( `http://localhost:3000/payment/createOrder/${auth.token.id}`,{
         title : "pago eccomerce",
         quantity: 1,
         price: total

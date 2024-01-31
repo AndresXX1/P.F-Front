@@ -52,8 +52,7 @@ function Filter({page,pageSize}) {
         name="FilterBrand" 
 
         options={[
-          { label:` ${brand && brand.length > 0 ?brand : "selected Brand"}`  },
-          { value: '', label: 'all brands'},
+          { value: " ", label:` ${brand && brand.length > 0 ?brand : "selected Brand"}`  },
           { value: 'ADIDAS', label: 'adidas'},
           { value: 'NIKE', label: 'nike' },
           { value: 'NEW BALANCE', label: 'newbalance' },  
@@ -65,7 +64,7 @@ function Filter({page,pageSize}) {
         name="FilterColor"
         options={[
           { value:" ",label:`${color && color.length>0 ? color : "selected Color"}`},
-          { value: '', label: 'all colors' },
+          { value:"" , label: 'all colors' },
           { value: 'black', label: 'black' },
           { value: 'red', label: 'red' },
           { value: 'blue', label: 'blue' },
