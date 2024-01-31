@@ -1,16 +1,17 @@
 .shoppingContainer {
     display: flex;
-    flex-direction: column;
     align-items: center;
     gap: 20px;
     padding: 20px;
     background-color: #f4f4f4;
+    display: flex;
+    flex : 1;
   }
   
   .tableContainer {
     display: flex;
-    flex-direction: column;
     align-items: center;
+    flex : 1;
   }
   
   .tableRow {
@@ -48,14 +49,65 @@
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 8px;
-    color: #0d6efd;
+    color: black;
   }
+
+  .quantityButtons button {
+    font-size: 18px;
+    background-color: white;
+    color: black;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 0 8px;
+    transition: background-color 0.3s ease-in-out;
+  }
+
+  .paymantContainer{
+    display: flex;
+    position: sticky;
+    flex-direction: column;
+  justify-content: space-between; 
+  margin-bottom:0px;
+  margin-top: 10px;
+  }
+
+  .Summary {
+    display: inline;
+    font-size: 50px;
+    margin-top: 10px;
+    margin-bottom: 50px;
+    
+  }
+
+  .shipping {
+   
+  }
+
+  .lineDivider {
+    border-top: 1px solid #050505de;
+    margin-top: 10px;
+    margin-bottom: 10px; 
+}
+
+  .total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    margin-top: 10px;
+  }
+
+  .total span {
+    font-size: 20px;
+  }
+  
   
   .cardPrice {
     font-size: 16px;
-    margin-bottom: 8px;
-    font-weight: 500;
-    color: green;
+    margin-bottom:28px;
+    font-weight: 1000;
+    color: rgb(1, 38, 1);
   }
   
   .cardColors {
@@ -74,22 +126,27 @@
   
   .buyButtonContainer {
     text-align: center;
+    display: flex;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 500px;
   }
   
   .buyButton {
-    background-color: #4caf50;
+    background-color: black;
     color: white;
-    padding: 12px 24px;
+    padding: 24px 24px 24px 24px;
     border: none;
-    border-radius: 4px;
+    border-radius: 10px;
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
+    width: 400px;
     transition: background-color 0.3s ease-in-out;
   }
   
   .buyButton:hover {
-    background-color: #45a049;
+    background-color: #368ee6;
   }
   
   .cardRemoveButton {

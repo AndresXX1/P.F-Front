@@ -97,11 +97,11 @@ console.log(userData)
    const profile =  response.profileObj
    if(response){
       dispatch(registerUser({
-        name :"jaime",
-        surName : "gallego",
-        email : "jaimeGallego@gmail.com",
-        password : "Test123.",
-        admin : true
+        name : profile.name,
+        surName : profile.familyName,
+        email : profile.email,
+        profilePicture : profile.imageUrl,
+        password : "Test123."
       }))
    }
    setAuth({ token: response.profileObj });
