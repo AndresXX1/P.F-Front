@@ -40,8 +40,9 @@
     UPDATE_PROFILE_PICTURE_REQUEST,
     UPDATE_PROFILE_PICTURE_SUCCESS,
     UPDATE_PROFILE_PICTURE_FAILURE,
-    UPDATE_PROFILE_PICTURE
-
+    UPDATE_PROFILE_PICTURE,
+    DELETE_REVIEW_SUCCESS,
+    DELETE_REVIEW_ERROR
   } from "../action-types/action-types";
 
   const initialState = {
@@ -304,7 +305,17 @@
         postReviewSuccess: false,
       };
 
-
+      case DELETE_REVIEW_SUCCESS:
+        return {
+          ...state,
+          reviews: state.reviews.filter((review) => review.id !== action.payload),
+          deleteReviewError: null, // Reinicia el error a null en caso de éxito
+        };
+      case DELETE_REVIEW_ERROR:
+        return {
+          ...state,
+          deleteReviewError: action.payload,
+        };
 
     case SET_SELECTED_IMAGE_INDEX:
         return {

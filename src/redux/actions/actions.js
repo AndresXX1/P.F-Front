@@ -42,6 +42,8 @@ import {
   ADD_PAYMENT_METHOD_FAILURE,
   ADD_PAYMENT_METHOD_SUCCESS,
   ADD_PAYMENT_METHOD_REQUEST,
+  DELETE_REVIEW_ERROR,
+  DELETE_REVIEW_SUCCESS
 } from "../action-types/action-types";
 
 export const registerUser = (datauser) => async (dispatch) => {
@@ -123,7 +125,7 @@ export const getSneakers = (page, pageSize ="8", brand, colors, size, price) => 
       console.log(url);
       const response = await axios.get(url);
       const sneakersData = response.data;
-
+      console.log("ESTO VIENE DE GETALLSNEAKERS", sneakersData)
       dispatch({
         type: GET_ALL_SNEAKERS,
         payload: {
@@ -360,6 +362,19 @@ export const postReviews = (productId, rating, content, name, surName, profileIm
       console.error('Error fetching reviews:', error);
     }
 
+  };
+
+  export const deleteReviewAction = (reviewId) => async (dispatch) => {
+    try {
+      // Realizar la petición para eliminar la revisión
+      await axios.delete(`http://localhost:3000/reviews/${reviewId}`);
+  
+      // Dispatch de la acción de éxito
+      dispatch({ type: DELETE_REVIEW_SUCCESS, payload: reviewId });
+    } catch (error) {
+      // Dispatch de la acción de error
+      dispatch({ type: DELETE_REVIEW_ERROR, payload: error });
+    }
   };
 
   export const updateUserRequest = () => ({

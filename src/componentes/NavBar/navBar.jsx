@@ -11,7 +11,9 @@ import {gapi} from "gapi-script";
 export default function NavBar(props) {
   const { auth, setAuth } = useContext(AuthContext);
   const history = useHistory();
-  const [menuOpen, setMenuOpen] = useState(false);
+
+  const userRole = auth && auth.token ? auth.token.rol : null;
+
 
   const logOut = () => {
     if (window.gapi && window.gapi.auth2) {
@@ -40,6 +42,7 @@ const imgDefault = "https://static-00.iconduck.com/assets.00/profile-circle-icon
 const accessToken = token ? token.accessToken : null;
     return (
       <>
+
         <div className={style.navContainer}>
           <nav className="navbar navbar-expand-lg bg-white">
             <div className="container-fluid">
@@ -51,6 +54,21 @@ const accessToken = token ? token.accessToken : null;
               <div>
                 <div className="collapse navbar-collapse" id="navbarNavDropdown">
                   <ul className="navbar-nav">
+                  {userRole === "admin" && (
+                  <li className="nav-item">
+                    <Link
+                      to="/create"
+                      className="nav-link text-black"
+                      style={{
+                        position: "relative",
+                        top: "2px",
+                        marginRight: "-50px",
+                      }}
+                    >
+                      Create
+                    </Link>
+                  </li>
+                  )}
                     <li className={style.navBarContentFirst}>
                       <Link to="/about" className="nav-link text-black" style={{ position: "relative", top: "1px", marginRight: "10px" }}>
                         ¿Quiénes somos?
@@ -116,11 +134,6 @@ const accessToken = token ? token.accessToken : null;
               <div className={style.navBarContent}>
                 <div className="collapse navbar-collapse" id="navbarNavDropdown">
                   <ul className="navbar-nav">
-                    <li className="nav-item">
-                      <Link to="/create" className="nav-link text-black" style={{ position: "relative", top: "1px", marginRight: "8px" }}>
-                        Create
-                      </Link>
-                    </li>
                     <li className="nav-item">
                       <Link to="/about" className="nav-link text-black">
                         ¿Quiénes somos?

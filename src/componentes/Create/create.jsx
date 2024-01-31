@@ -125,11 +125,11 @@ const ProductForm = () => {
     setSnackbarOpen(false);
   };
 
-  const availableBrands = ["adidas","nike","newbalance"];
+  const availableBrands = ["ADIDAS","NIKE","NEWBALANCE"];
   const brandColors = {
-    nike: ["green", "white", "black"],
-    adidas: ["blue", "white", "grey"],
-    newbalance: ["black", "white", "red"],
+    NIKE: ["green", "white", "black"],
+    ADIDAS: ["blue", "white", "grey"],
+    NEWBALANCE: ["black", "white", "red"],
   };
   
   const colorOptions = [

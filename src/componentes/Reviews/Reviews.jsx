@@ -39,7 +39,6 @@ const BasicRating = () => {
     const userInput = e.target.value;
     const truncatedText = userInput.slice(0, 600);
     setReview(truncatedText);
-    setCharCount(truncatedText.length);
   };
   
 
@@ -125,7 +124,7 @@ const BasicRating = () => {
                 onChange={(event, newValue) => {
                   setValue(newValue);
                 }} 
-              />
+                />
               <span>{value}</span>
             </div>
           </Form.Group>
@@ -137,7 +136,7 @@ const BasicRating = () => {
               cols="4"
               onChange={handleChange}
               placeholder="What do you think about this product?"
-            ></textarea>   
+              ></textarea>   
             <button variant="primary" type="submit" onClick={handleSubmit}>
               <h5>Send</h5>
             </button>
@@ -149,8 +148,8 @@ const BasicRating = () => {
             </div>
             {productReviews.length > 0 ? (
               productReviews
-                .slice()
-                .reverse() 
+              .slice()
+              .reverse() 
               .map((review) => (
                 <div key={review.id} className={style.userReview}>
                   <div className={style.userDataReview}>

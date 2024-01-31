@@ -14,6 +14,7 @@ import UserProfileForm from "./componentes/perfilDeUsuario/edditProfile"
 // import ProtectedRoute from './GeneralLogin';
 import UserDashboard from './componentes/DashBoard Usuario/dashBoard';
 import { AuthProvider } from "./componentes/AuthProvider/authProvider";
+import DeleteReview from "./componentes/DashBoard Usuario/Delete reviews/deleteReviews";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
  <Route exact path="/register" component={Registro} />
  <Route exact path="/detail/:id" component={Detail} />
  <Route exact path="/Configuracion" component= {UserDashboard} />
+ <Route exact path="/Reviews" component= {DeleteReview} />
 </Switch> 
       </div>
     </Router>
