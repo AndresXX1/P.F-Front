@@ -3,9 +3,7 @@ import {
   FETCH_PRODUCT_DETAIL_SUCCESS,
   SET_SELECTED_SNEAKER_INDEX,
   CLEAR_CREATE_PRODUCT_STATE,
-  GET_ALL_SNEAKERS_SUCCESS,
   UPDATE_SELECTED_SNEAKER,
-  SAVE_USER_DATA_SESSION,
   CREATE_PRODUCT_SUCCESS,
   CREATE_PRODUCT_FAILURE,
   CREATE_PRODUCT_REQUEST,
@@ -13,37 +11,39 @@ import {
   POST_PRODUCT_SUCCESS,
   POST_PRODUCT_FAILURE,
   CLEAR_PRODUCT_DETAIL,
-
-  CREATE_PRODUCT_REQUEST,
-  CREATE_PRODUCT_SUCCESS,
-  CREATE_PRODUCT_FAILURE,
-  GET_ALL_SNEAKERS, 
-  GET_SEARCH_REQUEST, 
-  GET_SEARCH_SUCCESS, 
+  GET_ALL_SNEAKERS,
+  GET_SEARCH_REQUEST,
+  GET_SEARCH_SUCCESS,
   GET_SEARCH_NOTFOUND,
   RESET_CURRENTPAGE,
-
   BRAND_VALUE,
   COLOR_VALUE,
   ORDER_PRICE,
   SET_REVIEWS,
   SIZE_VALUE,
-
   STATE_DATA_PAGE,
-  CLEAR_CREATE_PRODUCT_STATE,
-  UPDATE_SELECTED_SNEAKER,
-  SET_SELECTED_SNEAKER_INDEX,
-  SAVE_USER_DATA_SESSION,
   SET_ADMIN,
-  SET_REVIEWS,
   SET_SELECTED_IMAGE_INDEX,
   LOGIN_USER,
   POST_CART_ITEMS,
   GET_ALL_ITEMS,
   REMOVE_FROM_CART,
-
-  
-  
+  REVIEW_POST_REQUEST,
+  REVIEW_POSTED_SUCCESS,
+  REVIEW_POSTED_FAILURE,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILURE,
+  UPDATE_PASSWORD_REQUEST,
+  UPDATE_PASSWORD_SUCCESS,
+  UPDATE_PASSWORD_FAILURE,
+  UPDATE_USER_PROFILE_REQUEST,
+  UPDATE_USER_PROFILE_SUCCESS,
+  UPDATE_USER_PROFILE_FAILURE,
+  UPDATE_PROFILE_PICTURE_REQUEST,
+  UPDATE_PROFILE_PICTURE_SUCCESS,
+  UPDATE_PROFILE_PICTURE_FAILURE,
+  UPDATE_PROFILE_PICTURE,
 } from "../action-types/action-types";
 
 const initialState = {
@@ -55,22 +55,21 @@ const initialState = {
     error: null,
   },
   error: null,
-  
   sneakers: [],
-  allCopySneakers:[],
-  currentPage:[],
-  totalSneakers:[],
-  brandValue : [],
-  colorValue :[],
-  sizeValue:[],
-  orderPrice:[],
-  dataSearch:[],
+  allCopySneakers: [],
+  currentPage: [],
+  totalSneakers: [],
+  brandValue: [],
+  colorValue: [],
+  sizeValue: [],
+  orderPrice: [],
+  dataSearch: [],
   reviews: [],
   postingReview: false,
-postReviewError: null,
-postReviewSuccess: false,
-  selectedImageIndex:[],
-  login :{},
+  postReviewError: null,
+  postReviewSuccess: false,
+  selectedImageIndex: [],
+  login: {},
   loading: false,
   error: null,
   auth: {
@@ -81,216 +80,204 @@ postReviewSuccess: false,
   searchLoading: false,
   searchError: null,
   searchData: null,
-  isAdmin:false,
+  isAdmin: false,
   updateUserError: null,
-  profilePicture: '',
+  profilePicture: "",
   isUpdatingProfilePicture: false,
   updateProfilePictureError: null,
   users: [],
   shoppingItems: [],
   products: [],
 };
-const stateSearchBar = {
-  data: null,
-  page: 0,
-  loading: false,
-  error: null,
-}
 
 const stateSearchBar = {
   data: null,
   page: 0,
   loading: false,
   error: null,
-}
+};
 
-  const productReducer = (state = initialState, action) => {
-    switch (action.type) {
-      case POST_PRODUCT_REQUEST:
-        return {
-          ...state,
-          loading: true,
-          error: null,
-        };
+const productReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case POST_PRODUCT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
 
-      case POST_PRODUCT_SUCCESS:
-        return {
-          ...state,
-          loading: false,
-          product: action.payload,
-          error: null,
-        };
+    case POST_PRODUCT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        product: action.payload,
+        error: null,
+      };
 
-      case POST_PRODUCT_FAILURE:
-        return {
-          ...state,
-          loading: false,
-          product: null,
-          error: action.payload,
-        };
+    case POST_PRODUCT_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        product: null,
+        error: action.payload,
+      };
 
-        case GET_ALL_SNEAKERS:
-          return {
-            ...state,
-            sneakers: action.payload.sneakers,
-            allCopySneakers: action.payload.sneakers,
-            currentPage: action.payload.currentPage,
-            totalSneaker: action.payload.totalSneaker,
-            page:0,
-            selectedImageIndex : []
-          };
+    case GET_ALL_SNEAKERS:
+      return {
+        ...state,
+        sneakers: action.payload.sneakers,
+        allCopySneakers: action.payload.sneakers,
+        currentPage: action.payload.currentPage,
+        totalSneaker: action.payload.totalSneaker,
+        page: 0,
+        selectedImageIndex: [],
+      };
 
+    case FETCH_PRODUCT_DETAIL_SUCCESS:
+      console.log("Detalle del producto:", action.payload);
+      return {
+        ...state,
+        product: {
+          ...state.product,
+          detail: action.payload,
+        },
+        error: null,
+      };
 
-      case FETCH_PRODUCT_DETAIL_SUCCESS:
-        console.log("Detalle del producto:", action.payload);
-        return {
-          ...state,
-          product: {
-            ...state.product,
-            detail: action.payload,
-          
-          },
-          error: null,
-        };
+    case FETCH_PRODUCT_DETAIL_FAILURE:
+      return {
+        ...state,
+        product: {
+          ...state.product,
+          detail: null,
+        },
+        error: action.payload,
+      };
 
-      case FETCH_PRODUCT_DETAIL_FAILURE:
-        return {
-          ...state,
-          product: {
-            ...state.product,
-            detail: null,
-          },
-          error: action.payload,
-        };
+    case CLEAR_PRODUCT_DETAIL:
+      return {
+        ...state,
+        product: {
+          ...state.product,
+          detail: null,
+        },
+      };
 
-      case CLEAR_PRODUCT_DETAIL:
-        return {
-          ...state,
-          product: {
-            ...state.product,
-            detail: null,
-          },
-        };
+    case CREATE_PRODUCT_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
 
-      case CREATE_PRODUCT_REQUEST:
-        return {
-          ...state,
-          loading: true,
-          error: null,
-        };
+    case CREATE_PRODUCT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        createdProduct: action.payload,
+        error: null,
+      };
 
-      case CREATE_PRODUCT_SUCCESS:
-        return {
-          ...state,
-          loading: false,
-          createdProduct: action.payload,
-          error: null,
-        };
+    case CREATE_PRODUCT_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        createdProduct: null,
+        error: action.payload,
+      };
 
-      case CREATE_PRODUCT_FAILURE:
-        return {
-          ...state,
-          loading: false,
-          createdProduct: null,
-          error: action.payload,
-        };
+    case CLEAR_CREATE_PRODUCT_STATE:
+      return { ...initialState };
 
-      case CLEAR_CREATE_PRODUCT_STATE:
-        return { ...initialState };
+    case GET_SEARCH_SUCCESS:
+      return {
+        ...state,
+        sneakers: action.payload.sneakers,
+        page: action.payload.currentPage,
+        totalSneaker: action.payload.totalSneaker,
+      };
 
-  case GET_SEARCH_SUCCESS:
-    return {
-      ...state,
-      sneakers:action.payload.sneakers,
-      page: action.payload.currentPage,
-      totalSneaker:action.payload.totalSneaker,
-    };
+    case GET_SEARCH_NOTFOUND:
+      return {
+        ...state,
+        loading: false,
+        data: null,
+        error: action.payload,
+      };
 
-      case GET_SEARCH_NOTFOUND:
-        return {
-          ...state,
-          loading: false,
-          data: null,
-          error: action.payload,
-        };
+    case RESET_CURRENTPAGE:
+      return {
+        ...state,
+        currentPage: action.payload,
+      };
 
-      case RESET_CURRENTPAGE:
-        return {
-          ...state,
-          currentPage: action.payload,
-        };
+    case BRAND_VALUE:
+      return {
+        ...state,
+        brandValue: action.payload,
+        dataSearch: [],
+      };
 
-              case BRAND_VALUE:
-              return {
-                  ...state,
-                  brandValue:action.payload,
-                  dataSearch:[]
-              }
+    case COLOR_VALUE:
+      return {
+        ...state,
+        colorValue: action.payload,
+      };
 
-      case COLOR_VALUE:
-        return {
-          ...state,
-          colorValue: action.payload,
-        };
+    case SIZE_VALUE:
+      return {
+        ...state,
+        sizeValue: action.payload,
+      };
 
-      case SIZE_VALUE:
-        return {
-          ...state,
-          sizeValue: action.payload,
-        };
+    case ORDER_PRICE:
+      return {
+        ...state,
+        orderPrice: action.payload,
+      };
 
-              case ORDER_PRICE:
-              return {
-                  ...state,
-                  orderPrice:action.payload
-              }
+    case STATE_DATA_PAGE:
+      return {
+        ...state,
+        dataSearch: action.payload,
+      };
 
-              case STATE_DATA_PAGE:
-              return {
-                  ...state,
-                  dataSearch:action.payload
-              }
+    case "RESET_SEARCH":
+      return {
+        ...state,
+        sneakers: state.allCopySneakers,
+      };
 
-      case 'RESET_SEARCH':
-        return {
-          ...state,
-          sneakers: state.allCopySneakers,
-          
-        };
+    case UPDATE_SELECTED_SNEAKER:
+      return {
+        ...state,
+        selectedSneaker: action.payload,
+      };
 
-      
+    case SET_SELECTED_SNEAKER_INDEX:
+      return {
+        ...state,
+        selectedSneakerIndex: action.payload,
+      };
 
-      case UPDATE_SELECTED_SNEAKER:
-        return {
-          ...state,
-          selectedSneaker: action.payload,
-        };
+    case GET_SEARCH_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
 
-      case SET_SELECTED_SNEAKER_INDEX:
-        return {
-          ...state,
-          selectedSneakerIndex: action.payload,
-        };
+    case SET_ADMIN:
+      return {
+        ...state,
+        isAdmin: action.payload,
+      };
 
-      case GET_SEARCH_REQUEST:
-        return {
-          ...state,
-          loading: true,
-          error: null,
-        };
-
-      
-  case SET_ADMIN:
-  return {
-      ...state,
-      isAdmin: action.payload,
-  };
-
-  case SET_REVIEWS:
-    return {
-      ...state,
-      reviews: action.payload,
-    };
+    case SET_REVIEWS:
+      return {
+        ...state,
+        reviews: action.payload,
+      };
     case REVIEW_POST_REQUEST:
       return {
         ...state,
@@ -313,72 +300,69 @@ const stateSearchBar = {
         postReviewSuccess: false,
       };
 
-
-
     case SET_SELECTED_IMAGE_INDEX:
-        return {
-          ...state,
-          selectedImageIndex: action.payload,
-        };
+      return {
+        ...state,
+        selectedImageIndex: action.payload,
+      };
 
-        case UPDATE_USER_REQUEST:
-          return {
-            ...state,
-            loading: true,
-          };
-        case UPDATE_USER_SUCCESS:
-          return {
-            ...state,
-            loading: false,
-            user: action.payload,
-          };
-        case UPDATE_USER_FAILURE:
-          return {
-            ...state,
-            loading: false,
-            error: action.payload,
-          };
-          case UPDATE_PASSWORD_REQUEST:                        
+    case UPDATE_USER_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+    case UPDATE_USER_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        user: action.payload,
+      };
+    case UPDATE_USER_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+    case UPDATE_PASSWORD_REQUEST:
+      return {
+        ...state,
+        passwordAndEmailUpdating: true,
+        passwordAndEmailUpdateError: null,
+      };
 
-            return {
-              ...state,
-              passwordAndEmailUpdating: true,
-              passwordAndEmailUpdateError: null,
-            };
-      
-          case UPDATE_PASSWORD_SUCCESS:
-            return {
-              ...state,
-              passwordAndEmailUpdating: false,
-            };
-      
-          case UPDATE_PASSWORD_FAILURE:
-            return {
-              ...state,
-              passwordAndEmailUpdating: false,
-              passwordAndEmailUpdateError: action.payload,
-            };
+    case UPDATE_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        passwordAndEmailUpdating: false,
+      };
 
-            case UPDATE_USER_PROFILE_REQUEST:
-              return {
-                ...state,
-                loading: true,
-                error: null,
-              };
-            case UPDATE_USER_PROFILE_SUCCESS:
-              return {
-                ...state,
-                loading: false,
-                data: action.payload,
-              };
-            case UPDATE_USER_PROFILE_FAILURE:
-              return {
-                ...state,
-                loading: false,
-                error: action.payload,
-              };
+    case UPDATE_PASSWORD_FAILURE:
+      return {
+        ...state,
+        passwordAndEmailUpdating: false,
+        passwordAndEmailUpdateError: action.payload,
+      };
 
-              case UPDATE_PROFILE_PICTURE_REQUEST:
+    case UPDATE_USER_PROFILE_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case UPDATE_USER_PROFILE_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        data: action.payload,
+      };
+    case UPDATE_USER_PROFILE_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
+    case UPDATE_PROFILE_PICTURE_REQUEST:
       return {
         ...state,
         isUpdatingProfilePicture: true,
@@ -388,7 +372,7 @@ const stateSearchBar = {
     case UPDATE_PROFILE_PICTURE_SUCCESS:
       return {
         ...state,
-        profilePicture: action.payload, 
+        profilePicture: action.payload,
         isUpdatingProfilePicture: false,
         updateProfilePictureError: null,
       };
@@ -399,20 +383,22 @@ const stateSearchBar = {
         isUpdatingProfilePicture: false,
         updateProfilePictureError: action.payload,
       };
-//caso para subir la imagen a cloudinary
-      case UPDATE_PROFILE_PICTURE:
-        const { userId, data } = action.payload;
-        const updatedUsers = state.users.map(user =>
-          user.id === userId ? { ...user, profilePicture: data.profilePicture } : user
-        );
-   
-      case POST_CART_ITEMS:
-        return {
-          ...state,
-          itemsCart: action.payload,
-        };
+    //caso para subir la imagen a cloudinary
+    case UPDATE_PROFILE_PICTURE:
+      const { userId, data } = action.payload;
+      const updatedUsers = state.users.map((user) =>
+        user.id === userId
+          ? { ...user, profilePicture: data.profilePicture }
+          : user
+      );
 
-        case GET_ALL_ITEMS:
+    case POST_CART_ITEMS:
+      return {
+        ...state,
+        itemsCart: action.payload,
+      };
+
+    case GET_ALL_ITEMS:
       return {
         ...state,
         shoppingItems: action.payload || [],
@@ -426,13 +412,13 @@ const stateSearchBar = {
         ),
       };
 
-      case POST_CART_ITEMS:
-        return {
-          ...state,
-          itemsCart: action.payload,
-        };
+    case POST_CART_ITEMS:
+      return {
+        ...state,
+        itemsCart: action.payload,
+      };
 
-        case GET_ALL_ITEMS:
+    case GET_ALL_ITEMS:
       return {
         ...state,
         shoppingItems: action.payload || [],
@@ -446,10 +432,9 @@ const stateSearchBar = {
         ),
       };
 
+    default:
+      return state;
+  }
+};
 
-                    default:
-                    return state;
-    }
-  };
-
-  export default productReducer;
+export default productReducer;

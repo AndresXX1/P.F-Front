@@ -2,10 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import styles from "./Register.module.css";
 import { registerUser } from "../../redux/actions/actions";
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
-import Snackbar from '@mui/material/Snackbar';
-
+import IconButton from "@mui/material/IconButton";
+import Snackbar from "@mui/material/Snackbar";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -14,6 +12,7 @@ const Register = () => {
     surName: "",
     email: "",
     password: "",
+    rol: "",
   };
 
   const [formData, setFormData] = useState(initialFormData);
@@ -25,7 +24,7 @@ const Register = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const handleSnackbarClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
     setSnackbarOpen(false);
@@ -39,7 +38,7 @@ const Register = () => {
     const newErrors = {};
 
     Object.entries(formData).forEach(([key, value]) => {
-      if (value.trim() === "") {
+      if (key !== "rol" && value.trim() === "") {
         newErrors[key] = "*Campo obligatorio*";
       }
     });
@@ -49,7 +48,6 @@ const Register = () => {
       newErrors.name =
         "El campo nombre debe comenzar con mayúscula y debe contener no más de 10 caracteres. Ejemplo: Juan";
     }
-    
 
     const surNameRegex = /^[A-ZÑñ][a-zñ]{0,9}( [A-ZÑñ][a-zñ]{0,9})?$/;
     if (formData.surName !== "" && !surNameRegex.test(formData.surName)) {
@@ -81,11 +79,14 @@ const Register = () => {
   };
 
   const handleSubmit = (datauser) => {
+    console.log("Datos enviados al backend:", datauser);
     dispatch(registerUser(datauser));
-    setMessage("¡Te has registrado correctamente! Verifica tu casilla de correo");
-    setSnackbarOpen(true)
+    setMessage(
+      "¡Te has registrado correctamente! Verifica tu casilla de correo"
+    );
+    setSnackbarOpen(true);
     setFormData(initialFormData);
-    setErrors({});/* sdsfdsfds */
+    setErrors({});
     setIsFormValid(false);
     setCreatedUsersList((prevList) => {
       const updatedList = [...prevList, datauser];
@@ -154,6 +155,18 @@ const Register = () => {
           <span className={styles.error}>{errors.password}</span>
         )}
 
+        <label htmlFor="rol">Rol:</label>
+        <select
+          id="rol"
+          name="rol"
+          value={formData.rol}
+          onChange={handleChange}
+        >
+          <option value="admin">Admin</option>
+          <option value="seller">Seller</option>
+          <option value="buyer">Buyer</option>
+        </select>
+
         <button
           type="button"
           onClick={() => handleSubmit(formData)}
@@ -172,9 +185,12 @@ const Register = () => {
         message={message}
         action={
           <React.Fragment>
-            <IconButton size="small" aria-label="close" color="inherit" onClick={handleSnackbarClose}>
-              <CloseIcon fontSize="small" />
-            </IconButton>
+            <IconButton
+              size="small"
+              aria-label="close"
+              color="inherit"
+              onClick={handleSnackbarClose}
+            ></IconButton>
           </React.Fragment>
         }
       />
