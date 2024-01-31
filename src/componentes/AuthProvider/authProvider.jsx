@@ -9,13 +9,14 @@ export const AuthProvider = ({ children }) => {
  });
 
  const [tab, setTab] = useState("");
+ const [admTab, setAdmTab] = useState("");
 
  useEffect(() => {
     localStorage.setItem('auth', JSON.stringify(auth));
  }, [auth]);
 
  return (
-    <AuthContext.Provider value={{ auth, setAuth, tab, setTab }}>
+    <AuthContext.Provider value={{ auth, setAuth, tab, setTab, admTab, setAdmTab }}>
       {children}
     </AuthContext.Provider>
  );

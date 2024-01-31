@@ -1,4 +1,4 @@
-import React, {useContext,useEffect} from "react";
+import React, {useContext,useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { IoPersonSharp } from "react-icons/io5";
 import { FaShopify } from "react-icons/fa";
@@ -11,6 +11,7 @@ import {gapi} from "gapi-script";
 export default function NavBar(props) {
   const { auth, setAuth } = useContext(AuthContext);
   const history = useHistory();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const logOut = () => {
     if (window.gapi && window.gapi.auth2) {
@@ -30,7 +31,7 @@ export default function NavBar(props) {
   console.log('Valor actualizado de auth:', auth);
 }, [auth]);
 
-const imgDefault = "https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg"
+const imgDefault = "https://static-00.iconduck.com/assets.00/profile-circle-icon-512x512-dt9lf8um.png"
 
   if (auth && auth.token) {
     console.log('Usuario autenticado:', auth.token);
@@ -45,8 +46,8 @@ const accessToken = token ? token.accessToken : null;
               <Link to="/home" className="nav-link active text-primary" aria-current="page">
                 <img className={style.logoRunners} src={logo} alt="Runners Paradise Logo" />
               </Link>
-              <div className={style.searchBarContent}></div>
-              <div className={style.searchBarContainer}></div>
+              {/* <button className={style.navButton}><img src="../src/assets/menuIcon.png" alt=""/></button>
+              <button className={style.navButton}><img src="../src/assets/closeIcon.png" alt=""/></button> */}
               <div>
                 <div className="collapse navbar-collapse" id="navbarNavDropdown">
                   <ul className="navbar-nav">
@@ -57,25 +58,28 @@ const accessToken = token ? token.accessToken : null;
                     </li>
                     <li className={style.navBarContent}>
                     <Link to="#" className="nav-link text-black">
-                      <FaShopify style={{ fontSize: "24px", zIndex: "800" }} />
+                      <FaShopify style={{ fontSize: "24px", zIndex: "1000" }} />
                     </Link>
                     </li>
                     <div className={style.userContent}>
                       <h4>{token?.name}</h4>
                     </div>
-                    <li className="nav-item dropdown" style={{ marginRight: "5rem" }}>
+                    <li className="nav-item dropdown" style={{ marginRight: "8rem" }}>
                       <div className={style.userImage}></div>
                       <ul className="dropdown-menu">
+                        {auth.token.rol === "buyer" &&
                         <li>
-                          <Link to="/perfil" className="dropdown-item">
-                            Perfil
-                          </Link>
-                        </li>
-                        <li>
-                          <Link to="/configuracion" className="dropdown-item">
+                          <Link to="/configUser" className="dropdown-item">
                             Ajustes
                           </Link>
-                        </li>
+                        </li>}
+
+                        {auth.token.rol === "admin" &&
+                        <li>
+                          <Link to="/configAdmin" className="dropdown-item">
+                            Ajustes
+                          </Link>
+                        </li>}
                         <div className="dropdown-divider"></div>
                         <li className="dropdown-item" onClick={logOut}>
                           Cerrar Sesión
@@ -89,8 +93,9 @@ const accessToken = token ? token.accessToken : null;
                       role="button"
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
+                      style={{position:'relative', left:'-30px'}}
                     >
-                      <img src={token.imageUrl || imgDefault} style={{ borderRadius: "50%", height: "26%", width: "26%" }} alt="User Avatar" />
+                  <img className={style.imgUser} src={token.imageUrl || imgDefault} style={{ borderRadius: "50%", height: "32px", width: "32px"}} alt="User Avatar" />
                     </Link>
                 </div>
               </div>
@@ -161,8 +166,3 @@ const accessToken = token ? token.accessToken : null;
     );
   }
 }
-
-
-
-                      
-

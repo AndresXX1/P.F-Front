@@ -43,7 +43,7 @@ const BottomBar = () => {
               className={`bottom-button ${currentIndex === colorIndex ? 'selected' : ''}`}
               onClick={() => handleClick(color)}
             >
-              <img src={color} />
+              <img src={color} className="sneakerImages"/>
             </div>
           ))
         ) : (

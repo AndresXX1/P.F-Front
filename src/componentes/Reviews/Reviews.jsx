@@ -18,14 +18,14 @@ const BasicRating = () => {
   const [submitting, setSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(null);
   const [submitError, setSubmitError] = useState(null);
-  
+
   const idKey = id
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmitting(true);
     try {
-       await dispatch(postReviews(idKey, value, review, auth?.token.name, auth?.token.imageUrl));
+       await dispatch(postReviews(idKey, value, review, auth?.token.name, auth?.token.surName, auth?.token.imageUrl));
        setSubmitSuccess('Review posted successfully');
        setReview(''); // Limpiar el formulario
        setValue(null);
@@ -35,12 +35,11 @@ const BasicRating = () => {
     setSubmitting(false);
    };
   
-  const handleChange = (e) => {
+   const handleChange = (e) => {
     const userInput = e.target.value;
-    const words = userInput.split(' ').filter(word => word !== ' ');
-    const truncatedWords = words.slice(0, 60);
-    const truncatedText = truncatedWords.join(' ');
+    const truncatedText = userInput.slice(0, 600);
     setReview(truncatedText);
+    setCharCount(truncatedText.length);
   };
   
 
@@ -64,7 +63,6 @@ const BasicRating = () => {
           <div className={style.reviewTitleContainer}>
             <h3 className={style.reviewTitle}>REVIEWS</h3>
             </div>
-            <hr style={{ width: '1000px', display: 'flex' }} />
             {productReviews.length > 0 ? (
               productReviews
                 .slice()
@@ -75,8 +73,8 @@ const BasicRating = () => {
                     <div>
                       {review.profileImage && <img src={review.profileImage} alt="" />}
                     </div>
-                    <h5>{review.name} <b style={{fontSize:'15px', fontWeight:'100', position:'relative', top:'2px', left:'2px'}}>↴</b></h5>
-                  </div>
+                    <h5>{review.name} {review.surName}<b style={{fontSize:'15px', fontWeight:'100', position:'relative', top:'2px', left:'2px'}}>↴</b></h5>
+                  </div> 
                     <div>
                   <div className={style.userContentReview}>
                     <div className={style.userRatingReview}>
@@ -106,16 +104,18 @@ const BasicRating = () => {
       <div className={style.container}>
         <Form className={style.containerContent}>
           <Form.Group controlId="rating">
-            <div className={style.reviewTitleContainer}>
-            <h3 className={style.reviewTitle}>REVIEWS</h3>
-            </div>
             <br />
             <div className={style.userContent}>
-              {auth?.token?.imageUrl && (
-                <img src={auth.token.imageUrl} style={{ borderRadius: "50%", height: '34px', width: '34px'}} alt="user-avatar" />
-              )}
-              
-            <h4>{auth?.token.name}</h4>
+              {auth?.token?.imageUrl ? (
+              <img src={auth.token.imageUrl} style={{ borderRadius: "50%", height: '34px', width: '34px'}} alt="user-avatar" />
+            ) : (
+              <img src="https://static-00.iconduck.com/assets.00/profile-circle-icon-2048x2048-cqe5466q.png" style={{ borderRadius: "50%", height: '34px', width: '34px'}} alt="default-avatar" />
+            )}
+            <h4>{auth?.token.name} {auth?.token.surName}</h4>
+            </div>
+            <div className={style.reviewInfo}>
+
+            <p>Las opiniones son públicas y contienen la información de tu cuenta y dispositivo. <a href="">Más información</a></p>
             </div>
             <br />
             <div className={style.ratingContainer}>
@@ -132,7 +132,7 @@ const BasicRating = () => {
           <Form.Group controlId="review" className={style.container}>
             <textarea
               className="form-control"
-              style={{ width: '400px' }}
+              style={{ width: '300px' }}
               value={review}
               cols="4"
               onChange={handleChange}
@@ -144,7 +144,9 @@ const BasicRating = () => {
           </Form.Group>
           <div className={style.userReviewsContainer}>
           <div className={style.usersReviewsContent}>
-            <hr style={{ width: '1000px'}} />
+            <div className={style.reviewTitleContainer}>
+            <h3 className={style.reviewTitle}>PRODUCT REVIEWS</h3>
+            </div>
             {productReviews.length > 0 ? (
               productReviews
                 .slice()
@@ -155,7 +157,7 @@ const BasicRating = () => {
                     <div>
                       {review.profileImage && <img src={review.profileImage} alt="" />}
                     </div>
-                    <h5>{review.name} <b style={{fontSize:'15px', fontWeight:'100', position:'relative', top:'2px', left:'2px'}}>↴</b></h5>
+                    <h5>{review.name} {review.surName}<b style={{fontSize:'15px', fontWeight:'100', position:'relative', top:'2px', left:'2px'}}>↴</b></h5>
                   </div>
                     <div>
                   <div className={style.userContentReview}>
@@ -171,15 +173,11 @@ const BasicRating = () => {
                 </div>
                 ))
                 ) : (
-                  <p style={{position:'relative', top:'14px', color:'#5d0c0c', padding:'4px', backgroundColor:'#df8a8aac', borderRadius:'2px', width:'180px', display:'flex', margin:'0 auto', marginBottom:'30px'}}>⛔ No reviews available</p>
+                  <p style={{position:'relative', top:'14px', color:'#5d0c0c', padding:'4px', backgroundColor:'#df8a8aac', borderRadius:'2px', width:'180px', display:'flex', marginBottom:'30px', justifyContent:'center'}}>⛔ No reviews available</p>
                   )}
           </div>
           </div>
         </Form>
-        <hr style={{ width: '1000px', display: 'flex' }} />
-        <div>
-          <h4>OTHER REVIEWS</h4>
-        </div>
       </div>
   </>
   )

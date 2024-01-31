@@ -30,11 +30,15 @@ import {
   REVIEW_POSTED_FAILURE,
   REVIEW_POSTED_SUCCESS,
   REVIEW_POST_REQUEST,
-  UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE,UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS, 
+  UPDATE_USER_FAILURE,
+  UPDATE_USER_REQUEST,
   UPDATE_PASSWORD_REQUEST,
   UPDATE_PASSWORD_SUCCESS,
   UPDATE_PASSWORD_FAILURE,
-  UPDATE_USER_PROFILE_REQUEST, UPDATE_USER_PROFILE_SUCCESS, UPDATE_USER_PROFILE_FAILURE,
+  UPDATE_USER_PROFILE_REQUEST, 
+  UPDATE_USER_PROFILE_SUCCESS, 
+  UPDATE_USER_PROFILE_FAILURE,
   UPDATE_PROFILE_PICTURE_REQUEST,
   UPDATE_PROFILE_PICTURE_SUCCESS,
   UPDATE_PROFILE_PICTURE_FAILURE,
@@ -43,23 +47,28 @@ import {
   UPDATE_USER_PAYMONTH_SUCCESS,
   UPDATE_USER_PAYMONTH_REQUEST,
 
-      FETCH_USERS_REQUEST,
-    FETCH_USERS_SUCCESS,
-    FETCH_USERS_FAILURE,
 
-    DELETE_USER_SUCCESS,
-    DELETE_USER_FAILURE,
+  FETCH_USERS_REQUEST,
+  FETCH_USERS_SUCCESS,
+  FETCH_USERS_FAILURE,
 
-    UPDATE_USER_ADMIN_REQUEST,
+  DELETE_USER_SUCCESS,
+  DELETE_USER_FAILURE,
+
+  UPDATE_USER_ADMIN_REQUEST,
   UPDATE_USER_ADMIN_SUCCESS,
   UPDATE_USER_ADMIN_FAILURE,
+
+  DELETE_REVIEW_SUCCESS,
+  DELETE_REVIEW_ERROR,
+
 } from "../action-types/action-types";
 
 export const registerUser = (datauser) => async (dispatch) => {
   dispatch({ type: CREATE_USER_REQUEST });
   try {
     const response = await axios.post(
-      "http://localhost:3000/users/create",
+      "http://localhost:3003/users/create",
       datauser
     );
     dispatch({ type: CREATE_USER_SUCCESS, payload: response.data });
@@ -89,7 +98,7 @@ export const postProductFailure = (error) => ({
 export const fetchProductDetail = (idKey) => async (dispatch) => {
   try {
     const response = await fetch(
-      `http://localhost:3000/products/detail/${idKey}`
+      `http://localhost:3003/products/detail/${idKey}`
     );
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -130,7 +139,7 @@ export const getSneakers = (page, pageSize ="8", brand, colors, size, price) => 
         .map(([key, value]) => `${key}=${value}`)
         .join("&");
 
-      const url = `http://localhost:3000/products?${queryString}`;
+      const url = `http://localhost:3003/products?${queryString}`;
       console.log(url);
       const response = await axios.get(url);
       const sneakersData = response.data;
@@ -171,7 +180,7 @@ export const postCreateProduct = (productData) => async (dispatch) => {
   dispatch(createProductRequest());
   try {
     // Lógica para enviar la solicitud al backend y crear el producto
-    const response = await axios.post("http://localhost:3000/products/create", productData);
+    const response = await axios.post("http://localhost:3003/products/create", productData);
 
     // Si la solicitud fue exitosa
     dispatch(createProductSuccess(response.data));
@@ -215,7 +224,7 @@ export const searchBar = (searchTerm,page,pageSize="4",price) => {
       const queryString = Object.entries(queryParams)
         .map(([key, value]) => `${key}=${value}`)
         .join("&");
-        const url =`http://localhost:3000/products/search/${searchTerm}?${queryString}`
+        const url =`http://localhost:3003/products/search/${searchTerm}?${queryString}`
         console.log(url)
       const response = await axios.get(url);
       
@@ -333,7 +342,7 @@ export const postReviews = (productId, rating, content, name, profileImage) => a
   dispatch({ type: REVIEW_POST_REQUEST });
   console.log("ESTO RECIBE LA ACTION POSTREVIEW", productId, rating, content, name, profileImage)
   try {
-    const response = await axios.post(`http://localhost:3000/reviews/products/detail/${productId}`, {
+    const response = await axios.post(`http://localhost:3003/reviews/products/detail/${productId}`, {
       profileImage,
       productId,
       content,
@@ -355,7 +364,7 @@ export const postReviews = (productId, rating, content, name, profileImage) => a
   
   export const fetchReviews = () => async (dispatch) => {
     try {
-      const response = await axios.get('http://localhost:3000/reviews'); // Update the URL to the correct endpoint
+      const response = await axios.get('http://localhost:3003/reviews'); // Update the URL to the correct endpoint
       const data = response.data;
       console.log("TODAS LAS REVIEWS:", data)
       if (Array.isArray(data)) {
@@ -390,7 +399,7 @@ export const postReviews = (productId, rating, content, name, profileImage) => a
       try {
         console.log('Datos enviados al servidor:', { id, updatedFields });
   
-        const response = await fetch(`http://localhost:3000/users/perfil/update/${id}`, {
+        const response = await fetch(`http://localhost:3003/users/perfil/update/${id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -429,7 +438,7 @@ export const updatePassword = (id, currentPassword, newPassword) => {
     dispatch(updatePasswordRequest());
 
     try {
-      const response = await fetch(`http://localhost:3000/users/perfil/updatepassword/${id}`, {
+      const response = await fetch(`http://localhost:3003/users/perfil/updatepassword/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -472,7 +481,7 @@ export const updateUserProfileData = (idKey, updatedFields) => async (dispatch) 
 
   try {
     
-    const response = await axios.put(`http://localhost:3000/users/perfil/${idKey}`, updatedFields);
+    const response = await axios.put(`http://localhost:3003/users/perfil/${idKey}`, updatedFields);
 
    
     dispatch(updateUserProfileSuccess(response.data));
@@ -505,7 +514,7 @@ export const updateProfilePicture = (idKey, updatedFields) => async (dispatch) =
 
   try {
     
-    const response = await axios.put(`http://localhost:3000/users/profile/picture/${idKey}`, updatedFields);
+    const response = await axios.put(`http://localhost:3003/users/profile/picture/${idKey}`, updatedFields);
 
     dispatch(updateUserProfileSuccess(response.data));
   } catch (error) {
@@ -523,7 +532,9 @@ export const updateUserpay = (userId, paymentMethods) => {
     dispatch({ type: UPDATE_USER_PAYMONTH_REQUEST });
 
     try {
-      const response = await fetch(`http://localhost:3000/users/${userId}/paymentMethods`, {
+
+      const response = await fetch(`http://localhost:3003/users/${userId}/paymentMethods`, {
+
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -573,7 +584,9 @@ export const fetchUsers = () => {
     dispatch(fetchUsersRequest());
 
     try {
-      const response = await axios.get('http://localhost:3000/users/'); // Assuming your endpoint is '/users'
+
+      const response = await axios.get('http://localhost:3003/users/'); // Assuming your endpoint is '/users'
+
       dispatch(fetchUsersSuccess(response.data));
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -586,7 +599,9 @@ export const fetchUsers = () => {
 //action para eliminar usuarios
 export const deleteUser = (userId) => async (dispatch) => {
   try {
-    await axios.delete(`http://localhost:3000/users/delete/${userId}`);
+
+    await axios.delete(`http://localhost:3003/users/delete/${userId}`);
+
     dispatch({
       type: DELETE_USER_SUCCESS,
       payload: userId,
@@ -619,10 +634,46 @@ export const updateUserAdmin = (userId, userData) => async (dispatch) => {
   dispatch(updateUserAdminRequest());
 
   try {
-    const response = await axios.put(`http://localhost:3000/users/eddituseradmin/${userId}`, userData);
+
+    const response = await axios.put(`http://localhost:3003/users/eddituseradmin/${userId}`, userData);
+
     dispatch(updateUserAdminSuccess(response.data));  // Puedes ajustar esto según la estructura de tu respuesta
   } catch (error) {
     console.error('Error updating user by admin:', error);
     dispatch(updateUserAdminFailure('Error updating user by admin'));
   }
+
 };
+
+
+  export const deleteReviewAction = (reviewId) => async (dispatch) => {
+    try {
+      // Realizar la petición para eliminar la revisión
+      await axios.delete(`http://localhost:3003/reviews/${reviewId}`);
+  
+      // Dispatch de la acción de éxito
+      dispatch({ type: DELETE_REVIEW_SUCCESS, payload: reviewId });
+    } catch (error) {
+      // Dispatch de la acción de error
+      dispatch({ type: DELETE_REVIEW_ERROR, payload: error });
+    }
+  };
+
+  export const addPaymentMethod = (paymentInfo) => {
+    return async (dispatch) => {
+      dispatch({ type: ADD_PAYMENT_METHOD_REQUEST });
+      try {
+        const response = await axios.post('http://localhost:3003/users/addPayment', paymentInfo);
+        dispatch({
+          type: ADD_PAYMENT_METHOD_SUCCESS,
+          payload: response.data 
+        });
+      } catch (error) {
+        dispatch({
+          type: ADD_PAYMENT_METHOD_FAILURE,
+          payload: error.response.data 
+        });
+      }
+    };
+  };
+

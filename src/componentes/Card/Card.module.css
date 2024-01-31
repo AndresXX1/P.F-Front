@@ -107,7 +107,7 @@
 }
 
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .cardContent{
     position: relative;
     width: 232px;
@@ -134,53 +134,127 @@
   }
 
 
-.brand h3{
-  display: flex;
-  align-items: center;
-  color: black;
-  justify-content: center;
-  height: 30px;
-  font-size: 14px;
-  font-weight: 500;
-  margin: 0 auto;
+  .brand h3{
+    display: flex;
+    align-items: center;
+    color: black;
+    justify-content: center;
+    height: 30px;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0 auto;
+  }
+
+  .details {
+    display: flex;
+    justify-content: center;
+    background-color: white;
+    position: relative;
+    top: 7px;
+  }
+
+  .details h4{
+    font-weight: 700;
+    font-size: 12px;
+    color: green;
+    position: relative;
+    top: 4px;
+  }
+
+  .details button{
+    position: relative;
+    margin: 0px;
+    width: 35px;
+    top: 12.5px;
+    left: 6px;
+    height: 25px;
+    background-color: gray;
+  }
+
+  .logoContainer img{
+    justify-self: center;
+    object-fit: cover;
+    width: 50px;
+    height: 26px;
+    position: relative;
+    top: -224px;
+    left: 178px;
+    border: none;
+  }
 }
 
-.details {
-  display: flex;
-  justify-content: center;
-  background-color: white;
-  position: relative;
-  top: 7px;
-}
 
-.details h4{
-  font-weight: 700;
-  font-size: 12px;
-  color: green;
-  position: relative;
-  top: 4px;
-}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .cardContent{
+    position: relative;
+    width: 232px;
+    height: 280px;
+    box-shadow: 0px 2px 4px black;
+  }
+  .cardContent img{
+    width: 232px;
+    height: 180px;
+    margin: 0 auto;
+    justify-self: center;
+    object-fit: cover;
+  }
 
-.details button{
-  position: relative;
-  margin: 0px;
-  width: 35px;
-  top: 12.5px;
-  left: 6px;
-  height: 25px;
-  background-color: gray;
-}
+  .logoContainer img{
+    justify-self: center;
+    object-fit: cover;
+    width: 36px;
+    height: 20px;
+    position: relative;
+    top: -350px;
+    left: 220px;
+    border: none;
+  }
 
-.logoContainer img{
-  justify-self: center;
-  object-fit: cover;
-  width: 50px;
-  height: 26px;
-  position: relative;
-  top: -224px;
-  left: 178px;
-  border: none;
-}
-}
+  .brand h3{
+    display: flex;
+    align-items: center;
+    color: black;
+    justify-content: center;
+    height: 30px;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0 auto;
+  }
 
+  .details {
+    display: flex;
+    justify-content: center;
+    background-color: white;
+    position: relative;
+    top: 7px;
+  }
 
+  .details h4{
+    font-weight: 700;
+    font-size: 12px;
+    color: green;
+    position: relative;
+    top: 4px;
+  }
+
+  .details button{
+    position: relative;
+    margin: 0px;
+    width: 35px;
+    top: 12.5px;
+    left: 6px;
+    height: 25px;
+    background-color: gray;
+  }
+
+  .logoContainer img{
+    justify-self: center;
+    object-fit: cover;
+    width: 50px;
+    height: 26px;
+    position: relative;
+    top: -224px;
+    left: 178px;
+    border: none;
+  }
+}
