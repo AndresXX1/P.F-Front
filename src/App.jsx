@@ -4,14 +4,11 @@ import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import Landing from "./views/Landing/landing";
 import Home from "./views/Home/home";
 import Detail from "./views/Detail/detail";
-import Create from "./componentes/Create/create";
+import Create from "./componentes/Create/create(12)";
 import LogIn from "./componentes/LogInForm/LogIn";
 import About from "./componentes/About/about";
 import Registro from "./componentes/Register/Register";
-import Perfil from "./componentes/perfilDeUsuario/perfil"
-import Ajustes from "./componentes/Configuracion/configuracion"
-import UserProfileForm from "./componentes/perfilDeUsuario/edditProfile"
-// import ProtectedRoute from './GeneralLogin';
+import AdminDashboard from './componentes/DashBoard Admin/dashBoard'
 import UserDashboard from './componentes/DashBoard Usuario/dashBoard';
 import { AuthProvider } from "./componentes/AuthProvider/authProvider";
 
@@ -37,7 +34,8 @@ function App() {
  <Route exact path="/about" component={About} />
  <Route exact path="/register" component={Registro} />
  <Route exact path="/detail/:id" component={Detail} />
- <Route exact path="/Configuracion" component= {UserDashboard} />
+ <Route exact path="/configUser" component= {UserDashboard} />
+ <Route exact path="/configAdmin" component= {AdminDashboard} />
 </Switch> 
       </div>
     </Router>

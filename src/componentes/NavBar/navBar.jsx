@@ -58,7 +58,7 @@ const accessToken = token ? token.accessToken : null;
                     </li>
                     <li className={style.navBarContent}>
                     <Link to="#" className="nav-link text-black">
-                      <FaShopify style={{ fontSize: "24px", zIndex: "800" }} />
+                      <FaShopify style={{ fontSize: "24px", zIndex: "1000" }} />
                     </Link>
                     </li>
                     <div className={style.userContent}>
@@ -67,16 +67,19 @@ const accessToken = token ? token.accessToken : null;
                     <li className="nav-item dropdown" style={{ marginRight: "8rem" }}>
                       <div className={style.userImage}></div>
                       <ul className="dropdown-menu">
+                        {auth.token.rol === "buyer" &&
                         <li>
-                          <Link to="/perfil" className="dropdown-item">
-                            Perfil
-                          </Link>
-                        </li>
-                        <li>
-                          <Link to="/configuracion" className="dropdown-item">
+                          <Link to="/configUser" className="dropdown-item">
                             Ajustes
                           </Link>
-                        </li>
+                        </li>}
+
+                        {auth.token.rol === "admin" &&
+                        <li>
+                          <Link to="/configAdmin" className="dropdown-item">
+                            Ajustes
+                          </Link>
+                        </li>}
                         <div className="dropdown-divider"></div>
                         <li className="dropdown-item" onClick={logOut}>
                           Cerrar Sesión
