@@ -5,6 +5,7 @@ import axios from "axios";
 import { useDispatch} from "react-redux";
 import GoogleLogin from "react-google-login";
 import {gapi} from "gapi-script";
+import {registerUser} from "../../redux/actions/actions"
 import style from "./Login.module.css";
 import { AuthContext } from "../AuthProvider/authProvider";
 
@@ -31,7 +32,7 @@ console.log(userData)
     }
   };
 
-  const clientID = "1066333447186-qce53lrh37h3ki1ih2o5fnjminct9rn3.apps.googleusercontent.com";
+  const clientID = "1066333447186-lrpcof1n2jm1vdfplai4k88lsfvkvo88.apps.googleusercontent.com";
 
   const handChangePass = (e) => {
     setUserData({
@@ -90,6 +91,16 @@ console.log(userData)
   
   const onSuccess = (response) => {
    console.log('Login Success: currentUser:', response.profileObj);
+   const profile =  response.profileObj
+   if(response){
+      dispatch(registerUser({
+        name :"jaime",
+        surName : "gallego",
+        email : "jaimeGallego@gmail.com",
+        password : "Test123.",
+        admin : true
+      }))
+   }
    setAuth({ token: response.profileObj });
    history.push("/home")
   };

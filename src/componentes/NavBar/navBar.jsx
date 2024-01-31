@@ -55,9 +55,10 @@ const accessToken = token ? token.accessToken : null;
                         ¿Quiénes somos?
                       </Link>
                     </li>
-                    <li className={style.navBarContent}>
-                    <Link to="#" className="nav-link text-black">
-                      <FaShopify style={{ fontSize: "24px", zIndex: "800" }} />
+                    <Link  to={!token.id ? "/login" : "/Shopping"} className="nav-link text-black">
+                      <FaShopify
+                        style={{ fontSize: "24px", marginLeft: "1rem" }}
+                      />
                     </Link>
                     </li>
                     <div className={style.userContent}>
@@ -83,15 +84,16 @@ const accessToken = token ? token.accessToken : null;
                       </ul>
                     </li>
                   </ul>
-                    <Link
-                      className="nav-link text-black dropdown-toggle"
-                      to="#"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      <img src={token.imageUrl || imgDefault} style={{ borderRadius: "50%", height: "26%", width: "26%" }} alt="User Avatar" />
-                    </Link>
+
+                  <Link
+                    className="nav-link text-black dropdown-toggle"
+                    to="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <img src={token?.imageUrl || imgDefault} style={{ borderRadius: "50%", height: "26%", width: "16%" }} alt="User Avatar" />
+                  </Link>
                 </div>
               </div>
             </div>
@@ -124,7 +126,7 @@ const accessToken = token ? token.accessToken : null;
                         ¿Quiénes somos?
                       </Link>
                     </li>
-                    <Link to="#" className="nav-link text-black">
+                    <Link to="/login" className="nav-link text-black">
                       <FaShopify style={{ fontSize: "24px", marginLeft: "1rem" }} />
                     </Link>
                     <li className="nav-item dropdown" style={{ marginRight: "5rem" }}>

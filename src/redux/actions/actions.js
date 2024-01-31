@@ -27,7 +27,9 @@ import {
   CREATE_USER_REQUEST,
   CREATE_USER_SUCCESS,
   CREATE_USER_FAILURE,
-  REVIEW_POSTED_FAILURE,
+  POST_CART_ITEMS,
+  GET_ALL_ITEMS,
+  REMOVE_FROM_CART,  REVIEW_POSTED_FAILURE,
   REVIEW_POSTED_SUCCESS,
   REVIEW_POST_REQUEST,
   UPDATE_USER_SUCCESS, UPDATE_USER_FAILURE,UPDATE_USER_REQUEST,
@@ -156,16 +158,21 @@ export const clearCreateProductState = () => ({
   type: CLEAR_CREATE_PRODUCT_STATE,
 });
 
-export const postCreateProduct = (productData) => async (dispatch) => {
+export const postCreateProduct = (formData) => async (dispatch) => {
   dispatch(createProductRequest());
   try {
     // Lógica para enviar la solicitud al backend y crear el producto
-    const response = await axios.post("http://localhost:3000/products/create", productData);
-
+    const response = await axios.post("http://localhost:3000/products/create", formData, {
+      headers : {
+        "Content-Type" : "multipart/form-data",
+      },
+    });
+    console.log(response.data)
     // Si la solicitud fue exitosa
     dispatch(createProductSuccess(response.data));
   } catch (error) {
     // Si la solicitud falla
+    console.error(error);
     dispatch(createProductFailure(error.message || "Error al crear el producto"));
   }
 }
@@ -523,4 +530,42 @@ export const addPaymentMethod = (paymentInfo) => {
       });
     }
   };
-};
+};  export const postCartItems = (userId,productId,itemsData) => async (dispatch) => {
+    try {
+      const response = await axios.post( `http://localhost:3000/cart/${userId}/${productId}`, itemsData);
+      const item = response.data;
+      console.log(item)
+      dispatch({
+        type: POST_CART_ITEMS,
+        payload: {
+          items: item,
+        },
+      });
+    } catch (error) {
+      dispatch(createProductFailure(error.message || "Error al añadir"));
+    }
+  }
+
+  export const getAllItems = (userId) => async (dispatch) => {
+    dispatch({ type: GET_ALL_ITEMS });
+    try {
+      const response = await axios.get( `http://localhost:3000/cart/${userId}`);
+      dispatch({ type: GET_ALL_ITEMS, payload: response.data.CartItems });
+    } catch (error) {
+      console.error("Error fetching items:", error);
+      alert("Not found this data.");
+    }
+  };
+
+  export const removeFromCart = (productId) => async (dispatch) => {
+    dispatch({ type: REMOVE_FROM_CART });
+    try {
+      await axios.delete(`http://localhost:3000/cart/1/${productId}`);
+      dispatch({ type: REMOVE_FROM_CART, payload: { productId } });
+    } catch (error) {
+      console.error("Error removing item from cart:", error);
+      alert("Error removing item from cart. Please try again.");
+    }
+  };
+
+ 

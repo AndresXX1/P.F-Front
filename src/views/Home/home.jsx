@@ -25,12 +25,13 @@ const Home = () => {
   const searchState = useSelector((state) => state?.dataSearch); //  estado para los resultados de la búsqueda
   const pageSize = 8;
 console.log(searchState)
-console.log(price)
-
+console.log("precio" ,price)
   useEffect(() => {
     if(searchState && searchState.length > 0){
+      console.log("searchbar")
       dispatch(searchBar(searchState,currentPageSearch, pageSize,price ));
     } else {
+      console.log("todos snesakers")
     dispatch(getSneakers(currentPage, pageSize, brand, color, size, price));
 }}, [dispatch]);
 

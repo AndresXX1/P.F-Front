@@ -22,13 +22,14 @@ const ProductForm = () => {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
+
+ 
 
   const [input, setInput] = useState({
     name: "",
     brand: "",
     size: [],
-    image: null,
+    image: [],
     colors: [],
     price: "",
   });
@@ -53,16 +54,13 @@ const ProductForm = () => {
 
     if (name === "size") {
       // Manejar cambios en el input de tallas si es necesario
-    } else if (name === "image") {
-      const imagesArray = value.split(',').map((url) => url.trim()); // Divide el string por comas y elimina espacios en blanco
-      setInput((prevInput) => ({ ...prevInput, [name]: imagesArray }));
-      setImageUrl(value.name); // Esto puede que ya no sea necesario si muestras una vista previa de todas las imágenes
-    } else {
+    }  // Esto puede que ya no sea necesario si muestras una vista previa de todas las imágenes
+    else {
       setInput((prevInput) => ({ ...prevInput, [name]: value }));
     }
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event , files) => {
     event.preventDefault();
   
     if (handleValidation()) {
@@ -70,25 +68,25 @@ const ProductForm = () => {
         const formData = new FormData();
         formData.append('name', input.name);
         formData.append('brand', input.brand);
-        // Asegúrate de que 'size' sea un array de strings
         input.size.forEach((size) => {
           formData.append('size', size);
         });
         formData.append('price', input.price);
-        // Asegúrate de que 'colors' sea un array de strings
         input.colors.forEach((color) => {
-          formData.append('colors', color);
+          formData.append("colors", color);
         });
-        // Agregar la imagen como un archivo
-        if (input.image) {
-          formData.append('image', input.image);
+
+        const inputFile = document.querySelector("input[name='image']").files;
+          for (let i = 0 ; i < inputFile.length; i++){
+          formData.append('image', inputFile[i]);
         }
-  
-        // Agregado para ver los datos enviados
+
         for (let [key, value] of formData.entries()) {
           console.log(`${key}: ${value}`);
         }
         console.log(input.image)
+        console.log(formData)
+        console.log(inputFile)
         const response = await dispatch(
           postCreateProduct( formData,)
         );
@@ -101,7 +99,7 @@ const ProductForm = () => {
           name: "",
           brand: "",
           size: [],
-          image: null,
+          image: [],
           colors: [],
           price: "",
         });
@@ -117,28 +115,18 @@ const ProductForm = () => {
       setSnackbarOpen(true)
     }
   };
-
-  const handleSnackbarClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setSnackbarOpen(false);
-  };
-
-  const availableBrands = ["adidas","nike","newbalance"];
+  const availableBrands = ["ADIDAS", "NIKE", "NEWBALANCE"];
   const brandColors = {
-    nike: ["green", "white", "black"],
-    adidas: ["blue", "white", "grey"],
-    newbalance: ["black", "white", "red"],
+    NIKE: ["green", "white", "black", "pink", "yellow", "red", "blue"],
+    ADIDAS: ["green", "white", "black", "pink", "yellow", "red", "blue"],
+    NEWBALANCE: ["green", "white", "black", "pink", "yellow", "red", "blue"],
   };
-  
-  const colorOptions = [
-    { value: "all", label: "Todos" },
-    ...(brandColors[input.brand] || []).map((color) => ({
-      value: color,
-      label: color,
-    }))
-  ];
+
+  const colorOptions = (brandColors[input.brand] || []).map((color, index) => ({
+    value: color,
+    label: color,
+    key: index,
+  }));
   
   const handleBrandChange = (event) => {
     const selectedBrand = event.target.value;
@@ -157,11 +145,13 @@ const ProductForm = () => {
     }));
   };
   
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setInput((prevInput) => ({ ...prevInput, image: file }));
-   };
-
+    
+    const handleFileChange = (event) => {
+      const files = event.target.files;
+      setInput((prevInput) => ({ ...prevInput, image: files }));
+      console.log("Tipo de files:", typeof files);
+      console.log("Tipo de files:", input.image[0]);
+    };
 
   const sizeOptions = [
     { value: "all", label: "Todos" },
@@ -236,15 +226,11 @@ const ProductForm = () => {
           className="form-input"/>
 
           <p className="error-message">{errors.price}</p>
-          
-          <label className="form-label">Imagen</label>
-          <input
- type="file"
- name="image"
- onChange={handleFileChange}
-/>
 
-
+      <label className="form-label">Imagen</label>
+      <form>
+      <input type="file" name="image"  multiple/>
+      </form>
             <p className="error-message">{errors.image}</p>
   
           <label className="form-label">Marca</label>

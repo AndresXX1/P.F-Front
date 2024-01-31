@@ -1,99 +1,108 @@
-  import {
-    FETCH_PRODUCT_DETAIL_FAILURE,
-    FETCH_PRODUCT_DETAIL_SUCCESS,
-    SET_SELECTED_SNEAKER_INDEX,
-    CLEAR_CREATE_PRODUCT_STATE,
-    UPDATE_SELECTED_SNEAKER,
-    CREATE_PRODUCT_SUCCESS,
-    CREATE_PRODUCT_FAILURE,
-    CREATE_PRODUCT_REQUEST,
-    POST_PRODUCT_REQUEST,
-    POST_PRODUCT_SUCCESS,
-    POST_PRODUCT_FAILURE,
-    CLEAR_PRODUCT_DETAIL,
-    GET_ALL_SNEAKERS, 
-    GET_SEARCH_REQUEST, 
-    GET_SEARCH_SUCCESS, 
-    GET_SEARCH_NOTFOUND,
-    RESET_CURRENTPAGE,
-    BRAND_VALUE,
-    COLOR_VALUE,
-    ORDER_PRICE,
-    SET_REVIEWS,
-    SIZE_VALUE,
-    STATE_DATA_PAGE,
-    SET_ADMIN,
-    SET_SELECTED_IMAGE_INDEX,
-    LOGIN_USER,
-    REVIEW_POSTED_FAILURE,
-    REVIEW_POSTED_SUCCESS,
-    REVIEW_POST_REQUEST,
-    UPDATE_USER_SUCCESS,
-    UPDATE_USER_FAILURE,
-    UPDATE_USER_REQUEST,
-    UPDATE_PASSWORD_REQUEST,
-    UPDATE_PASSWORD_SUCCESS,
-    UPDATE_PASSWORD_FAILURE,
-    UPDATE_USER_PROFILE_REQUEST,
-    UPDATE_USER_PROFILE_SUCCESS,
-    UPDATE_USER_PROFILE_FAILURE,
-    UPDATE_PROFILE_PICTURE_REQUEST,
-    UPDATE_PROFILE_PICTURE_SUCCESS,
-    UPDATE_PROFILE_PICTURE_FAILURE,
-    UPDATE_PROFILE_PICTURE
+import {
+  FETCH_PRODUCT_DETAIL_FAILURE,
+  FETCH_PRODUCT_DETAIL_SUCCESS,
+  SET_SELECTED_SNEAKER_INDEX,
+  CLEAR_CREATE_PRODUCT_STATE,
+  GET_ALL_SNEAKERS_SUCCESS,
+  UPDATE_SELECTED_SNEAKER,
+  SAVE_USER_DATA_SESSION,
+  CREATE_PRODUCT_SUCCESS,
+  CREATE_PRODUCT_FAILURE,
+  CREATE_PRODUCT_REQUEST,
+  POST_PRODUCT_REQUEST,
+  POST_PRODUCT_SUCCESS,
+  POST_PRODUCT_FAILURE,
+  CLEAR_PRODUCT_DETAIL,
 
-  } from "../action-types/action-types";
+  CREATE_PRODUCT_REQUEST,
+  CREATE_PRODUCT_SUCCESS,
+  CREATE_PRODUCT_FAILURE,
+  GET_ALL_SNEAKERS, 
+  GET_SEARCH_REQUEST, 
+  GET_SEARCH_SUCCESS, 
+  GET_SEARCH_NOTFOUND,
+  RESET_CURRENTPAGE,
 
-  const initialState = {
-    loading: false,
-    product: {
-      detail: null,
-      createdProduct: null,
-      loading: false,
-      error: null,
-    },
-    error: null,
-    
-    sneakers: [],
-    allCopySneakers:[],
-    currentPage:[],
-    totalSneakers:[],
-    brandValue : [],
-    colorValue :[],
-    sizeValue:[],
-    orderPrice:[],
-    dataSearch:[],
-    reviews: [],
-    postingReview: false,
-  postReviewError: null,
-  postReviewSuccess: false,
-    selectedImageIndex:[],
-    login :{},
+  BRAND_VALUE,
+  COLOR_VALUE,
+  ORDER_PRICE,
+  SET_REVIEWS,
+  SIZE_VALUE,
+
+  STATE_DATA_PAGE,
+  CLEAR_CREATE_PRODUCT_STATE,
+  UPDATE_SELECTED_SNEAKER,
+  SET_SELECTED_SNEAKER_INDEX,
+  SAVE_USER_DATA_SESSION,
+  SET_ADMIN,
+  SET_REVIEWS,
+  SET_SELECTED_IMAGE_INDEX,
+  LOGIN_USER,
+  POST_CART_ITEMS,
+  GET_ALL_ITEMS,
+  REMOVE_FROM_CART,
+
+  
+  
+} from "../action-types/action-types";
+
+const initialState = {
+  loading: false,
+  product: {
+    detail: null,
+    createdProduct: null,
     loading: false,
     error: null,
-    auth: {
-      loading: false,
-    },
-    passwordAndEmailUpdating: false,
-    passwordAndEmailUpdateError: null,
-    searchLoading: false,
-    searchError: null,
-    searchData: null,
-    isAdmin:false,
-    updateUserError: null,
-    profilePicture: '',
-    isUpdatingProfilePicture: false,
-    updateProfilePictureError: null,
-    users: [],
-    
-  };
-  const stateSearchBar = {
-    data: null,
-    page: 0,
+  },
+  error: null,
+  
+  sneakers: [],
+  allCopySneakers:[],
+  currentPage:[],
+  totalSneakers:[],
+  brandValue : [],
+  colorValue :[],
+  sizeValue:[],
+  orderPrice:[],
+  dataSearch:[],
+  reviews: [],
+  postingReview: false,
+postReviewError: null,
+postReviewSuccess: false,
+  selectedImageIndex:[],
+  login :{},
+  loading: false,
+  error: null,
+  auth: {
     loading: false,
-    error: null,
-  };
+  },
+  passwordAndEmailUpdating: false,
+  passwordAndEmailUpdateError: null,
+  searchLoading: false,
+  searchError: null,
+  searchData: null,
+  isAdmin:false,
+  updateUserError: null,
+  profilePicture: '',
+  isUpdatingProfilePicture: false,
+  updateProfilePictureError: null,
+  users: [],
+  shoppingItems: [],
+  products: [],
+};
+const stateSearchBar = {
+  data: null,
+  page: 0,
+  loading: false,
+  error: null,
+}
 
+const stateSearchBar = {
+  data: null,
+  page: 0,
+  loading: false,
+  error: null,
+}
 
   const productReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -397,6 +406,46 @@
           user.id === userId ? { ...user, profilePicture: data.profilePicture } : user
         );
    
+      case POST_CART_ITEMS:
+        return {
+          ...state,
+          itemsCart: action.payload,
+        };
+
+        case GET_ALL_ITEMS:
+      return {
+        ...state,
+        shoppingItems: action.payload || [],
+      };
+
+    case REMOVE_FROM_CART:
+      return {
+        ...state,
+        shoppingItems: state.shoppingItems.filter(
+          (item) => item.productId !== action.payload?.productId
+        ),
+      };
+
+      case POST_CART_ITEMS:
+        return {
+          ...state,
+          itemsCart: action.payload,
+        };
+
+        case GET_ALL_ITEMS:
+      return {
+        ...state,
+        shoppingItems: action.payload || [],
+      };
+
+    case REMOVE_FROM_CART:
+      return {
+        ...state,
+        shoppingItems: state.shoppingItems.filter(
+          (item) => item.productId !== action.payload?.productId
+        ),
+      };
+
 
                     default:
                     return state;

@@ -1,5 +1,6 @@
-.container{
-  display:flex;
+
+.container {
+  display: flex;
   flex-wrap: wrap;
   justify-content: center;
   width: 1030px;
@@ -10,74 +11,93 @@
   margin-top: 30px;
 }
 
-.sneakersListContainer{
+.sneakersListContainer {
   position: absolute;
-  top: -206px;
-  left: 90px;
+  top: 2px; /* Ajusta según tu diseño */
+  right: 100%;
+  margin-right: 55px; /* Ajusta según tu diseño */
 }
 
-.detailContainer{
+.detailContainer {
   box-shadow: 0px 0px 2px black;
-  display:flex;
-}
-  
-.detailContent h2{
-  width: 400px;
-  color: #0D6EFD;
-  font-size: 20px;
-  font-weight: 400;
-  margin-left: 30px;
-}
-
-.detailContent h4{
-  margin-top: 20px;
-  font-weight: 300;
-  margin-left: 30px;
-  font-size: 20px;
-}
-
-.imagePreview img{
-  width: 600px;
-  height: 600px;
   display: flex;
-  object-fit: cover;
+  flex: 1;
+}
+
+.detailContent {
+  margin-left: 30px;
+}
+
+.detailContent h2 {
+  color: black;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.detailContent h4 {
+  margin-top: 10px;
+  font-weight: 400;
+  font-size: 20px;
+}
+
+.detailContent label {
+  width: 100px;
+  color: #222;
+  padding-top: 10px;
+  font-weight: 700;
+}
+
+.detailContent select {
+  width: 100px;
+  border : none ;
+  padding-left: 10px;
+  background-color: #666;
+  color: white;
+  margin-left: 100px;
+}
+
+.imagePreview img {
+  width: 800px;
+  height: 600px;
+  margin-bottom:50px;
+  margin-right: 50px;
+  object-fit: contain;
+  flex: 1;
   user-select: none;
-  -webkit-user-select: none; 
-  -moz-user-select: none; 
+  -webkit-user-select: none;
+  -moz-user-select: none;
   -ms-user-select: none;
 }
 
 .imagePreview {
-  user-select: none;
-  -webkit-user-select: none; 
-  -moz-user-select: none; 
-  -ms-user-select: none;
+  flex: 1;
 }
 
-.containerColors{
+.containerColors,
+.sizesContainer {
   width: 300px;
   height: 40px;
   position: relative;
-  left: 60px;
   top: 8px;
-  padding: 8px;
   border-radius: 4px;
   background-color: rgba(128, 128, 128, 0.14);
-  text-justify: center;
+  text-align: center;
   display: flex;
+  margin-top: 40px;
 }
 
-.containerColors span{
-  display: flex;
-  text-justify: center;
+
+
+.containerColors span {
   font-size: 16px;
   font-weight: 100;
   margin-left: 30px;
+  display: flex;
+  align-items: center;
 }
 
-.sizesContainer span{
+.sizesContainer span {
   font-size: 16px;
-  margin: 60px;
   width: 80px;
   height: 40px;
   padding: 8px;
@@ -86,32 +106,97 @@
   top: 8px;
   position: relative;
   font-weight: 100;
+  display: flex;
+  align-items: center;
 }
 
-.price{
-  margin: 0 auto;
-  position: relative;
-  top: -40px;
-  font-weight: 100;
-  color: green;
+.sizes h4 {
+  margin-bottom: 30px;
+  align-items: center;
 }
-.price h4{
+
+.price {
+  margin: 20px 0;
   font-weight: 400;
-  font-size: 24px;
+  color: black;
 }
 
-.nameContainer h4{
-  font-size: 30px;
-  font-weight: 500;
+.price h4 {
+  font-size: 20px;
 }
 
+.nameContainer h4 {
+  font-size: 50px;
+  font-weight: 600;
+}
 
-.reviewContainer{
+.reviewContainer {
   display: flex;
   box-shadow: 0px 0px 2px black;
   position: relative;
-  top: 10px;
+  top: 20px;
   width: 100%;
   padding: 20px;
   margin-bottom: 80px;
+}
+
+.quantityContainer {
+  margin-top: 100px;
+}
+
+.quantityButtons {
+  display: flex;
+  align-items: center;
+}
+
+.quantityButtons button {
+  font-size: 18px;
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 0 8px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.quantityButtons button:hover {
+  background-color: #0056b3;
+}
+
+.addToCartButton {
+  font-size: 18px;
+  background-color: black;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 50px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.addToCartButton:hover {
+  background-color: #004d40;
+}
+
+.homeButtonContainer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.homeButton {
+  font-size: 18px;
+  background-color: #0D6EFD;
+  color: white;
+  text-decoration: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.homeButton:hover {
+  background-color: #0056b3;
 }

@@ -10,9 +10,6 @@ const validation = (input, existingNames) => {
      errors.name = "Nombre necesario. Mayor de 3 letras y único";
     }
   
-    if (!(input.image instanceof File)) {
-     errors.image = "Debe ser un archivo válido";
-    }
   
     if (isNaN(parseFloat(input.price)) , parseFloat(input.price) < 1 , parseFloat(input.price) > 10000) {
      errors.price = "Ingrese un precio entre 1 y 10000";

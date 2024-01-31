@@ -67,7 +67,7 @@ function Filter({page,pageSize}) {
         name="FilterColor"
         options={[
           { value:" ",label:`${color && color.length>0 ? color : "selected Color"}`},
-          { value: '', label: 'all colors' },
+          { value:"" , label: 'all colors' },
           { value: 'black', label: 'black' },
           { value: 'red', label: 'red' },
           { value: 'blue', label: 'blue' },
