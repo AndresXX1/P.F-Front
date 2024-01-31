@@ -64,7 +64,7 @@ export const registerUser = (datauser) => async (dispatch) => {
   dispatch({ type: CREATE_USER_REQUEST });
   try {
     const response = await axios.post(
-      "http://localhost:3003/users/create",
+      "http://localhost:3000/users/create",
       datauser
     );
     dispatch({ type: CREATE_USER_SUCCESS, payload: response.data });
@@ -94,7 +94,7 @@ export const postProductFailure = (error) => ({
 export const fetchProductDetail = (idKey) => async (dispatch) => {
   try {
     const response = await fetch(
-      `http://localhost:3003/products/detail/${idKey}`
+      `http://localhost:3000/products/detail/${idKey}`
     );
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -142,7 +142,7 @@ export const getSneakers = (
         .map(([key, value]) => `${key}=${value}`)
         .join("&");
 
-      const url = `http://localhost:3003/products?${queryString}`;
+      const url = `http://localhost:3000/products?${queryString}`;
       console.log(url);
       const response = await axios.get(url);
       const sneakersData = response.data;
@@ -236,7 +236,7 @@ export const searchBar = (searchTerm, page, pageSize = "4", price) => {
       const queryString = Object.entries(queryParams)
         .map(([key, value]) => `${key}=${value}`)
         .join("&");
-      const url = `http://localhost:3003/products/search/${searchTerm}?${queryString}`;
+      const url = `http://localhost:3000/products/search/${searchTerm}?${queryString}`;
       console.log(url);
       const response = await axios.get(url);
 
@@ -311,7 +311,8 @@ export const setSelectedImageIndex = (index) => ({
 });
 
 export const postReviews =
-  (productId, rating, content, name, profileImage) => async (dispatch) => {
+  (productId, rating, content, name, surName, profileImage) =>
+  async (dispatch) => {
     dispatch({ type: REVIEW_POST_REQUEST });
     console.log(
       "ESTO RECIBE LA ACTION POSTREVIEW",
@@ -319,17 +320,22 @@ export const postReviews =
       rating,
       content,
       name,
+      surName,
       profileImage
     );
+    const imgDefault =
+      "https://static-00.iconduck.com/assets.00/profile-circle-icon-512x512-dt9lf8um.png";
+    const profileImg = profileImage || imgDefault;
     try {
       const response = await axios.post(
-        `http://localhost:3003/reviews/products/detail/${productId}`,
+        `http://localhost:3000/reviews/products/detail/${productId}`,
         {
-          profileImage,
+          profileImage: profileImg,
           productId,
           content,
           rating,
           name,
+          surName,
         }
       );
       console.log("ESTO VIENE DE LA ACTION ", response);
@@ -342,12 +348,12 @@ export const postReviews =
 
 export const setReviews = (reviews) => ({
   type: SET_REVIEWS,
-  payload: reviews || [],
+  payload: reviews,
 });
 
 export const fetchReviews = () => async (dispatch) => {
   try {
-    const response = await axios.get("http://localhost:3003/reviews"); // Update the URL to the correct endpoint
+    const response = await axios.get("http://localhost:3000/reviews"); // Update the URL to the correct endpoint
     const data = response.data;
     console.log("TODAS LAS REVIEWS:", data);
     if (Array.isArray(data)) {
@@ -382,7 +388,7 @@ export const updateUser = (id, updatedFields) => {
       console.log("Datos enviados al servidor:", { id, updatedFields });
 
       const response = await fetch(
-        `http://localhost:3003/users/perfil/update/${id}`,
+        `http://localhost:3000/users/perfil/update/${id}`,
         {
           method: "PUT",
           headers: {
@@ -424,7 +430,7 @@ export const updatePassword = (id, currentPassword, newPassword) => {
 
     try {
       const response = await fetch(
-        `http://localhost:3003/users/perfil/updatepassword/${id}`,
+        `http://localhost:3000/users/perfil/updatepassword/${id}`,
         {
           method: "PUT",
           headers: {
@@ -470,7 +476,7 @@ export const updateUserProfileData =
 
     try {
       const response = await axios.put(
-        `http://localhost:3003/users/perfil/${idKey}`,
+        `http://localhost:3000/users/perfil/${idKey}`,
         updatedFields
       );
 
@@ -504,7 +510,7 @@ export const updateProfilePicture =
 
     try {
       const response = await axios.put(
-        `http://localhost:3003/users/profile/picture/${idKey}`,
+        `http://localhost:3000/users/profile/picture/${idKey}`,
         updatedFields
       );
 
@@ -524,7 +530,7 @@ export const updateUserpay = (userId, paymentMethods) => {
 
     try {
       const response = await fetch(
-        `http://localhost:3003/users/${userId}/paymentMethods`,
+        `http://localhost:3000/users/${userId}/paymentMethods`,
         {
           method: "PUT",
           headers: {
@@ -574,7 +580,7 @@ export const fetchUsers = () => {
     dispatch(fetchUsersRequest());
 
     try {
-      const response = await axios.get("http://localhost:3003/users/"); // Assuming your endpoint is '/users'
+      const response = await axios.get("http://localhost:3000/users/"); // Assuming your endpoint is '/users'
 
       dispatch(fetchUsersSuccess(response.data));
     } catch (error) {
@@ -587,7 +593,7 @@ export const fetchUsers = () => {
 //action para eliminar usuarios
 export const deleteUser = (userId) => async (dispatch) => {
   try {
-    await axios.delete(`http://localhost:3003/users/delete/${userId}`);
+    await axios.delete(`http://localhost:3000/users/delete/${userId}`);
 
     dispatch({
       type: DELETE_USER_SUCCESS,
@@ -622,7 +628,7 @@ export const updateUserAdmin = (userId, userData) => async (dispatch) => {
 
   try {
     const response = await axios.put(
-      `http://localhost:3003/users/eddituseradmin/${userId}`,
+      `http://localhost:3000/users/eddituseradmin/${userId}`,
       userData
     );
 
@@ -636,7 +642,7 @@ export const updateUserAdmin = (userId, userData) => async (dispatch) => {
 export const deleteReviewAction = (reviewId) => async (dispatch) => {
   try {
     // Realizar la petición para eliminar la revisión
-    await axios.delete(`http://localhost:3003/reviews/${reviewId}`);
+    await axios.delete(`http://localhost:3000/reviews/${reviewId}`);
 
     // Dispatch de la acción de éxito
     dispatch({ type: DELETE_REVIEW_SUCCESS, payload: reviewId });
@@ -651,7 +657,7 @@ export const addPaymentMethod = (paymentInfo) => {
     dispatch({ type: ADD_PAYMENT_METHOD_REQUEST });
     try {
       const response = await axios.post(
-        "http://localhost:3003/users/addPayment",
+        "http://localhost:3000/users/addPayment",
         paymentInfo
       );
       dispatch({

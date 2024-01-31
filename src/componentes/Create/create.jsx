@@ -11,11 +11,15 @@ import {
 } from "../../redux/actions/actions";
 import { useEffect } from "react";
 import styled from "@emotion/styled";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import Snackbar from "@mui/material/Snackbar";
 
 const ProductForm = () => {
   const dispatch = useDispatch();
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   const [input, setInput] = useState({
     name: "",
@@ -78,7 +82,7 @@ const ProductForm = () => {
 
         console.log("Respuesta del servidor:", response);
         setMessage("Producto creado exitosamente.");
-  
+        setSnackbarOpen(true);
         setInput({
           name: "",
           brand: "",
@@ -91,12 +95,24 @@ const ProductForm = () => {
       } catch (error) {
         console.error("Error al crear el producto:", error);
         dispatch(createProductFailure(error));
-        setMessage("Error al crear el producto. Verifica la consola para más detalles.");
+        setMessage(
+          "Error al crear el producto. Verifica la consola para más detalles."
+        );
+        setSnackbarOpen(true);
       }
     } else {
       setMessage("Por favor, completa el formulario correctamente.");
+      setSnackbarOpen(true);
     }
   };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
+
   const availableBrands = ["NIKE", "ADIDAS", "NEWBALANCE"];
   const brandColors = {
     NIKE: ["green", "white", "black", "pink", "yellow", "red", "blue"],

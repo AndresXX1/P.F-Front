@@ -30,7 +30,7 @@ export default function NavBar(props) {
     console.log("Valor actualizado de auth:", auth);
   }, [auth]);
 
-const imgDefault = "https://static-00.iconduck.com/assets.00/profile-circle-icon-512x512-dt9lf8um.png"
+// const imgDefault = "https://static-00.iconduck.com/assets.00/profile-circle-icon-512x512-dt9lf8um.png"
   const imgDefault =
     "https://t4.ftcdn.net/jpg/05/49/98/39/360_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg";
 
@@ -55,8 +55,6 @@ const imgDefault = "https://static-00.iconduck.com/assets.00/profile-circle-icon
                   alt="Runners Paradise Logo"
                 />
               </Link>
-              {/* <button className={style.navButton}><img src="../src/assets/menuIcon.png" alt=""/></button>
-              <button className={style.navButton}><img src="../src/assets/closeIcon.png" alt=""/></button> */}
               <div>
                 <div
                   className="collapse navbar-collapse"
@@ -104,6 +102,7 @@ const imgDefault = "https://static-00.iconduck.com/assets.00/profile-circle-icon
                       className="nav-item dropdown"
                       style={{ marginRight: "5rem" }}
                     >
+                      {/* {} */}
                       <div className={style.userImage}></div>
                       <ul className="dropdown-menu">
                         {auth.token.rol === "buyer" &&

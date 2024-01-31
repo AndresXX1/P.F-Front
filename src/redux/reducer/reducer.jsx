@@ -481,34 +481,6 @@ const productReducer = (state = initialState, action) => {
         updatingUserAdmin: false,
         updateUserAdminError: action.payload,
       };
-    //caso para subir la imagen a cloudinary
-    case UPDATE_PROFILE_PICTURE:
-      const { userId, data } = action.payload;
-      const updatedUsers = state.users.map((user) =>
-        user.id === userId
-          ? { ...user, profilePicture: data.profilePicture }
-          : user
-      );
-
-    case POST_CART_ITEMS:
-      return {
-        ...state,
-        itemsCart: action.payload,
-      };
-
-    case GET_ALL_ITEMS:
-      return {
-        ...state,
-        shoppingItems: action.payload || [],
-      };
-
-    case REMOVE_FROM_CART:
-      return {
-        ...state,
-        shoppingItems: state.shoppingItems.filter(
-          (item) => item.productId !== action.payload?.productId
-        ),
-      };
 
     case POST_CART_ITEMS:
       return {

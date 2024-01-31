@@ -25,7 +25,7 @@ const ProtectedRoute = ({
             return <Redirect to="/unauthorized" />;
           } else {
             console.log("No se pasó el usuario o es undefined");
-            return null;
+            return <Redirect to="/unauthorized" />;;
           }
         } else {
           return <Redirect to="/login" />;
