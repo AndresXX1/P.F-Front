@@ -12,7 +12,7 @@ import {
 import { useEffect } from "react";
 import styled from "@emotion/styled";
 import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
+import CloseIcon from "@mui/icons-material/Close"; //npm install --force && npm install @mui
 import Snackbar from "@mui/material/Snackbar";
 
 const ProductForm = () => {

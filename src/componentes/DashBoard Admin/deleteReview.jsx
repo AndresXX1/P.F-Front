@@ -1,83 +1,77 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import styles from "./DeleteReviews.module.css";
-import { useDispatch, useSelector } from "react-redux";
-import { deleteReviewAction } from "../../redux/actions/actions";
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { fetchReviews, deleteReview } from "../../redux/actions/actions";
+import "./DeleteReviews.css";
 
-const DeleteReview = () => {
-  const [localReviews, setLocalReviews] = useState([]);
-  const dispatch = useDispatch();
-  const deleteReviewError = useSelector((state) => state.deleteReviewError);
-
+const ReviewsTableComponent = ({ reviews, fetchReviews, deleteReview }) => {
   useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const response = await axios.get("http://localhost:3000/reviews");
-        setLocalReviews(response.data);
-      } catch (error) {
-        console.error("Error al obtener reseñas", error);
-      }
-    };
-
     fetchReviews();
-  }, []);
+  }, [fetchReviews]);
 
-  const handleDelete = async (reviewId) => {
-    const confirmation = window.confirm("¿Seguro que quieres eliminar esta revisión?");
-    if (!confirmation) {
-      return;
-    }
-
+  const handleDelete = async (productId, reviewId) => {
     try {
-      // Dispatch de la acción para eliminar la revisión
-      dispatch(deleteReviewAction(reviewId));
-      console.log("DELETE ENVIADO: ", reviewId)
+      console.log("Deleting review:", productId, reviewId);
+      await deleteReview(productId, reviewId);
+      fetchReviews();
     } catch (error) {
-      console.error("Error al eliminar la reseña", error);
+      console.error("Error deleting review:", error);
     }
   };
 
   return (
-    <div className={styles.container}>
-      <div className={styles.containerContent}>
-        <div className={styles.titleReviews}>
-          <h2>REVIEWS CONTROL PANEL</h2>
-        </div>
-        <div className={styles.reviewContainer}>
-          <ul className={styles.reviewContent}>
-            {localReviews.map((review) => (
-              <li key={review.id} className={styles.individualReview}>
-                <div>
-                  {review.productId && (
-                    <div>
-                      <img src={review.productId.image} alt="Product" />
-                    </div>
-                  )}
-                </div>
-                <h5>
-                  {review.name} {review.surName}
-                </h5>
-                <span>⭐{review.rating}</span>
-                <div className={styles.userReviewContent}>
-                  <p>{review.content}</p>
-                </div>
-                <div>
-                  <button onClick={() => handleDelete(review.id)}>
-                    <p>Delete</p>
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-        {deleteReviewError && (
-          <div className={styles.error}>
-            Error al eliminar la revisión: {deleteReviewError.message}
-          </div>
-        )}
-      </div>
+    <div className="reviews-table-container">
+      <h2>All Reviews</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Product ID</th>
+            <th>Content</th>
+            <th>Profile Image</th>
+            <th>Rating</th>
+            <th>User ID</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {reviews.map((review) => (
+            <tr key={review.id}>
+              <td>{review.id}</td>
+              <td>{review.name}</td>
+              <td>{review.surName}</td>
+              <td>{review.productId}</td>
+              <td>{review.content}</td>
+              <td>{review.profileImage}</td>
+              <td>{review.rating}</td>
+              <td>{review.userId}</td>
+              <td>
+                <button
+                  onClick={() => handleDelete(review.productId, review.id)}
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
 
-export default DeleteReview;
+const mapStateToProps = (state) => ({
+  reviews: state.reviews,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchReviews: () => dispatch(fetchReviews()),
+  deleteReview: (productId, reviewId) =>
+    dispatch(deleteReview(productId, reviewId)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ReviewsTableComponent);

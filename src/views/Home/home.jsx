@@ -23,7 +23,7 @@ const Home = () => {
   const price = useSelector((state) => state?.orderPrice);
 
   const searchState = useSelector((state) => state?.dataSearch); //  estado para los resultados de la búsqueda
-  const pageSize = 8;
+  const pageSize = 6;
 console.log(searchState)
 console.log(price)
 console.log("todas las sneakers", totalSneaker);

@@ -15,7 +15,7 @@ const SearchBar = () => {
   const size = useSelector((state) => state?.sizeValue);
   const price = useSelector((state) => state?.orderPrice);
   const searchState = useSelector((state) => state?.dataSearch);
-  const pageSize = 4;
+  const pageSize = 6;
   const fetchData = async (term) => {
     try {
       const sneakers = term ? await dispatch(searchBar(term,currentPageSearch,pageSize,price)) : await dispatch(getSneakers(currentPage, pageSize, brand, color, size, price));

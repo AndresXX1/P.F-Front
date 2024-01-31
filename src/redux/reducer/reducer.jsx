@@ -55,6 +55,9 @@ import {
   UPDATE_USER_ADMIN_REQUEST,
   UPDATE_USER_ADMIN_SUCCESS,
   UPDATE_USER_ADMIN_FAILURE,
+  DELETE_REVIEW_SUCCESS,
+  DELETE_REVIEW_REQUEST,
+  DELETE_REVIEW_FAILURE,
 } from "../action-types/action-types";
 
 const initialState = {
@@ -404,51 +407,51 @@ const productReducer = (state = initialState, action) => {
           : user
       );
 
-      case UPDATE_USER_PAYMONTH_REQUEST:
-        return {
-          ...state,
-          loading: true,
-          error: null,
-          success: false,
-        };
-      case UPDATE_USER_PAYMONTH_SUCCESS:
-        return {
-          ...state,
-          loading: false,
-          error: null,
-          success: true,
-        };
-      case UPDATE_USER_PAYMONTH_FAILURE:
-        return {
-          ...state,
-          loading: false,
-          error: action.payload,
-          success: false,
-        };
+    case UPDATE_USER_PAYMONTH_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+        success: false,
+      };
+    case UPDATE_USER_PAYMONTH_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        success: true,
+      };
+    case UPDATE_USER_PAYMONTH_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+        success: false,
+      };
 
-        case FETCH_USERS_REQUEST:
-          return {
-            ...state,
-            loading: true,
-            error: null,
-          };
-    
-        case FETCH_USERS_SUCCESS:
-          return {
-            ...state,
-            users: action.payload,
-            loading: false,
-            error: null,
-          };
-    
-        case FETCH_USERS_FAILURE:
-          return {
-            ...state,
-            loading: false,
-            error: action.payload,
-          };
+    case FETCH_USERS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
 
-          case DELETE_USER_SUCCESS:
+    case FETCH_USERS_SUCCESS:
+      return {
+        ...state,
+        users: action.payload,
+        loading: false,
+        error: null,
+      };
+
+    case FETCH_USERS_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
+
+    case DELETE_USER_SUCCESS:
       return {
         ...state,
         users: state.users.filter((user) => user.id !== action.payload),
@@ -458,9 +461,9 @@ const productReducer = (state = initialState, action) => {
       return {
         ...state,
         error: action.payload,
-      }
+      };
 
-      case UPDATE_USER_ADMIN_REQUEST:
+    case UPDATE_USER_ADMIN_REQUEST:
       return {
         ...state,
         updatingUserAdmin: true,
@@ -472,7 +475,6 @@ const productReducer = (state = initialState, action) => {
         ...state,
         updatingUserAdmin: false,
         updateUserAdminError: null,
-
       };
 
     case UPDATE_USER_ADMIN_FAILURE:
@@ -502,6 +504,23 @@ const productReducer = (state = initialState, action) => {
         ),
       };
 
+    case DELETE_REVIEW_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        error: null,
+      };
+    case DELETE_REVIEW_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+      };
+    case DELETE_REVIEW_FAILURE:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+      };
     default:
       return state;
   }
