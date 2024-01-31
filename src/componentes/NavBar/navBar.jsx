@@ -80,6 +80,14 @@ const accessToken = token ? token.accessToken : null;
                             Ajustes
                           </Link>
                         </li>}
+
+                        {auth.token.rol === "admin" &&
+                        <li className="nav-item">
+                        <Link to="/create" className="nav-link text-black" style={{ position: "relative", top: "1px", marginRight: "8px" }}>
+                        Create
+                        </Link>
+                        </li>}
+
                         <div className="dropdown-divider"></div>
                         <li className="dropdown-item" onClick={logOut}>
                           Cerrar Sesión
@@ -119,11 +127,7 @@ const accessToken = token ? token.accessToken : null;
               <div className={style.navBarContent}>
                 <div className="collapse navbar-collapse" id="navbarNavDropdown">
                   <ul className="navbar-nav">
-                    <li className="nav-item">
-                      <Link to="/create" className="nav-link text-black" style={{ position: "relative", top: "1px", marginRight: "8px" }}>
-                        Create
-                      </Link>
-                    </li>
+                    
                     <li className="nav-item">
                       <Link to="/about" className="nav-link text-black">
                         ¿Quiénes somos?
