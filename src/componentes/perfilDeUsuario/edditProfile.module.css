@@ -10,34 +10,35 @@
   margin-left: 410px;
   margin-top: 0px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
-  overflow-y: auto; /* Agrega scroll vertical si el contenido es mayor que la altura */
+  overflow-y: auto; 
+  
 }
 
 .inputContainer {
-  margin-bottom: 15px; /* Aumenta el espacio entre los contenedores de input */
+  margin-bottom: 15px; 
 }
 
 .label {
-  font-size: 12px; /* Aumenta el tamaño de la etiqueta */
+  font-size: 12px; 
   font-weight: bold;
-  margin-bottom: 5px; /* Reduce el espacio inferior de la etiqueta */
+  margin-bottom: 5px; 
   margin-right: 10px;
 }
 
 .input {
-  width: 100%; /* Ocupa el ancho completo del contenedor */
+  width: 100%; 
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
-  font-size: 14px; /* Aumenta el tamaño de la fuente */
-  margin-top: -5px; /* Aumenta el espacio superior del input */
+  font-size: 14px; 
+  margin-top: -5px; 
 }
 
 .editButton,
 .saveButton {
   width: 100%;
   margin-top: 15px;
-  padding: 10px; /* Ajusta el relleno de los botones */
+  padding: 10px; 
 }
 
 .editButton {
@@ -52,7 +53,7 @@
 }
 
 .editButton:hover {
-  background-color: #2980b9; /* Cambia el color de fondo al pasar el ratón sobre el botón */
+  background-color: #2980b9; 
 }
 
 .saveButton {

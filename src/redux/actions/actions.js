@@ -47,6 +47,7 @@ import {
   UPDATE_USER_PAYMONTH_SUCCESS,
   UPDATE_USER_PAYMONTH_REQUEST,
 
+
   FETCH_USERS_REQUEST,
   FETCH_USERS_SUCCESS,
   FETCH_USERS_FAILURE,
@@ -60,6 +61,7 @@ import {
 
   DELETE_REVIEW_SUCCESS,
   DELETE_REVIEW_ERROR,
+
 } from "../action-types/action-types";
 
 export const registerUser = (datauser) => async (dispatch) => {
@@ -530,7 +532,9 @@ export const updateUserpay = (userId, paymentMethods) => {
     dispatch({ type: UPDATE_USER_PAYMONTH_REQUEST });
 
     try {
+
       const response = await fetch(`http://localhost:3003/users/${userId}/paymentMethods`, {
+
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -580,7 +584,9 @@ export const fetchUsers = () => {
     dispatch(fetchUsersRequest());
 
     try {
+
       const response = await axios.get('http://localhost:3003/users/'); // Assuming your endpoint is '/users'
+
       dispatch(fetchUsersSuccess(response.data));
     } catch (error) {
       console.error('Error fetching users:', error);
@@ -593,7 +599,9 @@ export const fetchUsers = () => {
 //action para eliminar usuarios
 export const deleteUser = (userId) => async (dispatch) => {
   try {
+
     await axios.delete(`http://localhost:3003/users/delete/${userId}`);
+
     dispatch({
       type: DELETE_USER_SUCCESS,
       payload: userId,
@@ -626,12 +634,15 @@ export const updateUserAdmin = (userId, userData) => async (dispatch) => {
   dispatch(updateUserAdminRequest());
 
   try {
+
     const response = await axios.put(`http://localhost:3003/users/eddituseradmin/${userId}`, userData);
+
     dispatch(updateUserAdminSuccess(response.data));  // Puedes ajustar esto según la estructura de tu respuesta
   } catch (error) {
     console.error('Error updating user by admin:', error);
     dispatch(updateUserAdminFailure('Error updating user by admin'));
   }
+
 };
 
 
@@ -665,3 +676,4 @@ export const updateUserAdmin = (userId, userData) => async (dispatch) => {
       }
     };
   };
+
