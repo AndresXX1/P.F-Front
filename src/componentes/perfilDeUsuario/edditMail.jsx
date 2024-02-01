@@ -1,19 +1,19 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {  useHistory } from "react-router-dom";
-import { updateUser } from '../../redux/actions/actions';
-import {AuthContext} from "../AuthProvider/authProvider";
-import { TextField, Button, Typography, Box, Alert } from '@mui/material';
-import styles from './edditProfile.module.css';
+import React, { useState, useEffect, useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { updateUser } from "../../redux/actions/actions";
+import { AuthContext } from "../AuthProvider/authProvider";
+import { TextField, Button, Typography, Box, Alert } from "@mui/material";
+import styles from "./edditProfile.module.css";
 
 const UserMail = () => {
   const { auth, setAuth } = useContext(AuthContext);
-  
+
   const [formData, setFormData] = useState({
-    id: '',
-    email: '',
-    password: '',
-    passwordConfirmation: '',
+    id: "",
+    email: "",
+    password: "",
+    passwordConfirmation: "",
   });
 
   const [editMode, setEditMode] = useState({
@@ -22,19 +22,21 @@ const UserMail = () => {
   });
 
   const [error, setError] = useState(null);
-  const [emailError, setEmailError] = useState('');
+  const [emailError, setEmailError] = useState("");
   const history = useHistory();
 
   const dispatch = useDispatch();
-  const { loading, error: updateUserError } = useSelector((state) => state.auth);
+  const { loading, error: updateUserError } = useSelector(
+    (state) => state.auth
+  );
 
   useEffect(() => {
     if (auth && auth.token) {
       const { id, email } = auth.token;
       setFormData((prevFormData) => ({
         ...prevFormData,
-        id: id || '',
-        email: email || '',
+        id: id || "",
+        email: email || "",
       }));
     }
   }, [auth]);
@@ -46,23 +48,24 @@ const UserMail = () => {
     }));
   };
 
-
   const logOut = () => {
     if (window.gapi && window.gapi.auth2) {
       var auth2 = window.gapi.auth2.getAuthInstance();
       auth2.disconnect().then(function () {
-        console.log('User disconnected.');
+        console.log("User disconnected.");
       });
     }
 
     setAuth(null);
-    localStorage.removeItem('auth');
-    history.push('/home');
+    localStorage.removeItem("auth");
+    history.push("/home");
   };
 
-
   const handleSaveClick = async () => {
-    if (editMode.password && formData.password !== formData.passwordConfirmation) {
+    if (
+      editMode.password &&
+      formData.password !== formData.passwordConfirmation
+    ) {
       setError("Las contraseñas no coinciden");
       return;
     }
@@ -75,34 +78,31 @@ const UserMail = () => {
     setError(null);
 
     const userId = formData.id;
-    const currentPassword = formData.password; 
+    const currentPassword = formData.password;
 
     dispatch(updateUser(userId, { newEmail: formData.email, currentPassword }))
-    .then(() => {
-    
-      const confirmationMessage = "Se cambió correctamente su correo. Por favor, vuelve a loguearte!";
+      .then(() => {
+        const confirmationMessage =
+          "Se cambió correctamente su correo. Por favor, vuelve a loguearte!";
 
-      
-      if (window.confirm(confirmationMessage)) {
-        logOut();
+        if (window.confirm(confirmationMessage)) {
+          logOut();
+        }
+      })
+      .catch((error) => {
+        console.error("Error al cambiar el correo:", error);
+      });
 
-      }
-    })
-    .catch((error) => {
-      
-      console.error("Error al cambiar el correo:", error);
+    setEditMode({
+      email: false,
+      password: false,
     });
-
-  setEditMode({
-    email: false,
-    password: false,
-  });
-};
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === 'email') {
+    if (name === "email") {
       validateEmail(value);
     }
 
@@ -116,9 +116,9 @@ const UserMail = () => {
 
   const validateEmail = (email) => {
     if (!isValidEmail(email)) {
-      setEmailError('Por favor, ingresa un correo electrónico válido');
+      setEmailError("Por favor, ingresa un correo electrónico válido");
     } else {
-      setEmailError('');
+      setEmailError("");
     }
   };
 
@@ -137,7 +137,7 @@ const UserMail = () => {
           name="email"
           value={formData.email}
           onChange={handleChange}
-          onBlur={() => validateEmail(formData.email)}  
+          onBlur={() => validateEmail(formData.email)}
           disabled={!editMode.email}
           variant="outlined"
           size="small"
@@ -145,7 +145,11 @@ const UserMail = () => {
         {editMode.email && emailError && (
           <Alert severity="error">{emailError}</Alert>
         )}
-        <Button type="button" onClick={() => handleEditClick('email')} className={styles.editButton}>
+        <Button
+          type="button"
+          onClick={() => handleEditClick("email")}
+          className={styles.editButton}
+        >
           Editar
         </Button>
       </div>
@@ -165,7 +169,11 @@ const UserMail = () => {
           variant="outlined"
           size="small"
         />
-        <Button type="button" onClick={() => handleEditClick('password')} className={styles.editButton}>
+        <Button
+          type="button"
+          onClick={() => handleEditClick("password")}
+          className={styles.editButton}
+        >
           Editar
         </Button>
       </div>
@@ -179,7 +187,7 @@ const UserMail = () => {
             className={styles.input}
             id="passwordConfirmation"
             name="passwordConfirmation"
-            type="password" 
+            type="password"
             value={formData.passwordConfirmation}
             onChange={handleChange}
             variant="outlined"
@@ -188,12 +196,20 @@ const UserMail = () => {
         </div>
       )}
 
-      <Button type="button" onClick={handleSaveClick} className={styles.saveButton}>
+      <Button
+        type="button"
+        onClick={handleSaveClick}
+        className={styles.saveButton}
+      >
         Guardar Cambios
       </Button>
 
       {error && <Alert severity="error">{error}</Alert>}
-      {updateUserError && <Typography className={styles.error}>Error al actualizar el usuario: {updateUserError}</Typography>}
+      {updateUserError && (
+        <Typography className={styles.error}>
+          Error al actualizar el usuario: {updateUserError}
+        </Typography>
+      )}
     </form>
   );
 };

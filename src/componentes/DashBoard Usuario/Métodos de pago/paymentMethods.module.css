@@ -4,9 +4,7 @@
   background-position: top;
   display: top;
   background-attachment: fixed;
- 
 }
-
 
 .payment-form {
   width: 270px;
@@ -21,7 +19,6 @@
   margin-top: 0px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
   overflow-y: auto;
-  
 }
 
 .payment-container {
@@ -45,7 +42,6 @@
   border-radius: 4px;
   font-size: 8px;
   margin-top: 2px;
-  
 }
 
 .submit-button {
@@ -90,11 +86,9 @@
   margin-left: 400px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
   background-color: #ffffffd2;
-
 }
 
-
-.cont{
+.cont {
   border: 1px solid black;
   height: 400px;
   width: 300px;
@@ -109,30 +103,26 @@
 }
 
 .imageAndTabs:hover {
-  overflow-y: scroll; 
+  overflow-y: scroll;
 }
 
-
 .imageAndTabs::-webkit-scrollbar {
-  width: 12px; 
+  width: 12px;
 }
 
 .imageAndTabs::-webkit-scrollbar-thumb {
-  background-color: #888; 
+  background-color: #888;
 }
 
-.inputContainer{
+.inputContainer {
   margin-left: 20px;
   margin-top: 40px;
-
 }
 
-.selectedit{
+.selectedit {
   margin-left: 210px;
   margin-top: -30px;
 }
-
-
 
 .brandImage {
   border: 1px black;
@@ -143,7 +133,6 @@
   width: 190;
   margin-left: 65px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
-  
 }
 
 .submit {
@@ -155,13 +144,13 @@
 
 .saveButton {
   text-align: center;
-margin-top: 50px;
-margin-left: 30px;
-border-top: 2px black;
-position: absolute;
+  margin-top: 50px;
+  margin-left: 30px;
+  border-top: 2px black;
+  position: absolute;
 }
 
-.texttt{
+.texttt {
   font-size: 20px;
   margin-top: 10px;
 }
