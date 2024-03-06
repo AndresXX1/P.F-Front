@@ -1,6 +1,6 @@
-# Admin Hostel Premium (FrontEnd)
+# Runners Paradise (FrontEnd)
 
-* 💬 Agencia hotelera
+* 💬 E-Commerse de zapatillas deportivas
 * 🛠️ Intuitiva y de facil recorrido para el administrador
 * 📁 Soporta la subida y bajada de datos
 * 🪟 Realizada con Node.js, React, Redux, axios, y estilada con css puro y material UI
